@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Dec  22 16:22:37 2019
+
+@author: ken tang
+@email: kinyeah@gmail.com
+"""
+
 from collections import Counter
 
 Gan = list("甲乙丙丁戊己庚辛壬癸")
@@ -296,11 +304,10 @@ def compare_shehai_number(jieqi, daygangzhi, hourgangzhi):
     if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][0] == "試涉害":
         c = [a[i][0] for i in range(0, len(a))]
         t = [a[i][1] for i in range(0, len(a))]
-        if shigangjigong.get(c[1]) == None:
-            c = c
-        else:
-            c = [c[0] , shigangjigong.get(c[1])]
-
+        if shigangjigong.get(t[-1]) == None:
+            t = t
+        elif shigangjigong.get(t[-1]) is not None:
+            t[-1] = shigangjigong.get(t[-1])
     shehai_number2 = []
     khead = []
     biyung_result_reorder_list3 = []
@@ -719,7 +726,7 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     sike_zhi = all_sike(jieqi, daygangzhi, hourgangzhi)
     sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
     sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
-    return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict}
+    return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth }
 
 def guiren_starting_gangzhi(daygangzhi, hourgangzhi):
     daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
@@ -735,6 +742,4 @@ def guiren_order_list(daygangzhi, hourgangzhi):
     new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
     return dict(zip(new_zhi_list_guiren, sky_generals_list))
     
-
-print(liuren("冬至", "癸巳", "己未"))
-#print(find_sike_relations("冬至", "辛丑", "己丑"))
+#print(liuren("冬至", "癸巳", "辛酉"))
