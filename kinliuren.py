@@ -63,6 +63,22 @@ def new_zhi_list(zhi):
         zhihead_code = zhihead_code + 1
     return res1
 
+def new_zhi_list_reverse(zhi):
+    Zhi2 = list("亥戌酉申未午巳辰卯寅丑子")
+    zhihead_code = Zhi2.index(zhi)
+    res1 = []
+    for i in range(len(Zhi2)):
+        res1.append( Zhi2[zhihead_code % len(Zhi2)])
+        zhihead_code = zhihead_code + 1
+    return res1
+
+def Max(list):
+    if len(list) == 1:
+        return list[0]
+    else:
+        m = Max(list[1:])
+        return m if m > list[0] else list[0]
+
 def new_shigangcangong_list(zhi):
     shigangcangong = list("子丑癸寅甲卯辰乙巳丙戊午未己申庚酉戌辛亥壬")
     zhihead_code = shigangcangong.index(zhi)
@@ -102,6 +118,15 @@ def find_ke_relation(ke):
     top_botton = ganzhiwuxing(ke[0])+ganzhiwuxing(ke[1])
     return multi_key_dict_get(wuxing_relation, top_botton)
 
+def fanyin(jieqi, daygangzhi, hourgangzhi):
+    sky_earth = sky_n_earth_list(jieqi, hourgangzhi)
+    sky =  list(sky_earth.values())
+    earth = list(sky_earth.keys())
+    earth_sky_combine = [ ganzhiwuxing(sky[i]) +  ganzhiwuxing(earth[i]) for i in range(0,len(sky_earth))]
+    earth_sky_combine_wuxing = [multi_key_dict_get(wuxing_relation_2, earth_sky_combine[i]) for i in range(0,len(earth_sky_combine))]
+    count_ke_and_being_ke = earth_sky_combine_wuxing.count("被尅") + earth_sky_combine_wuxing.count("尅")
+    return count_ke_and_being_ke, earth_sky_combine_wuxing
+
 def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
     sike_list = []
     sike = all_sike(jieqi, daygangzhi, hourgangzhi)
@@ -136,6 +161,11 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
     checkfanyin = multi_key_dict_get(fanyin_day_dict, daygangzhi)
     moon_general = sky_pan_list(jieqi)[1]
     checkmoongeneralconflicttohour = multi_key_dict_get(wuxing_relation_2, ganzhiwuxing(moon_general)+ganzhiwuxing(hourgangzhi[1]))
+    sky_earth_fanyin = fanyin(jieqi, daygangzhi, hourgangzhi)[0]
+    if sky_earth_fanyin >= 8 and fanyin(jieqi, daygangzhi, hourgangzhi)[1].count("比和")==4 or fanyin(jieqi, daygangzhi, hourgangzhi)[1].count("比和")==12:
+        fan_yin = "天地盤返吟"
+    else:
+        fan_yin = "天地盤沒有返吟"
     if hourgangzhi[1] == moon_general:
         checkfuyin = "伏吟"
     else:
@@ -143,15 +173,15 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
     
     if sike_list.count("上尅下") == 0 and sike_list.count("下賊上") == 0:
         findtrue = ["試賊尅涉害以外方法",  "沒有",   "沒有", classify,  "沒有",  "沒有"]
-        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0])
+        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
         
     elif sike_list.count("上尅下") == 1 and sike_list.count("下賊上") == 0:
         findtrue = ["試賊尅", sike_list.index("上尅下"),  "沒有", classify, "沒有", "沒有"]
-        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0])
+        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
     
     elif sike_list.count("下賊上") == 1:
         findtrue = ["試賊尅", sike_list.index("下賊上"),  "沒有", classify, "沒有", "沒有"]
-        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0])
+        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
     
     elif sike_list.count("下賊上") >1:
         find_ke = duplicates(sike_list, "下賊上")
@@ -174,7 +204,7 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list]
         else:
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list]
-        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0])
+        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
 
     elif sike_list.count("上尅下")>1:
         find_ke = duplicates(sike_list, "上尅下")
@@ -195,15 +225,15 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
             nn_list.append(p)
         if nn_list.count("True") > 1:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, "上尅下", nn_list, yy_list] #結果, 尅克位置, 課式
-            return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0])
+            return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
        
         try:
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify , nn_list, yy_list]
-            return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0])
+            return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
 
         except ValueError :
             findtrue = ["沒涉害", find_ke,  zeikeshang_list, [zeikeshang_list[b] for b in duplicates(nn_list, "True")]] #結果, 尅克位置, 課式
-            return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0])
+            return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
 
 def duplicates(lst, item):
     result = [i for i, x in enumerate(lst) if x == item]
@@ -246,20 +276,29 @@ def zeike(jieqi, daygangzhi, hourgangzhi):
         findtrue =  "不適用，或試他法" 
         return findtrue
     #一個下賊上
-    elif sike_list[0].count("下賊上") == 1 :
+    elif sike_list[0].count("下賊上") == 1 and sike_list[9] == '天地盤沒有返吟':
         findtrue =  ["賊尅","重審", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("下賊上")][0])]
         return findtrue
+    
+    elif sike_list[0].count("下賊上") == 1 and sike_list[9] == '天地盤返吟':
+        findtrue =  ["返吟","無依", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("下賊上")][0])]
+        return findtrue
+    
     #一個上尅下
-    elif sike_list[0].count("上尅下") == 1 and sike_list[0].count("下賊上") == 0:
+    elif sike_list[0].count("上尅下") == 1 and sike_list[0].count("下賊上") == 0 and sike_list[9] == '天地盤沒有返吟':
         findtrue =  ["賊尅","元首", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("上尅下")][0])]
+        return findtrue
+        
+    elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤返吟':
+        findtrue =  ["返吟","無依", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("上尅下")][0])]
         return findtrue
 
 def biyung(jieqi, daygangzhi, hourgangzhi):
     sike_list = all_sike(jieqi, daygangzhi, hourgangzhi)
+    relation = find_sike_relations(jieqi, daygangzhi, hourgangzhi)
     filter_list = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7]
     filter_list_four_ke = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2]
     filter_list_yy = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][5]
-    filter_list_nature = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][3]
     dayganzhi_yy = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[8]
     if filter_list[0] == "試賊尅":
         findtrue =  "不適用，或試他法"
@@ -270,19 +309,24 @@ def biyung(jieqi, daygangzhi, hourgangzhi):
     elif filter_list[0] == "試涉害":
         findtrue =  "不適用，或試他法"
         return findtrue
-    elif len(find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][4]) == 2 and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][4].count("True") == 2:
+    elif len(relation[7][4]) == 2 and relation[7][4].count("True") == 2:
         findtrue =  "不適用，或試他法"
         return findtrue
-    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[5] == "尅" and sike_list[0].count("下賊上") > 1:
-        findtrue = ["比用", "無依", [sike[nn_list.index("True")], chong(sike[nn_list.index("True")]), chong(chong(sike[nn_list.index("True")]))]]
+    
+    if relation[0].count("下賊上") == 2 and relation[9] == '天地盤返吟':
+        findtrue = ["比用", "無依", sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]
         return findtrue
-    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[0].count("下賊上") == 2:
+    elif relation[0].count("下賊上") == 3 and relation[9] == '天地盤返吟':
+        findtrue = ["比用", "無依", sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]
+        return findtrue    
+    
+    if relation[0].count("下賊上") >= 2 and relation[9] == '天地盤沒有返吟':
         if filter_list_yy[0] == dayganzhi_yy:
             findtrue = ["比用", "比用", find_three_pass(jieqi, hourgangzhi,filter_list_four_ke[0][0])]
         elif filter_list_yy[1] == dayganzhi_yy:
             findtrue = ["比用", "比用", find_three_pass(jieqi, hourgangzhi,filter_list_four_ke[1][0])]
         return findtrue
-    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[0].count("上尅下") ==2 and find_sike_relations(jieqi, daygangzhi, hourgangzhi).count("下賊上") == 0:
+    elif relation[0].count("上尅下") >= 2 and relation[0].count("下賊上") == 0 and relation[9] == '天地盤沒有返吟':
         if filter_list_yy[0] == dayganzhi_yy:
             findtrue = ["比用", "知一", find_three_pass(jieqi, hourgangzhi, filter_list_four_ke[0][0])]
         elif filter_list_yy[1] == dayganzhi_yy:
@@ -301,7 +345,10 @@ def fiter_four_ke(jieqi, daygangzhi, hourgangzhi):
 
 def compare_shehai_number(jieqi, daygangzhi, hourgangzhi):
     a = fiter_four_ke(jieqi, daygangzhi, hourgangzhi)
-    if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][0] == "試涉害":
+    if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[9] == "天地盤返吟":
+        result = ["不適用，或試他法"]
+        return result
+    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][0] == "試涉害":
         c = [a[i][0] for i in range(0, len(a))]
         t = [a[i][1] for i in range(0, len(a))]
         if shigangjigong.get(t[-1]) == None:
@@ -371,7 +418,20 @@ def convert_munchongji_shehai_number(jieqi, daygangzhi, hourgangzhi):
 
 def shehai(jieqi, daygangzhi, hourgangzhi):
     shangke = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[0]
-    if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][0] == "試涉害": 
+    if shangke.count("比和") == 3:
+        result = "不適用，或試他法"
+        return result
+    elif shangke.count("上尅下") == 0 and shangke.count("下賊上") == 0:
+        result = "不適用，或試他法"
+        return result
+    elif shangke.count("上尅下") == 1 and shangke.count("下賊上") == 1:
+        result = "不適用，或試他法"
+        return result
+    elif compare_shehai_number(jieqi, daygangzhi, hourgangzhi) == ["不適用，或試他法"] and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[9] == '天地盤返吟':
+        if len(find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1]) == 2:
+            chuchuan = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1].index(Max(find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1]))]
+            result = ["返吟", "無依",  find_three_pass(jieqi, hourgangzhi, chuchuan[0])] 
+    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][0] == "試涉害": 
         if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][0] == find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][1]:
             chuchuan = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][0][0]
             result = ["涉害", "涉害",  find_three_pass(jieqi, hourgangzhi, chuchuan)] 
@@ -456,7 +516,6 @@ def shehai(jieqi, daygangzhi, hourgangzhi):
                 convert_dict = {convert[2][0]+convert[0][0]: convert[3][0]+convert[1][0], convert[2][1]+convert[0][1]: convert[3][1]+convert[1][1] }
                 convert_result_k = list(convert_dict.keys())
                 convert_result_v = list(convert_dict.values())
-                convert_result_head = [i[0] for i in convert_result_k]
                 convert_result_tail = [i[1] for i in convert_result_k]
                 change_daygangzhi = shigangjigong.get(daygangzhi[0])
 
@@ -470,10 +529,8 @@ def shehai(jieqi, daygangzhi, hourgangzhi):
                         name = "察微" 
                 chuchuan = convert_result_k[1][0]
                 result = ["涉害", name, find_three_pass(jieqi, hourgangzhi, chuchuan)]
-    else:
-        result = "不適用，或試他法"
-    
-    return result
+                return result
+            
 
 def yaoke(jieqi, daygangzhi, hourgangzhi):
     if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[3] == "日干支同位":
@@ -648,7 +705,7 @@ def bazhuan(jieqi, daygangzhi, hourgangzhi):
     elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] == "伏吟" :
         chuchuan = "不適用，或試他法" 
         return chuchuan
-    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟八專" and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] is not "伏吟" :
+    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟八專" and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] != "伏吟" :
         chuchuan = ["返吟", "無親", [yima_dict.get(daygangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(daygangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0]))]]
         return chuchuan
     elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[3] == "日干支同位":
@@ -705,6 +762,13 @@ def fuyin(jieqi, daygangzhi, hourgangzhi):
                     chuchuan = ["伏吟", "杜傳", [shigangjigong.get(daygangzhi[0]), daygangzhi[1], chong(daygangzhi[1])]]
                     return chuchuan
             elif dayganzhi_yy == "陰":
+                if multi_key_dict_get(ying_chong, shigangjigong.get(daygangzhi[1])) =="刑":
+                    chuchuan = ["伏吟","自任", [shigangjigong.get(daygangzhi[1]), ying.get(shigangjigong.get(daygangzhi[0])), ying.get(ying.get(shigangjigong.get(daygangzhi[0])))]]
+                    return chuchuan
+                elif multi_key_dict_get(ying_chong, shigangjigong.get(daygangzhi[1])) =="自刑":
+                    chuchuan = ["伏吟", "杜傳", [shigangjigong.get(daygangzhi[1]), chong2.get(ying.get(shigangjigong.get(daygangzhi[0]))), ying.get(chong2.get(ying.get(shigangjigong.get(daygangzhi[0]))))]]
+                    return chuchuan
+
                 chuchuan = ["伏吟", "自信", [daygangzhi[1], ying.get(daygangzhi[1]), chong2.get(daygangzhi[1])]]
                 return chuchuan
 
@@ -717,6 +781,8 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     earth = list(sky_earth.keys())
     guiren_order_list_2 = guiren_order_list(daygangzhi, hourgangzhi)
     guiren_order_list_3 = [guiren_order_list_2.get(i) for i in sky]
+    guiren_order_list_4 = [guiren_order_list_2.get(i) for i in earth]
+    earth_to_general = dict(zip(earth, guiren_order_list_4))
     sky_earth_guiren_dict = {"天盤":sky, "地盤":earth, "天將":guiren_order_list_3}
     ju = [ju_three_pass[0][0], ju_three_pass[0][1]]
     three_pass_zhi = ju_three_pass[0][2]
@@ -726,7 +792,7 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     sike_zhi = all_sike(jieqi, daygangzhi, hourgangzhi)
     sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
     sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
-    return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth }
+    return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
 def guiren_starting_gangzhi(daygangzhi, hourgangzhi):
     daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
@@ -739,7 +805,15 @@ def guiren_order_list(daygangzhi, hourgangzhi):
     sky_generals = "貴人螣蛇朱雀六合勾陳青龍天空白虎太常玄武太陰天后"
     sky_generals_list = [sky_generals[i:i+2] for i in range(0, len(sky_generals), 2)]
     starting_gangzhi = guiren_starting_gangzhi(daygangzhi, hourgangzhi)
-    new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
+    rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑寅卯辰")):"順佈"}
+    clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
+    if clock_anti_clock == "順佈":
+        new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
+    elif clock_anti_clock == "逆佈":
+        new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
     return dict(zip(new_zhi_list_guiren, sky_generals_list))
     
-#print(liuren("冬至", "癸巳", "辛酉"))
+#print(liuren("冬至", "乙未", "癸未"))
+#print(find_sike_relations("冬至","乙未", "甲申"))
+#print(find_sike_relations("冬至","乙未", "甲申")[0])
+print(liuren("冬至", "庚子", "丁丑") )
