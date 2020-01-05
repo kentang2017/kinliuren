@@ -19,7 +19,7 @@ sky_ganhe = {"甲":"巳", "乙":"庚", "丙":"辛", "丁":"壬", "戊":"癸"}
 yima_dict = {"丑":"亥", "未":"巳"}
 ying_chong = {tuple(list("寅巳申丑戌未子卯")):"刑", tuple(list("午辰酉亥")):"自刑"}
 ying = {"寅":"巳", "巳":"申", "申":"寅", "丑":"戌", "戌":"未", "未":"丑", "子":"卯", "卯":"子"}
-chong2 = {"子":"午", "丑":"未", "寅":"申", "卯":"酉", "辰":"戌", "巳":"亥"}
+chong2 = {"子":"午","午":"子", "丑":"未","未":"丑", "寅":"申","申":"寅", "卯":"酉", "酉":"卯", "辰":"戌","戌":"辰", "巳":"亥", "亥":"巳"}
 earth_zhihe = {tuple(list("巳酉丑")):"巳酉丑", tuple(list("寅午戌")):"寅午戌", tuple(list("亥卯未")):"亥卯未", tuple(list("申子辰")):"申子辰"}
 
 #基本東西
@@ -41,6 +41,12 @@ def jiazi():
     dizhi = '子丑寅卯辰巳午未申酉戌亥'
     jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
     return jiazi
+
+def shunkong(daygangzhi,zhi):
+    liujiashun_dict = {tuple(jiazi()[0:9]):'甲子', tuple(jiazi()[10:19]):"甲戌", tuple(jiazi()[20:29]):"甲申", tuple(jiazi()[30:39]):"甲午", tuple(jiazi()[40:49]):"甲辰",  tuple(jiazi()[50:59]):"甲寅"  }
+    findshun = {'甲子':{'子':'甲', '丑':'乙', '寅':'丙', '卯':'丁', '辰':'戊', '巳':'己', '午':'庚', '未':'辛', '申':'壬',  '酉':'癸', '戌':'空', '亥':'空'}, '甲戌': {'子':'丙', '丑':'丁', '寅':'戊', '卯':'己', '辰':'庚', '巳':'辛', '午':'壬', '未':'癸', '申':'空',  '酉':'空', '戌':'甲', '亥':'乙'},  '甲申': {'子':'戊', '丑':'己', '寅':'庚', '卯':'辛', '辰':'壬', '巳':'癸', '午':'空', '未':'空', '申':'甲',  '酉':'乙', '戌':'丙', '亥':'丁'}, '甲午': {'子':'庚', '丑':'辛', '寅':'壬', '卯':'癸', '辰':'空', '巳':'空', '午':'甲', '未':'乙', '申':'丙',  '酉':'丁', '戌':'戊', '亥':'己'},  '甲辰': {'子':'壬', '丑':'癸', '寅':'空', '卯':'空', '辰':'甲', '巳':'乙', '午':'丙', '未':'丁', '申':'戊',  '酉':'己', '戌':'庚', '亥':'辛'},  '甲寅': {'子':'空', '丑':'空', '寅':'甲', '卯':'乙', '辰':'丙', '巳':'丁', '午':'戊', '未':'己', '申':'庚',  '酉':'辛', '戌':'壬', '亥':'癸'}}
+    dayshun = multi_key_dict_get(liujiashun_dict, daygangzhi)
+    return  multi_key_dict_get(findshun,dayshun).get(zhi)
 
 def sky_pan_list(jieqi):
     moon_general_dict = {("雨水","驚蟄"):"亥", 
@@ -92,7 +98,7 @@ def new_shigangcangong_list(zhi):
     return res1
 
 def chong(zhi):
-    chong = {"子":"午", "丑":"未", "寅":"申", "卯":"酉", "辰":"戌", "巳":"亥", "申":"寅"}
+    chong = {"子":"午","午":"子", "丑":"未","未":"丑", "寅":"申","申":"寅", "卯":"酉", "酉":"卯", "辰":"戌","戌":"辰", "巳":"亥", "亥":"巳"}
     return chong.get(zhi)
 
 def sky_n_earth_list(jieqi, hourgangzhi):
@@ -831,28 +837,6 @@ def fuyin(jieqi, daygangzhi, hourgangzhi):
                 chuchuan = ["伏吟", "自信", [daygangzhi[1], ying.get(daygangzhi[1]), chong2.get(daygangzhi[1])]]
                 return chuchuan
 
-def liuren(jieqi, daygangzhi, hourgangzhi):
-    answer =  [zeike(jieqi, daygangzhi, hourgangzhi), biyung(jieqi, daygangzhi, hourgangzhi), shehai(jieqi, daygangzhi, hourgangzhi), yaoke(jieqi, daygangzhi, hourgangzhi) ,maosing(jieqi, daygangzhi, hourgangzhi),bieze(jieqi, daygangzhi, hourgangzhi),bazhuan(jieqi, daygangzhi, hourgangzhi),fuyin(jieqi, daygangzhi, hourgangzhi)]
-    nouse = ["不適用，或試他法" ]
-    ju_three_pass = [i for i in answer if i not in nouse] 
-    sky_earth = sky_n_earth_list(jieqi, hourgangzhi)
-    sky = list(sky_earth.values())
-    earth = list(sky_earth.keys())
-    guiren_order_list_2 = guiren_order_list(daygangzhi, hourgangzhi)
-    guiren_order_list_3 = [guiren_order_list_2.get(i) for i in sky]
-    earth_to_general = dict(zip(earth, guiren_order_list_3))
-    sky_earth_guiren_dict = {"天盤":sky, "地盤":earth, "天將":guiren_order_list_3}
-    
-    ju = [ju_three_pass[0][0], ju_three_pass[0][1]]
-    three_pass_zhi = ju_three_pass[0][2]
-    three_pass_generals = [guiren_order_list_2.get(i) for i in three_pass_zhi]
-    day_gz_vs_three_pass = [  liuqing_dict.get(multi_key_dict_get(wuxing_relation_2,ganzhiwuxing(daygangzhi[0])+ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
-    three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0]], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1]], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2]]}
-    sike_zhi = all_sike(jieqi, daygangzhi, hourgangzhi)
-    sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
-    sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
-    return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
-
 def guiren_starting_gangzhi(daygangzhi, hourgangzhi):
     daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
     guiren_dict = {tuple(list("甲戊庚")):{"晝":"丑", "夜":"未"}, tuple(list("丙丁")):{"晝":"亥", "夜":"酉"},  tuple(list("壬癸")):{"晝":"巳", "夜":"卯"},  tuple(list("乙己")):{"晝":"子", "夜":"申"}, "辛":{"晝":"午", "夜":"寅"} }
@@ -872,6 +856,31 @@ def guiren_order_list(daygangzhi, hourgangzhi):
         new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
     return dict(zip(new_zhi_list_guiren, sky_generals_list))
     
+def liuren(jieqi, daygangzhi, hourgangzhi):
+    answer =  [zeike(jieqi, daygangzhi, hourgangzhi), biyung(jieqi, daygangzhi, hourgangzhi), shehai(jieqi, daygangzhi, hourgangzhi), yaoke(jieqi, daygangzhi, hourgangzhi) ,maosing(jieqi, daygangzhi, hourgangzhi),bieze(jieqi, daygangzhi, hourgangzhi),bazhuan(jieqi, daygangzhi, hourgangzhi),fuyin(jieqi, daygangzhi, hourgangzhi)]
+    nouse = ["不適用，或試他法" ]
+    ju_three_pass = [i for i in answer if i not in nouse] 
+    sky_earth = sky_n_earth_list(jieqi, hourgangzhi)
+    sky = list(sky_earth.values())
+    earth = list(sky_earth.keys())
+    guiren_order_list_2 = guiren_order_list(daygangzhi, hourgangzhi)
+    guiren_order_list_3 = [guiren_order_list_2.get(i) for i in sky]
+    earth_to_general = dict(zip(earth, guiren_order_list_3))
+    sky_earth_guiren_dict = {"天盤":sky, "地盤":earth, "天將":guiren_order_list_3}
+    
+    ju = [ju_three_pass[0][0], ju_three_pass[0][1]]
+    three_pass_zhi = ju_three_pass[0][2]
+    three_pass_generals = [guiren_order_list_2.get(i) for i in three_pass_zhi]
+    day_gz_vs_three_pass = [  liuqing_dict.get(multi_key_dict_get(wuxing_relation_2,ganzhiwuxing(daygangzhi[0])+ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
+    three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0], shunkong(daygangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1], shunkong(daygangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2], shunkong(daygangzhi,three_pass_zhi[2])]}
+    sike_zhi = all_sike(jieqi, daygangzhi, hourgangzhi)
+    sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
+    sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
+    return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
+
+
 #print(find_sike_relations("冬至","乙未", "甲申"))
 #print(liuren("冬至", "己亥", "辛未") )
-#print(liuren("冬至", "癸卯", "己未"))
+#print(liuren("冬至", "丁未", "乙巳"))
+#print(shunkong("丁未","卯"))
+#print(liuren("冬至", "癸卯", "己未").get("天地盤").get("天盤").index(multi_key_dict_get(ganlivezhi, "甲"))
