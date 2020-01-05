@@ -264,18 +264,14 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
             b = zeikeshang_list[i][0]
             blist.append(b)
         check_same = len(set(blist))
-            
-        if len(set(zeikeshang_list)) == 2:
-            if check_same == 1:
-                 findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
-            elif nn_list.count("True") == 2:
-                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
-            elif  nn_list.count("True") == 1:
-                findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-            
-        elif len(set(zeikeshang_list)) > 2:
-            findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
-        return  sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
+        if check_same == 1:
+            findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
+        elif len(set(zeikeshang_list)) >= 2 and yy_list.count("True")==0:
+            findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+        elif len(set(zeikeshang_list)) == 2 and yy_list.count("True")>1:
+            findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+        return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
+
 
 def duplicates(lst, item):
     result = [i for i, x in enumerate(lst) if x == item]
@@ -424,6 +420,8 @@ def fiter_four_ke(jieqi, daygangzhi, hourgangzhi):
             ilist.append(item)
     except TypeError:
         ilist = "不適用，或試他法"
+    if len(ilist) == 0:
+        ilist = "不適用，或試他法"
     return ilist
 
 def compare_shehai_number(jieqi, daygangzhi, hourgangzhi):
@@ -568,6 +566,15 @@ def shehai(jieqi, daygangzhi, hourgangzhi):
                 result = ["涉害", "涉害",find_three_pass(jieqi, hourgangzhi, reducing[0])]
                 return result
 
+            elif reducing[0] == "不適用，或試他法":
+                tail = [find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][i][1] for i in range(0, len(find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2]))]
+                if tail[0] == daygangzhi[0]:
+                    chuchuan = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][0][0]
+                elif tail[1] == daygangzhi[0]:
+                    chuchuan = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][1][0]
+                result = ["涉害", "涉害", find_three_pass(jieqi, hourgangzhi, chuchuan)]
+                return result
+                    
             elif reducing[0] == "找孟仲季地":
                 convert = convert_munchongji_shehai_number(jieqi, daygangzhi, hourgangzhi)
                 convert_dict = {convert[0][0]+convert[2][0]: convert[1][0]+convert[3][0], convert[0][1]+convert[2][1]: convert[1][1]+convert[3][1] }
@@ -940,7 +947,7 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
 
 
 #print(find_sike_relations("冬至","乙未", "甲申"))
-#print(liuren("小寒", "辛亥", "己亥") )
+#print(liuren("小寒", "壬子", "乙巳") )
 #print(liuren("小寒", "戊申", "癸亥"))
 #print(shunkong("丁未","卯"))
 #print(liuren("冬至", "癸卯", "己未").get("天地盤").get("天盤").index(multi_key_dict_get(ganlivezhi, "甲"))
