@@ -5,7 +5,6 @@ Created on Sun Dec  22 16:22:37 2019
 @author: ken tang
 @email: kinyeah@gmail.com
 """
-
 from collections import Counter
 
 Gan = list("甲乙丙丁戊己庚辛壬癸")
@@ -168,6 +167,8 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
         classify = "下賊上"
     elif sike_list.count("下賊上") == 2 and sike_list.count("上尅下") == 0 :
         classify = "下賊上"
+    elif sike_list.count("下賊上") >= 2 and sike_list.count("上尅下") <= 1 :
+        classify = "下賊上"
     elif sike_list.count("上尅下") == 0 and sike_list.count("下賊上") == 0 :
         classify = "試其他"
     elif sike_list.count("上尅下") >= 2 and sike_list.count("下賊上") == 0 :
@@ -236,10 +237,12 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
         check_same = len(set(blist))
         if check_same == 1:
             findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
-        elif len(set(zeikeshang_list)) > 2:
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        elif len(set(zeikeshang_list)) == 2:
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1 and checkdayganzhi =='日干支同位':
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and checkdayganzhi =='日干支不同位':
+            findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
         return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
 
     elif sike_list.count("上尅下")>1:
@@ -268,10 +271,11 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
             findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
         elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1:
+        elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=1 and checkdayganzhi =='日干支同位':
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+        elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=1 and  checkdayganzhi =='日干支不同位':
+            findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
         return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
-
 
 def duplicates(lst, item):
     result = [i for i, x in enumerate(lst) if x == item]
@@ -307,14 +311,16 @@ def zeike(jieqi, daygangzhi, hourgangzhi):
         findtrue =  "不適用，或試他法" 
         return findtrue
     #多於一個上尅下或下賊上
-    elif sike_list[0].count("下賊上") == 2 and  sike_list[7][2][0]!= sike_list[7][2][1]:
+    elif sike_list[7][0] == "試涉害" or sike_list[7][0] == "試比用":
         findtrue =  "不適用，或試他法" 
         return findtrue
-    
-    elif sike_list[0].count("下賊上") > 2:
+    elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] > 1:
         findtrue =  "不適用，或試他法" 
         return findtrue
-    elif sike_list[0].count("下賊上") >= 2 and sike_list[7][0] == "試賊尅" and sike_list[7][6] == 1:
+    elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] == 1  and sike_list[9] == '天地盤沒有返吟':
+        findtrue =  ["賊尅","重審", find_three_pass(jieqi, hourgangzhi, sike_list[7][2][0][0])]
+        return findtrue
+    elif sike_list[0].count("下賊上") >= 2 and sike_list[7][0] == "試賊尅" and sike_list[7][6] == 1  and sike_list[9] == '天地盤沒有返吟':
         findtrue =  ["賊尅","重審", find_three_pass(jieqi, hourgangzhi, sike_list[7][2][0][0])]
         return findtrue
     #多於一個上尅下或下賊上
@@ -336,7 +342,7 @@ def zeike(jieqi, daygangzhi, hourgangzhi):
         findtrue =  ["賊尅","重審", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("下賊上")][0])]
         return findtrue
     
-    elif sike_list[0].count("下賊上") == 1 and sike_list[9] == '天地盤返吟':
+    elif sike_list[0].count("下賊上") >= 1 and sike_list[9] == '天地盤返吟':
         findtrue =  ["返吟","無依", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("下賊上")][0])]
         return findtrue
     elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("下賊上") == 0 and  sike_list[9] == '天地盤沒有返吟': 
@@ -378,7 +384,7 @@ def biyung(jieqi, daygangzhi, hourgangzhi):
     elif filter_list[0] == "試涉害":
         findtrue =  "不適用，或試他法"
         return findtrue
-    elif len(set(filter_list_four_ke)) >2:
+    elif len(fiter_four_ke(jieqi, daygangzhi, hourgangzhi)) >2:
         findtrue =  "不適用，或試他法"
         return findtrue
     elif filter_list[0] == "試賊尅涉害以外方法":
@@ -413,14 +419,19 @@ def fiter_four_ke(jieqi, daygangzhi, hourgangzhi):
     a = find_sike_relations(jieqi, daygangzhi, hourgangzhi )[7][2]
     b = find_sike_relations(jieqi, daygangzhi, hourgangzhi )[7][4]
     d = duplicates(b, "True")
+    e = duplicates(b, "False")
     ilist = []
-    try:
-        for i in d:
-            item = a[i]
-            ilist.append(item)
-    except TypeError:
-        ilist = "不適用，或試他法"
-    if len(ilist) == 0:
+    jlist = []
+
+    for i in d:
+        item = a[i]
+        ilist.append(item)
+    for i in e:
+        item = a[i]
+        jlist.append(item)    
+    if len(ilist) == 0 and len(jlist) != 0:
+        ilist = jlist
+    elif len(ilist) == 0 and len(jlist) == 0:
         ilist = "不適用，或試他法"
     return ilist
 
@@ -432,6 +443,7 @@ def compare_shehai_number(jieqi, daygangzhi, hourgangzhi):
     if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[9] == "天地盤返吟":
         result = ["不適用，或試他法"]
         return result
+   
     elif fiter_four_ke(jieqi, daygangzhi, hourgangzhi) == "不適用，或試他法":
         result = ["不適用，或試他法"]
         return result
