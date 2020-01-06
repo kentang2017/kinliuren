@@ -237,12 +237,16 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
         check_same = len(set(blist))
         if check_same == 1:
             findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
+            
         elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1 and checkdayganzhi =='日干支同位':
+            
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and nn_list.count("False") >=1: 
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and checkdayganzhi =='日干支不同位':
+            
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=2 and nn_list.count("False") ==0:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+            
         return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
 
     elif sike_list.count("上尅下")>1:
@@ -271,9 +275,9 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
             findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
         elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=1 and checkdayganzhi =='日干支同位':
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1  and nn_list.count("False") >=1: 
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=1 and  checkdayganzhi =='日干支不同位':
+        elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
         return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
 
@@ -384,29 +388,23 @@ def biyung(jieqi, daygangzhi, hourgangzhi):
     elif filter_list[0] == "試涉害":
         findtrue =  "不適用，或試他法"
         return findtrue
-    elif len(fiter_four_ke(jieqi, daygangzhi, hourgangzhi)) >2:
-        findtrue =  "不適用，或試他法"
-        return findtrue
     elif filter_list[0] == "試賊尅涉害以外方法":
         findtrue =  "不適用，或試他法"
         return findtrue
-
-    elif len(relation[7][4]) == 2 and relation[7][4].count("True") == 2:
-        findtrue =  "不適用，或試他法"
-        return findtrue
-    
-    if relation[0].count("下賊上") == 2 and relation[9] == '天地盤返吟':
+    elif relation[0].count("下賊上") == 2 and relation[9] == '天地盤返吟':
         findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
         return findtrue
     elif relation[0].count("下賊上") == 3 and relation[9] == '天地盤返吟':
         findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
         return findtrue    
     
-    if relation[0].count("下賊上") >= 2 and relation[9] == '天地盤沒有返吟':
+    elif relation[0].count("下賊上") >= 2 and relation[9] == '天地盤沒有返吟':
         if filter_list_yy[0] == dayganzhi_yy:
             findtrue = ["比用", "比用", find_three_pass(jieqi, hourgangzhi,filter_list_four_ke[0][0])]
         elif filter_list_yy[1] == dayganzhi_yy:
             findtrue = ["比用", "比用", find_three_pass(jieqi, hourgangzhi,filter_list_four_ke[1][0])]
+        else:
+            findtrue = ["比用", "比用", find_three_pass(jieqi, hourgangzhi,filter_list[2][filter_list[4].index("True")][0])]
         return findtrue
     elif relation[0].count("上尅下") >= 2 and relation[0].count("下賊上") == 0 and relation[9] == '天地盤沒有返吟':
         if filter_list_yy[0] == dayganzhi_yy:
@@ -868,7 +866,7 @@ def bazhuan(jieqi, daygangzhi, hourgangzhi):
     elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] == "伏吟" :
         chuchuan = "不適用，或試他法" 
         return chuchuan
-    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟八專" and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] != "伏吟" :
+    elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟八專" and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] == "伏吟" :
         chuchuan = ["返吟", "無親", [yima_dict.get(daygangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(daygangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0]))]]
         return chuchuan
     elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[3] == "日干支同位":
@@ -973,8 +971,3 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
 
-#print(find_sike_relations("冬至","乙未", "甲申"))
-#print(liuren("小寒", "壬子", "庚戌") )
-#print(liuren("小寒", "戊申", "癸亥"))
-#print(shunkong("丁未","卯"))
-#print(liuren("冬至", "癸卯", "己未").get("天地盤").get("天盤").index(multi_key_dict_get(ganlivezhi, "甲"))
