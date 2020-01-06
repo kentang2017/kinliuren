@@ -435,6 +435,8 @@ def fiter_four_ke(jieqi, daygangzhi, hourgangzhi):
         ilist = jlist
     elif len(ilist) == 0 and len(jlist) == 0:
         ilist = "不適用，或試他法"
+    elif len(ilist) == 3:
+        ilist = list(set(ilist))
     return ilist
 
 def compare_shehai_number(jieqi, daygangzhi, hourgangzhi):
