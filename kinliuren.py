@@ -422,13 +422,15 @@ def fiter_four_ke(jieqi, daygangzhi, hourgangzhi):
     e = duplicates(b, "False")
     ilist = []
     jlist = []
-
-    for i in d:
-        item = a[i]
-        ilist.append(item)
-    for i in e:
-        item = a[i]
-        jlist.append(item)    
+    try:
+        for i in d:
+            item = a[i]
+            ilist.append(item)
+        for g in e:
+            item = a[g]
+            jlist.append(item)    
+    except TypeError:
+        ilist = "不適用，或試他法"
     if len(ilist) == 0 and len(jlist) != 0:
         ilist = jlist
     elif len(ilist) == 0 and len(jlist) == 0:
@@ -573,7 +575,7 @@ def shehai(jieqi, daygangzhi, hourgangzhi):
             result = "不適用，或試他法"
             return result
         
-        elif shangke.count("上尅下") == 2 and shangke.count("下賊上") == 0 or shangke.count("上尅下") > 2 and shangke.count("下賊上") == 0:
+        elif shangke.count("上尅下") >= 2 and shangke.count("下賊上") == 0:
             if len(reducing[0]) == 1:
                 result = ["涉害", "涉害",find_three_pass(jieqi, hourgangzhi, reducing[0])]
                 return result
@@ -638,24 +640,25 @@ def shehai(jieqi, daygangzhi, hourgangzhi):
                 result = "不適用，或試他法"
             return result
         
-        elif shangke.count("上尅下") == 2 and shangke.count("下賊上") == 2:
-            reducing = compare_shehai_number(jieqi, daygangzhi, hourgangzhi)
-            if len(reducing[0]) == 1:
-                result = ["涉害", "涉害", find_three_pass(jieqi, hourgangzhi, reducing[0])]
-                return result
-
-            elif reducing[0] == "找孟仲季地":
-                converting = convert_munchongji_shehai_number(jieqi, daygangzhi, hourgangzhi)
-                if converting[2][0] == converting[2][1]:
-                    result =  ["返吟", "涉害", find_three_pass(jieqi, hourgangzhi, converting[2][0])]     
-                return result
         
         elif shangke.count("下賊上") == 2 and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[9] == "天地盤沒有返吟":
             reducing = compare_shehai_number(jieqi, daygangzhi, hourgangzhi)
             if len(reducing[0]) == 1:
                 result = ["涉害", "涉害", find_three_pass(jieqi, hourgangzhi, reducing[0])]
                 return result
-           
+            
+            elif reducing[0] == "找孟仲季地":
+                converting = convert_munchongji_shehai_number(jieqi, daygangzhi, hourgangzhi)
+                if converting[2][0] == converting[2][1]:
+                    result =  ["返吟", "涉害", find_three_pass(jieqi, hourgangzhi, converting[2][0])]
+                    return result
+                elif converting[1][0] + converting[3][0] == "季季":
+                    result = ["涉害", "涉害", find_three_pass(jieqi, hourgangzhi, converting[2][0])]
+                    return result
+                elif converting[1][1] + converting[3][1] == "季季":
+                    result = ["涉害", "涉害", find_three_pass(jieqi, hourgangzhi, converting[2][0])]
+                    return result
+            
         elif shangke.count("上尅下") == 1 and shangke.count("下賊上") == 3:
             reducing = compare_shehai_number(jieqi, daygangzhi, hourgangzhi)
             if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][0] == "試比用":
