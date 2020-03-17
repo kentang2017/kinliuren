@@ -5,21 +5,68 @@ Created on Sun Dec  22 16:22:37 2019
 @author: ken tang
 @email: kinyeah@gmail.com
 """
+
 from collections import Counter
 
+
+#干支
 Gan = list("甲乙丙丁戊己庚辛壬癸")
 Zhi = list("子丑寅卯辰巳午未申酉戌亥")
+tiangan = '甲乙丙丁戊己庚辛壬癸'
+dizhi = '子丑寅卯辰巳午未申酉戌亥'
+Zhi2 = list("亥戌酉申未午巳辰卯寅丑子")
+
+#寄干藏支
 ganlivezhi = {("甲","寅"):"寅", ("乙","辰"):"辰", ("丙","戊", "巳"):"巳",("丁","己", "未"):"未",("庚","申"):"申", ("辛","戌"):"戌", ("壬", "亥"):"亥", ("癸", "丑"):"丑"}
-wuxing_relation = {("火水","金火", "木金", "水土", "土木"):"下賊上", ("水火","火金", "金木", "土水", "木土"):"上尅下", ("火火", "金金", "水水", "土土", "木木"):"比和", ("火木", "水金", "木水", "土火", "金土"):"下生上", ("木火", "金水", "水木", "火土", "土金"):"上生下"}
-wuxing_relation_2 = {("火水","金火", "木金", "水土", "土木"):"被尅", ("水火","火金", "金木", "土水", "木土"):"尅", ("火火", "金金", "水水", "土土", "木木"):"比和", ("火木", "水金", "木水", "土火", "金土"):"被生", ("木火", "金水", "水木", "火土", "土金"):"生"}
-liuqing_dict = {"被生":"父母", "生":"子孫", "尅":"妻財", "比和":"兄弟", "被尅":"官鬼"}
 shigangjigong = {"甲":"寅", "乙":"辰", "丙":"巳", "丁":"未", "戊":"巳", "己":"未", "庚":"申",  "辛":"戌", "壬":"亥", "癸":"丑", "寅":"寅", "辰":"辰", "巳":"巳", "未":"未", "巳":"巳", "未":"未", "申":"申",  "戌":"戌", "亥":"亥", "丑":"丑", "子":"子", "卯":"卯", "酉":"酉", "午":"午"}
 sky_ganhe = {"甲":"巳", "乙":"庚", "丙":"辛", "丁":"壬", "戊":"癸"}
+
+#驛馬
 yima_dict = {"丑":"亥", "未":"巳"}
+
+#生尅六親
+liuqing_dict = {"被生":"父母", "生":"子孫", "尅":"妻財", "比和":"兄弟", "被尅":"官鬼"}
+earth_zhihe = {tuple(list("巳酉丑")):"巳酉丑", tuple(list("寅午戌")):"寅午戌", tuple(list("亥卯未")):"亥卯未", tuple(list("申子辰")):"申子辰"}
+
+#找旬
+findshun = {'甲子':{'子':'甲', '丑':'乙', '寅':'丙', '卯':'丁', '辰':'戊', '巳':'己', '午':'庚', '未':'辛', '申':'壬',  '酉':'癸', '戌':'空', '亥':'空'}, '甲戌': {'子':'丙', '丑':'丁', '寅':'戊', '卯':'己', '辰':'庚', '巳':'辛', '午':'壬', '未':'癸', '申':'空',  '酉':'空', '戌':'甲', '亥':'乙'},  '甲申': {'子':'戊', '丑':'己', '寅':'庚', '卯':'辛', '辰':'壬', '巳':'癸', '午':'空', '未':'空', '申':'甲',  '酉':'乙', '戌':'丙', '亥':'丁'}, '甲午': {'子':'庚', '丑':'辛', '寅':'壬', '卯':'癸', '辰':'空', '巳':'空', '午':'甲', '未':'乙', '申':'丙',  '酉':'丁', '戌':'戊', '亥':'己'},  '甲辰': {'子':'壬', '丑':'癸', '寅':'空', '卯':'空', '辰':'甲', '巳':'乙', '午':'丙', '未':'丁', '申':'戊',  '酉':'己', '戌':'庚', '亥':'辛'},  '甲寅': {'子':'空', '丑':'空', '寅':'甲', '卯':'乙', '辰':'丙', '巳':'丁', '午':'戊', '未':'己', '申':'庚',  '酉':'辛', '戌':'壬', '亥':'癸'}}
+
+#找月將
+moon_general_dict = {("雨水","驚蟄"):"亥", 
+       ("春分","清明"):"戌", 
+       ("穀雨","立夏"):"酉", 
+       ("小滿","芒種"):"申", 
+       ("夏至","小暑"):"未", 
+       ("大暑","立秋"):"午", 
+       ("處暑","白露"):"巳",
+       ("秋分","寒露"):"辰",
+       ("霜降","立冬"):"卯",
+       ("小雪","大雪"):"寅", 
+       ("冬至","小寒"):"丑", 
+       ("大寒","立春"):"子"}
+
+#支干藏宮
+zhigangcangong = list("子丑癸寅甲卯辰乙巳丙戊午未己申庚酉戌辛亥壬")
+
+#干支五行
+wuxing_relation = {("火水","金火", "木金", "水土", "土木"):"下賊上", ("水火","火金", "金木", "土水", "木土"):"上尅下", ("火火", "金金", "水水", "土土", "木木"):"比和", ("火木", "水金", "木水", "土火", "金土"):"下生上", ("木火", "金水", "水木", "火土", "土金"):"上生下"}
+wuxing_relation_2 = {("火水","金火", "木金", "水土", "土木"):"被尅", ("水火","火金", "金木", "土水", "木土"):"尅", ("火火", "金金", "水水", "土土", "木木"):"比和", ("火木", "水金", "木水", "土火", "金土"):"被生", ("木火", "金水", "水木", "火土", "土金"):"生"}
+ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):"火",  ("壬", "亥", "癸", "子"):"水", ("庚", "申", "辛", "酉"):"金", ("未", "丑", "戊","己","未", "辰", "戌"):"土"}
+  
+#晝夜貴人
+daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
+guiren_dict = {tuple(list("甲戊庚")):{"晝":"丑", "夜":"未"}, tuple(list("丙丁")):{"晝":"亥", "夜":"酉"},  tuple(list("壬癸")):{"晝":"巳", "夜":"卯"},  tuple(list("乙己")):{"晝":"子", "夜":"申"}, "辛":{"晝":"午", "夜":"寅"} }
+rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑寅卯辰")):"順佈"}
+
+#天將
+sky_generals = "貴蛇雀合勾龍空虎常玄陰后"
+
+#刑沖
 ying_chong = {tuple(list("寅巳申丑戌未子卯")):"刑", tuple(list("午辰酉亥")):"自刑"}
 ying = {"寅":"巳", "巳":"申", "申":"寅", "丑":"戌", "戌":"未", "未":"丑", "子":"卯", "卯":"子"}
+chong = {"子":"午","午":"子", "丑":"未","未":"丑", "寅":"申","申":"寅", "卯":"酉", "酉":"卯", "辰":"戌","戌":"辰", "巳":"亥", "亥":"巳"}
 chong2 = {"子":"午","午":"子", "丑":"未","未":"丑", "寅":"申","申":"寅", "卯":"酉", "酉":"卯", "辰":"戌","戌":"辰", "巳":"亥", "亥":"巳"}
-earth_zhihe = {tuple(list("巳酉丑")):"巳酉丑", tuple(list("寅午戌")):"寅午戌", tuple(list("亥卯未")):"亥卯未", tuple(list("申子辰")):"申子辰"}
+
 
 #基本東西
 def multi_key_dict_get(d, k):
@@ -36,32 +83,19 @@ def unique(list1):
             return x
 
 def jiazi():
-    tiangan = '甲乙丙丁戊己庚辛壬癸'
-    dizhi = '子丑寅卯辰巳午未申酉戌亥'
     jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
     return jiazi
 
 def shunkong(daygangzhi,zhi):
     liujiashun_dict = {tuple(jiazi()[0:10]):'甲子', tuple(jiazi()[10:20]):"甲戌", tuple(jiazi()[20:30]):"甲申", tuple(jiazi()[30:40]):"甲午", tuple(jiazi()[40:50]):"甲辰",  tuple(jiazi()[50:60]):"甲寅"  }
-    findshun = {'甲子':{'子':'甲', '丑':'乙', '寅':'丙', '卯':'丁', '辰':'戊', '巳':'己', '午':'庚', '未':'辛', '申':'壬',  '酉':'癸', '戌':'空', '亥':'空'}, '甲戌': {'子':'丙', '丑':'丁', '寅':'戊', '卯':'己', '辰':'庚', '巳':'辛', '午':'壬', '未':'癸', '申':'空',  '酉':'空', '戌':'甲', '亥':'乙'},  '甲申': {'子':'戊', '丑':'己', '寅':'庚', '卯':'辛', '辰':'壬', '巳':'癸', '午':'空', '未':'空', '申':'甲',  '酉':'乙', '戌':'丙', '亥':'丁'}, '甲午': {'子':'庚', '丑':'辛', '寅':'壬', '卯':'癸', '辰':'空', '巳':'空', '午':'甲', '未':'乙', '申':'丙',  '酉':'丁', '戌':'戊', '亥':'己'},  '甲辰': {'子':'壬', '丑':'癸', '寅':'空', '卯':'空', '辰':'甲', '巳':'乙', '午':'丙', '未':'丁', '申':'戊',  '酉':'己', '戌':'庚', '亥':'辛'},  '甲寅': {'子':'空', '丑':'空', '寅':'甲', '卯':'乙', '辰':'丙', '巳':'丁', '午':'戊', '未':'己', '申':'庚',  '酉':'辛', '戌':'壬', '亥':'癸'}}
     dayshun = multi_key_dict_get(liujiashun_dict, daygangzhi)
     return  multi_key_dict_get(findshun,dayshun).get(zhi)
 
 def sky_pan_list(jieqi):
-    moon_general_dict = {("雨水","驚蟄"):"亥", 
-       ("春分","清明"):"戌", 
-       ("穀雨","立夏"):"酉", 
-       ("小滿","芒種"):"申", 
-       ("夏至","小暑"):"未", 
-       ("大暑","立秋"):"午", 
-       ("處暑","白露"):"巳",
-       ("秋分","寒露"):"辰",
-       ("霜降","立冬"):"卯",
-       ("小雪","大雪"):"寅", 
-       ("冬至","小寒"):"丑", 
-       ("大寒","立春"):"子"}
     get_moon_general = multi_key_dict_get(moon_general_dict, jieqi)
     return [new_zhi_list(get_moon_general), get_moon_general]
+
+
 
 def new_zhi_list(zhi):
     zhihead_code = Zhi.index(zhi)
@@ -87,12 +121,12 @@ def Max(list):
         m = Max(list[1:])
         return m if m > list[0] else list[0]
 
-def new_shigangcangong_list(zhi):
-    shigangcangong = list("子丑癸寅甲卯辰乙巳丙戊午未己申庚酉戌辛亥壬")
-    zhihead_code = shigangcangong.index(zhi)
+def new_zhigangcangong_list(zhi):
+    zhigangcangong = list("子丑癸寅甲卯辰乙巳丙戊午未己申庚酉戌辛亥壬")
+    zhihead_code = zhigangcangong.index(zhi)
     res1 = []
-    for i in range(len(shigangcangong)):
-        res1.append( shigangcangong[zhihead_code % len(shigangcangong)])
+    for i in range(len(zhigangcangong)):
+        res1.append( zhigangcangong[zhihead_code % len(zhigangcangong)])
         zhihead_code = zhihead_code + 1
     return res1
 
@@ -240,14 +274,11 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
             
         elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        
-        elif sike_list.count("下賊上") == 4 and len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and nn_list.count("False") >=1:
-            findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        
-        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and nn_list.count("False") >=1:
+            
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and nn_list.count("False") >=1: 
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        
-        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=2 and check_same>2 and nn_list.count("False") ==2 or  nn_list.count("False") ==0:
+            
+        elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=2 and nn_list.count("False") ==0:
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             
         return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
@@ -280,7 +311,7 @@ def find_sike_relations(jieqi, daygangzhi, hourgangzhi):
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
         elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1  and nn_list.count("False") >=1: 
             findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-        elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=2  and check_same>2 and nn_list.count("False") ==2 or nn_list.count("False") ==0: 
+        elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
             findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
         return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, gangzhi_yinyang(daygangzhi[0]), fan_yin
 
@@ -466,7 +497,7 @@ def compare_shehai_number(jieqi, daygangzhi, hourgangzhi):
                         if v == a[i][0]:
                             khead.append(k)
             for i in range(0,len(a)):
-                biyung_result_reorder = new_shigangcangong_list(khead[i])[0: new_shigangcangong_list(khead[i]).index(a[i][0])+1]
+                biyung_result_reorder = new_zhigangcangong_list(khead[i])[0: new_zhigangcangong_list(khead[i]).index(a[i][0])+1]
                 biyung_result_reorder_list3.append([ganzhiwuxing(c[i][0])+k  for k in [ganzhiwuxing(j) for j in biyung_result_reorder]].count((ganzhiwuxing(a[i][0])+ganzhiwuxing(a[i][1]))))
             for s in biyung_result_reorder_list3:
                 shehai_number = c[biyung_result_reorder_list3.index(s)]
@@ -934,23 +965,32 @@ def fuyin(jieqi, daygangzhi, hourgangzhi):
                 return chuchuan
 
 def guiren_starting_gangzhi(daygangzhi, hourgangzhi):
-    daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
-    guiren_dict = {tuple(list("甲戊庚")):{"晝":"丑", "夜":"未"}, tuple(list("丙丁")):{"晝":"亥", "夜":"酉"},  tuple(list("壬癸")):{"晝":"巳", "夜":"卯"},  tuple(list("乙己")):{"晝":"子", "夜":"申"}, "辛":{"晝":"午", "夜":"寅"} }
     get_day = multi_key_dict_get(guiren_dict, daygangzhi[0])
     find_day_or_night = multi_key_dict_get(daynight_richppl_dict, hourgangzhi[1])
     return get_day.get(find_day_or_night)
 
+
+def new_guiren_list(guiren):
+    guirenhead_code = list(sky_generals)[::-1].index(guiren)
+    res1 = []
+    for i in range(len(list(sky_generals)[::-1])):
+        res1.append( list(sky_generals)[::-1][guirenhead_code % len(list(sky_generals)[::-1])])
+        guirenhead_code = guirenhead_code + 1
+    return res1
+
+
 def guiren_order_list(daygangzhi, hourgangzhi):
-    sky_generals = "貴人螣蛇朱雀六合勾陳青龍天空白虎太常玄武太陰天后"
-    sky_generals_list = [sky_generals[i:i+2] for i in range(0, len(sky_generals), 2)]
+    #sky_generals_list = [sky_generals[i:i+2] for i in range(0, len(sky_generals), 2)]
+    sky_generals_list = list(sky_generals)
     starting_gangzhi = guiren_starting_gangzhi(daygangzhi, hourgangzhi)
-    rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑寅卯辰")):"順佈"}
     clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
     if clock_anti_clock == "順佈":
         new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
+        return dict(zip(new_zhi_list_guiren, new_guiren_list("貴")))
     elif clock_anti_clock == "逆佈":
         new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
-    return dict(zip(new_zhi_list_guiren, sky_generals_list))
+        return dict(zip(new_zhi_list_guiren, sky_generals_list))
+
     
 def liuren(jieqi, daygangzhi, hourgangzhi):
     answer =  [zeike(jieqi, daygangzhi, hourgangzhi), biyung(jieqi, daygangzhi, hourgangzhi), shehai(jieqi, daygangzhi, hourgangzhi), yaoke(jieqi, daygangzhi, hourgangzhi) ,maosing(jieqi, daygangzhi, hourgangzhi),bieze(jieqi, daygangzhi, hourgangzhi),bazhuan(jieqi, daygangzhi, hourgangzhi),fuyin(jieqi, daygangzhi, hourgangzhi)]
@@ -974,3 +1014,9 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
 
+#print(find_sike_relations("驚蟄", "己未", "戊辰"))
+#print(liuren("小寒", "壬子", "庚戌") )
+#print(liuren("驚蟄", "己未", "戊辰"))
+#print(shunkong("丁未","卯"))
+#print(guiren_order_list("己未", "戊辰"))
+#print(liuren("冬至", "癸卯", "己未").get("天地盤").get("天盤").index(multi_key_dict_get(ganlivezhi, "甲"))
