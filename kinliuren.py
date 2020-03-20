@@ -974,6 +974,7 @@ def new_guiren_list(guiren):
     res1 = []
     for i in range(len(list(sky_generals)[::-1])):
         res1.append( list(sky_generals)[::-1][guirenhead_code % len(list(sky_generals)[::-1])])
+        guirenhead_code = guirenhead_code + 1
     return res1
 
 
@@ -1011,7 +1012,10 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
     return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-#print(liuren("春分", "壬戌", "乙巳"))
+
+print(sky_n_earth_list("春分","乙巳"))
+#print(all_sike("春分", "壬戌", "乙巳"))
+#print(liuren("驚蟄", "辛酉", "戊子"))
 #print(find_sike_relations("驚蟄", "己未", "戊辰"))
 #print(liuren("小寒", "壬子", "庚戌") )
 #print(liuren("驚蟄", "己未", "戊辰"))
