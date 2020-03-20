@@ -55,7 +55,7 @@ ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):
   
 #晝夜貴人
 daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
-guiren_dict = {tuple(list("甲戊庚")):{"晝":"丑", "夜":"未"}, tuple(list("丙丁")):{"晝":"亥", "夜":"酉"},  tuple(list("壬癸")):{"晝":"巳", "夜":"卯"},  tuple(list("乙己")):{"晝":"子", "夜":"申"}, "辛":{"晝":"午", "夜":"寅"} }
+guiren_dict = {"甲":{"晝":"未", "夜":"丑"}, tuple(list("戊庚")):{"晝":"丑", "夜":"未"}, "丙":{"晝":"酉", "夜":"亥"}, "丁":{"晝":"亥", "夜":"酉"}, tuple(list("壬癸")):{"晝":"卯", "夜":"巳"},  "乙":{"晝":"申", "夜":"子"}, "己":{"晝":"子", "夜":"申"}, "辛":{"晝":"寅", "夜":"午"} }
 rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑寅卯辰")):"順佈"}
 
 #天將
@@ -861,25 +861,24 @@ def bieze(jieqi, daygangzhi, hourgangzhi):
                 chuchuan = ["別責", "別責", [sky_n_earth_list(jieqi, hourgangzhi).get(ganhe_result1), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0])),  sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0]))]]
                 return chuchuan
         if dayganzhi_yy == "陰":
-            ganhe_result1 = shigangjigong.get(earth_zhihe.get(daygangzhi[1]))
             result = multi_key_dict_get(earth_zhihe, daygangzhi[1])
-            position = multi_key_dict_get(earth_zhihe, daygangzhi[1]).index(daygangzhi[1])
+            position = result.index(daygangzhi[1])
             if position == 0:
                 a = result[1]
             elif position == 1:
                 a = result[2]
             elif position == 2:
                 a = result[0]
-    
-                if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟八專":
-                    chuchuan = "不適用，或試他法" 
-                    return chuchuan
-                elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] == "伏吟":
-                    chuchuan =  "不適用，或試他法" 
-                    return chuchuan
-                else:
-                    chuchuan = ["別責", "別責", [a, sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0])), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0]))]]
-                    return chuchuan
+                
+            if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟八專":
+                chuchuan = "不適用，或試他法" 
+                return chuchuan
+            elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] == "伏吟":
+                chuchuan =  "不適用，或試他法" 
+                return chuchuan
+            else:
+                chuchuan = ["別責", "別責", [a, sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0])), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0]))]]
+                return chuchuan
     elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] == "伏吟":
         chuchuan =  "不適用，或試他法" 
         return chuchuan
@@ -975,7 +974,6 @@ def new_guiren_list(guiren):
     res1 = []
     for i in range(len(list(sky_generals)[::-1])):
         res1.append( list(sky_generals)[::-1][guirenhead_code % len(list(sky_generals)[::-1])])
-        guirenhead_code = guirenhead_code + 1
     return res1
 
 
@@ -1013,7 +1011,7 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
     return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-
+#print(liuren("春分", "壬戌", "乙巳"))
 #print(find_sike_relations("驚蟄", "己未", "戊辰"))
 #print(liuren("小寒", "壬子", "庚戌") )
 #print(liuren("驚蟄", "己未", "戊辰"))
