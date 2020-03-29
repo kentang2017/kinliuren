@@ -761,22 +761,16 @@ def yaoke(jieqi, daygangzhi, hourgangzhi):
             else:
                 p = "False"
             nn_list.append(p)
-            if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟":
-                chuchuan = ["返吟", "無親", [yima_dict.get(hourgangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(daygangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(shigangjigong.gedaygangzhi[0]))]]
+            if nn_list.count('True') > 0:
+                chuchuan = ["遙尅","蒿矢", find_three_pass(jieqi, hourgangzhi, sike[nn_list.index('True')][0] )] or  ["遙尅","蒿矢", find_three_pass(jieqi, hourgangzhi, sike[nn_list.index('False')][0] )]
                 return chuchuan
-            elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[4] == "伏吟":
-                chuchuan =  "不適用，或試他法" 
+            elif nn_list.count('False') > 0:
+                chuchuan = ["遙尅","蒿矢", find_three_pass(jieqi, hourgangzhi, daygangzhi[1])] 
                 return chuchuan
-            else:
-                chuchuan = ["遙尅","蒿矢", find_three_pass(jieqi, hourgangzhi, sike[nn_list.index('True')][0] )]
-                return chuchuan
+            
     elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[2].count("被尅") == 1:
-        if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟":
-            chuchuan = ["返吟","無親", [yima_dict.get(hourgangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(daygangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0])) ]]
-            return chuchuan
-        else:
-            chuchuan = ["遙尅","彈射", find_three_pass(jieqi, hourgangzhi, sike[find_sike_relations(jieqi, daygangzhi, hourgangzhi)[2].index("被尅")][0] )]
-            return chuchuan
+        chuchuan = ["遙尅","彈射", find_three_pass(jieqi, hourgangzhi, sike[find_sike_relations(jieqi, daygangzhi, hourgangzhi)[2].index("被尅")][0] )]
+        return chuchuan
     elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[2].count("被尅") == 2:
         if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[6] == "反吟":
             chuchuan = ["返吟","無親", [yima_dict.get(hourgangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(daygangzhi[1]), sky_n_earth_list(jieqi, hourgangzhi).get(shigangjigong.get(daygangzhi[0])) ]]
@@ -982,14 +976,13 @@ def new_guiren_list(guiren):
 
 def guiren_order_list(daygangzhi, hourgangzhi):
     #sky_generals_list = [sky_generals[i:i+2] for i in range(0, len(sky_generals), 2)]
-    sky_generals_list = list(sky_generals)
     starting_gangzhi = guiren_starting_gangzhi(daygangzhi, hourgangzhi)
     clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
     if clock_anti_clock == "順佈":
-        new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
-        return dict(zip(new_zhi_list_guiren, sky_generals_list))
-    elif clock_anti_clock == "逆佈":
         new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
+        return dict(zip(new_zhi_list_guiren, new_guiren_list("貴")))
+    elif clock_anti_clock == "逆佈":
+        new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
         return dict(zip(new_zhi_list_guiren, new_guiren_list("貴")))
 
     
@@ -1014,13 +1007,15 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
     return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
+
+
 #print(new_zhi_list("戌"))
 #print(sky_n_earth_list("春分", "乙巳"))
-#print(guiren_order_list("壬戌", "乙巳"))
+#print(guiren_order_list("己巳", "辛未"))
 #print(all_sike("春分", "壬戌", "乙巳"))
-#print(liuren("春分", "己巳", "庚午"))
+#print(yaoke("春分", "辛未", "丙申"))
 #print(convert_munchongji_shehai_number("春分", "己巳", "庚午"))
-#print(liuren("春分", "己巳", "庚午") )
+#print(yaoke("春分", "辛未", "己亥") )
 #print(find_sike_relations("驚蟄", "己未", "戊辰"))
 #print(liuren("小寒", "壬子", "庚戌") )
 #print(liuren("驚蟄", "己未", "戊辰"))
