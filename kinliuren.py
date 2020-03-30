@@ -60,6 +60,7 @@ rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑�
 
 #天將
 sky_generals = "貴蛇雀合勾龍空虎常玄陰后"
+sky_generals_rev ="貴后陰玄常虎空龍勾合雀蛇"
 
 #刑沖
 ying_chong = {tuple(list("寅巳申丑戌未子卯")):"刑", tuple(list("午辰酉亥")):"自刑"}
@@ -425,7 +426,7 @@ def biyung(jieqi, daygangzhi, hourgangzhi):
         findtrue =  "不適用，或試他法"
         return findtrue
     elif relation[0].count("下賊上") == 2 and relation[9] == '天地盤返吟':
-        findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
+        findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][1], chong(sike_list[filter_list[4].index("True")][1]), chong(chong(sike_list[filter_list[4].index("True")][1]))]]
         return findtrue
     elif relation[0].count("下賊上") == 3 and relation[9] == '天地盤返吟':
         findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
@@ -980,10 +981,10 @@ def guiren_order_list(daygangzhi, hourgangzhi):
     clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
     if clock_anti_clock == "順佈":
         new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
-        return dict(zip(new_zhi_list_guiren, new_guiren_list("貴")))
+        return dict(zip(new_zhi_list_guiren, sky_generals_rev))
     elif clock_anti_clock == "逆佈":
         new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
-        return dict(zip(new_zhi_list_guiren, new_guiren_list("貴")))
+        return dict(zip(new_zhi_list_guiren, sky_generals))
 
     
 def liuren(jieqi, daygangzhi, hourgangzhi):
@@ -1013,7 +1014,8 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
 #print(sky_n_earth_list("春分", "乙巳"))
 #print(guiren_order_list("己巳", "辛未"))
 #print(all_sike("春分", "壬戌", "乙巳"))
-#print(yaoke("春分", "辛未", "丙申"))
+#print(liuren("春分", "壬申", "甲辰"))
+#print(find_sike_relations("春分", "壬申", "甲辰"))
 #print(convert_munchongji_shehai_number("春分", "己巳", "庚午"))
 #print(yaoke("春分", "辛未", "己亥") )
 #print(find_sike_relations("驚蟄", "己未", "戊辰"))
