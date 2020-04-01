@@ -53,9 +53,10 @@ wuxing_relation = {("火水","金火", "木金", "水土", "土木"):"下賊上"
 wuxing_relation_2 = {("火水","金火", "木金", "水土", "土木"):"被尅", ("水火","火金", "金木", "土水", "木土"):"尅", ("火火", "金金", "水水", "土土", "木木"):"比和", ("火木", "水金", "木水", "土火", "金土"):"被生", ("木火", "金水", "水木", "火土", "土金"):"生"}
 ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):"火",  ("壬", "亥", "癸", "子"):"水", ("庚", "申", "辛", "酉"):"金", ("未", "丑", "戊","己","未", "辰", "戌"):"土"}
   
-#晝夜貴人 甲戊庚牛羊，乙己鼠猴鄉，丙丁豬雞位，壬癸兔蛇藏，六辛逢馬虎
+#日貴人 甲羊戊庚牛。乙猴已鼠求。丙雞丁豬位。壬癸兔蛇游。六辛逢虎上。陽貴日中 。
+#夜貴人 甲牛戊庚羊乙鼠鄉。丙豬丁難上。壬中蛇癸兔藏。六辛逢午馬。陰貴夜時當。
 daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
-guiren_dict = {"甲":{"晝":"未", "夜":"丑"}, tuple(list("戊庚")):{"晝":"丑", "夜":"未"}, "丙":{"晝":"酉", "夜":"亥"}, "丁":{"晝":"亥", "夜":"酉"}, "壬":{"晝":"巳", "夜":"卯"}, "癸":{"晝":"卯", "夜":"巳"}, "乙":{"晝":"申", "夜":"子"}, "己":{"晝":"子", "夜":"申"}, "辛":{"晝":"寅", "夜":"午"} }
+guiren_dict = {"甲":{"晝":"丑", "夜":"未"}, tuple(list("戊庚")):{"晝":"丑", "夜":"未"}, "丙":{"晝":"酉", "夜":"亥"}, "丁":{"晝":"亥", "夜":"酉"}, "壬":{"晝":"卯", "夜":"巳"}, "癸":{"晝":"巳", "夜":"卯"}, "乙":{"晝":"申", "夜":"子"}, "己":{"晝":"子", "夜":"申"}, "辛":{"晝":"寅", "夜":"午"} }
 rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑寅卯辰")):"順佈"}
 
 #天將
@@ -587,10 +588,13 @@ def shehai(jieqi, daygangzhi, hourgangzhi):
         return result
     
     elif compare_shehai_number(jieqi, daygangzhi, hourgangzhi) == ["不適用，或試他法"] and find_sike_relations(jieqi, daygangzhi, hourgangzhi)[9] == '天地盤返吟':
-        if len(find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1]) == 2:
+        if find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1] == 1:
+            chuchuan = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[1][1][0]
+            result = ["返吟", "無依",  find_three_pass(jieqi, hourgangzhi, chuchuan[0])] 
+        elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1] == 2:
             chuchuan = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1].index(Max(find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1]))]
             result = ["返吟", "無依",  find_three_pass(jieqi, hourgangzhi, chuchuan[0])] 
-        elif len(find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1]) == 3:
+        elif find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][1] >= 3:
             chuchuan = find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][2][find_sike_relations(jieqi, daygangzhi, hourgangzhi)[7][4].index("True")]
             result = ["返吟", "無依",   find_three_pass(jieqi, hourgangzhi, chuchuan[0]), ] 
         return result
@@ -1009,12 +1013,12 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
 
-
+#print(guiren_starting_gangzhi("甲辰", "丙辰"))
 #print(new_zhi_list("戌"))
 #print(sky_n_earth_list("春分", "乙巳"))
 #print(guiren_order_list("己巳", "辛未"))
 #print(all_sike("春分", "壬戌", "乙巳"))
-#print(liuren("春分", "壬申", "甲辰"))
+#print(liuren("春分", "壬申", "庚戌"))
 #print(find_sike_relations("春分", "壬申", "甲辰"))
 #print(convert_munchongji_shehai_number("春分", "己巳", "庚午"))
 #print(yaoke("春分", "辛未", "己亥") )
