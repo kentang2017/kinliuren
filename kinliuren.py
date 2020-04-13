@@ -1013,18 +1013,4 @@ def liuren(jieqi, daygangzhi, hourgangzhi):
     return {"節氣":jieqi, "日期":daygangzhi+"日"+hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
 
-#print(guiren_starting_gangzhi("甲辰", "丙辰"))
-#print(new_zhi_list("戌"))
-#print(sky_n_earth_list("春分", "乙巳"))
-#print(guiren_order_list("己巳", "辛未"))
-#print(all_sike("春分", "壬戌", "乙巳"))
-#print(liuren("春分", "壬申", "庚戌"))
-#print(find_sike_relations("春分", "壬申", "甲辰"))
-#print(convert_munchongji_shehai_number("春分", "己巳", "庚午"))
-#print(yaoke("春分", "辛未", "己亥") )
-#print(find_sike_relations("驚蟄", "己未", "戊辰"))
-#print(liuren("小寒", "壬子", "庚戌") )
-#print(liuren("驚蟄", "己未", "戊辰"))
-#print(shunkong("丁未","卯"))
-#print(guiren_order_list("己未", "戊辰"))
-#print(liuren("冬至", "癸卯", "己未").get("天地盤").get("天盤").index(multi_key_dict_get(ganlivezhi, "甲"))
+
