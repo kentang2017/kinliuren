@@ -215,53 +215,53 @@ class Liuren():
             findtrue =  "不適用，或試他法" 
             return findtrue
         elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] == 1  and sike_list[9] == '天地盤沒有返吟':
-            findtrue =  ["賊尅","重審", find_three_pass(self.jieqi, self.hourgangzhi, sike_list[7][2][0][0])]
+            findtrue =  ["賊尅","重審", self.find_three_pass(sike_list[7][2][0][0])]
             return findtrue
         elif sike_list[0].count("下賊上") >= 2 and sike_list[7][0] == "試賊尅" and sike_list[7][6] == 1  and sike_list[9] == '天地盤沒有返吟':
-            findtrue =  ["賊尅","重審", find_three_pass(jieqi, hourgangzhi, sike_list[7][2][0][0])]
+            findtrue =  ["賊尅","重審", self.find_three_pass(sike_list[7][2][0][0])]
             return findtrue
         #多於一個上尅下或下賊上
         elif sike_list[0].count("上尅下") == 2 and sike_list[0].count("下賊上") == 0 and sike_list[7][2][0] != sike_list[7][2][1] and sike_list[7][6] > 1: 
             findtrue =  "不適用，或試他法" 
             return findtrue
         elif sike_list[0].count("上尅下") == 2 and sike_list[0].count("下賊上") == 0 and sike_list[7][2][0] != sike_list[7][2][1] and sike_list[7][6] == 1: 
-            findtrue =   ["賊尅","元首", find_three_pass(jieqi, hourgangzhi, sike_list[7][2][0][0])]
+            findtrue =   ["賊尅","元首", self.find_three_pass(sike_list[7][2][0][0])]
             return findtrue
         elif sike_list[0].count("上尅下") > 2 and sike_list[0].count("下賊上") == 0: 
             findtrue =  "不適用，或試他法" 
             return findtrue
         elif sike_list[0].count("上尅下") > 2 and sike_list[0].count("下賊上") == 0 and sike_list[7][0] == "試賊尅" and set(sike_list[7][1]) == 1:
-            findtrue =  ["賊尅","元首", find_three_pass(jieqi, hourgangzhi, sike_list[7][2][0][0])]
+            findtrue =  ["賊尅","元首", self.find_three_pass(sike_list[7][2][0][0])]
             return findtrue
         
         #一個下賊上
         elif sike_list[0].count("下賊上") == 1 and sike_list[9] == '天地盤沒有返吟':
-            findtrue =  ["賊尅","重審", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("下賊上")][0])]
+            findtrue =  ["賊尅","重審", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         
         elif sike_list[0].count("下賊上") >= 1 and sike_list[9] == '天地盤返吟':
-            findtrue =  ["返吟","無依", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("下賊上")][0])]
+            findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("下賊上") == 0 and  sike_list[9] == '天地盤沒有返吟': 
             if sike_list[7][2][0] == sike_list[7][2][1]:
-                findtrue =  ["賊尅","重審", find_three_pass(jieqi, hourgangzhi, sike_list[7][2][0][0])]
+                findtrue =  ["賊尅","重審", self.find_three_pass(sike_list[7][2][0][0])]
             elif sike_list[7][2][0] != sike_list[7][2][1]:
                 findtrue =   "不適用，或試他法" 
             return findtrue
         
         #一個上尅下
         elif sike_list[0].count("上尅下") == 1 and sike_list[0].count("下賊上") == 0 and sike_list[9] == '天地盤沒有返吟':
-            findtrue =  ["賊尅","元首", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("上尅下")][0])]
+            findtrue =  ["賊尅","元首", self.find_three_pass(sike[sike_list[0].index("上尅下")][0])]
             return findtrue
         elif sike_list[0].count("上尅下") >= 2 and sike_list[0].count("下賊上") == 0 and sike_list[9] == '天地盤沒有返吟':  
             if sike_list[7][2][0] == sike_list[7][2][1]:
-                findtrue =  ["賊尅","元首", find_three_pass(jieqi, hourgangzhi, sike_list[7][2][0][0])]
+                findtrue =  ["賊尅","元首", self.find_three_pass(sike_list[7][2][0][0])]
             elif  sike_list[7][2][0] != sike_list[7][2][1]:
                 findtrue =   "不適用，或試他法" 
             return findtrue
         
         elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤沒有返吟':
-            findtrue =  ["返吟","無依", find_three_pass(jieqi, hourgangzhi, sike[sike_list[0].index("上尅下")][0])]
+            findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("上尅下")][0])]
             return findtrue
         
         elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤返吟':
@@ -858,4 +858,4 @@ class Liuren():
         sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
     
-#print(Liuren("春分", "壬申", "甲辰").result())
+print(Liuren("穀雨", "癸巳", "壬子").result())
