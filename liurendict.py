@@ -2,10 +2,9 @@
 """
 Created on Sun Apr 19 09:37:59 2020
 
-@author: hooki
+@author: kentang
+@email: kinyeah@gmail.com
 """
-
-
 #干支
 Gan = list("甲乙丙丁戊己庚辛壬癸")
 Zhi = list("子丑寅卯辰巳午未申酉戌亥")
@@ -20,6 +19,9 @@ sky_ganhe = {"甲":"巳", "乙":"庚", "丙":"辛", "丁":"壬", "戊":"癸"}
 
 #驛馬
 yima_dict = {"丑":"亥", "未":"巳"}
+
+#日馬
+yimadict = {tuple(list("戌寅午")):"申", tuple(list("酉丑巳")):"亥", tuple(list("子辰申")):"寅", tuple(list("亥卯未")):"巳"}
 
 #生尅六親
 liuqing_dict = {"被生":"父母", "生":"子孫", "尅":"妻財", "比和":"兄弟", "被尅":"官鬼"}
@@ -57,8 +59,8 @@ guiren_dict = {"甲":{"晝":"未", "夜":"丑"}, tuple(list("戊庚")):{"晝":"�
 rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑寅卯辰")):"順佈"}
 
 #天將
-sky_generals = "貴蛇雀合勾龍空虎常玄陰后"
-#sky_generals_rev ="貴后陰玄常虎空龍勾合雀蛇"
+sky_generals  = "貴蛇雀合勾龍空虎常玄陰后"
+sky_generals_rev ="貴后陰玄常虎空龍勾合雀蛇"
 
 #刑沖
 ying_chong = {tuple(list("寅巳申丑戌未子卯")):"刑", tuple(list("午辰酉亥")):"自刑"}
@@ -153,7 +155,6 @@ def duplicates(lst, item):
         result = lst.index(item)
     return result
 
-    
 def new_guiren_list(guiren):
     guirenhead_code = list(sky_generals)[::-1].index(guiren)
     res1 = []
