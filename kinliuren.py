@@ -7,7 +7,7 @@ Created on Sun Dec  22 16:22:37 2019
 """
 
 from collections import Counter
-from liurendict import *
+from kinliuren.liurendict import *
 
 class Liuren():
     def __init__(self, jieqi, daygangzhi, hourgangzhi):
@@ -461,7 +461,7 @@ class Liuren():
             reducing = self.compare_shehai_number()
             if self.find_sike_relations()[7][2][0] == self.find_sike_relations()[7][2][1]:
                 chuchuan = self.find_sike_relations()[7][2][0][0]
-                result = ["涉害", "涉害",  self.find_three_pass( chuchuan)] 
+                result = ["涉害", "涉害",  self.find_three_pass(chuchuan)] 
                 return result
             elif shangke.count("上尅下") == 0 and shangke.count("下賊上") == 0:
                 result = "不適用，或試他法"
@@ -469,6 +469,11 @@ class Liuren():
     
             elif shangke.count("上尅下") >= 0 and shangke.count("下賊上") == 1:
                 result = "不適用，或試他法"
+                return result
+            
+            elif shangke.count("上尅下") == 0 and shangke.count("下賊上") == 2:
+                chuchuan = self.compare_shehai_number()[0]
+                result = ["涉害", "涉害",  self.find_three_pass(chuchuan)] 
                 return result
             
             elif shangke.count("上尅下") >= 2 and shangke.count("下賊上") == 0:
@@ -861,4 +866,6 @@ class Liuren():
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-#print(Liuren("穀雨", "乙未", "丙戌").result(0))
+#print(Liuren("穀雨", "乙未", "丁亥").result(0))
+#print(Liuren("穀雨", "庚子", "癸未").find_sike_relations())
+ 
