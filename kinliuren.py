@@ -7,7 +7,7 @@ Created on Sun Dec  22 16:22:37 2019
 """
 
 from collections import Counter
-from kinliuren.liurendict import *
+from liurendict import *
 
 class Liuren():
     def __init__(self, jieqi, daygangzhi, hourgangzhi):
@@ -821,14 +821,16 @@ class Liuren():
                     chuchuan = ["伏吟", "自信", [self.daygangzhi[1], ying.get(self.daygangzhi[1]), chong2.get(self.daygangzhi[1])]]
                     return chuchuan
 
-    def guiren_starting_gangzhi(self):
-        get_day = multi_key_dict_get(guiren_dict, self.daygangzhi[0])
+    def guiren_starting_gangzhi(self, num):
+        option  = {0: guiren_dict2, 1: guiren_dict}
+        get_day = multi_key_dict_get(option.get(num), self.daygangzhi[0])
         find_day_or_night = multi_key_dict_get(daynight_richppl_dict, self.hourgangzhi[1])
         return get_day.get(find_day_or_night)
     
-    def guiren_order_list(self):
+    
+    def guiren_order_list(self, num):
         #sky_generals_list = [sky_generals[i:i+2] for i in range(0, len(sky_generals), 2)]
-        starting_gangzhi = self.guiren_starting_gangzhi()
+        starting_gangzhi = self.guiren_starting_gangzhi(num)
         clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
         if clock_anti_clock == "順佈":
             new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
@@ -836,15 +838,15 @@ class Liuren():
         elif clock_anti_clock == "逆佈":
             new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
             return dict(zip(new_zhi_list_guiren, sky_generals_rev))
-
-    def result(self):
+        
+    def result(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
         nouse = ["不適用，或試他法" ]
         ju_three_pass = [i for i in answer if i not in nouse] 
         sky_earth = self.sky_n_earth_list()
         sky = list(sky_earth.values())
         earth = list(sky_earth.keys())
-        guiren_order_list_2 = self.guiren_order_list()
+        guiren_order_list_2 = self.guiren_order_list(num)
         guiren_order_list_3 = [guiren_order_list_2.get(i) for i in sky]
         earth_to_general = dict(zip(earth, guiren_order_list_3))
         sky_earth_guiren_dict = {"天盤":sky, "地盤":earth, "天將":guiren_order_list_3}
@@ -858,5 +860,5 @@ class Liuren():
         sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
-    
 
+#print(Liuren("穀雨", "乙未", "丙戌").result(0))
