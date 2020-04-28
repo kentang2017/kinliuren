@@ -676,7 +676,7 @@ class Liuren():
                         chuchuan = "不適用，或試他法" 
                         return chuchuan
                     else:
-                        chuchuan = ["昴星", "虎視", [self.sky_n_earth_list().get("酉"), self.sky_n_earth_list().get(daygangzhi[1]), self.sky_n_earth_list().get(self.sky_n_earth_list().get(self.sky_n_earth_list().get("酉")))]]
+                        chuchuan = ["昴星", "虎視", [self.sky_n_earth_list().get("酉"), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.sky_n_earth_list().get(self.sky_n_earth_list().get("酉")))]]
                         return chuchuan
             if dayganzhi_yy == "陰":
                 try:
@@ -866,6 +866,6 @@ class Liuren():
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-#print(Liuren("穀雨", "乙未", "丁亥").result(0))
+#print(Liuren("清明", "戊寅", "戊午").result(0))
 #print(Liuren("穀雨", "庚子", "癸未").find_sike_relations())
  
