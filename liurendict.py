@@ -23,6 +23,18 @@ yima_dict = {"丑":"亥", "未":"巳"}
 #日馬
 yimadict = {tuple(list("戌寅午")):"申", tuple(list("酉丑巳")):"亥", tuple(list("子辰申")):"寅", tuple(list("亥卯未")):"巳"}
 
+#遊都
+yoududict = {tuple(list("甲己")):"丑", tuple(list("乙庚")):"子", tuple(list("丙辛")):"寅", tuple(list("丁壬")):"巳", tuple(list("戊癸")):"申"}
+
+#魯都
+lududict = {tuple(list("甲己")):"辰", tuple(list("乙庚")):"申", tuple(list("丙辛")):"巳", tuple(list("丁壬")):"亥", tuple(list("戊癸")):"寅"}
+
+#月馬
+moonhorsedict = {tuple(list("寅申")):"午", tuple(list("卯酉")):"申", tuple(list("辰戌")):"戌", tuple(list("巳亥")):"子", tuple(list("午子")):"寅", tuple(list("丑未")):"辰"}
+
+#丁馬
+dinhorsedict = {tuple(list("甲子")):"卯", tuple(list("甲戌")):"丑", tuple(list("甲申")):"亥", tuple(list("甲午")):"酉", tuple(list("甲辰")):"未", tuple(list("甲寅")):"巳"}
+
 #生尅六親
 liuqing_dict = {"被生":"父母", "生":"子孫", "尅":"妻財", "比和":"兄弟", "被尅":"官鬼"}
 earth_zhihe = {tuple(list("巳酉丑")):"巳酉丑", tuple(list("寅午戌")):"寅午戌", tuple(list("亥卯未")):"亥卯未", tuple(list("申子辰")):"申子辰"}

@@ -240,7 +240,7 @@ class Liuren():
             return findtrue
         
         elif sike_list[0].count("下賊上") >= 1 and sike_list[9] == '天地盤返吟':
-            findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
+            findtrue =  ["返吟","無依", [sike[sike_list[0].index("下賊上")][0], self.daygangzhi[1], self.guiren_starting_gangzhi(0)]]
             return findtrue
         elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("下賊上") == 0 and  sike_list[9] == '天地盤沒有返吟': 
             if sike_list[7][2][0] == sike_list[7][2][1]:
@@ -842,7 +842,7 @@ class Liuren():
             return dict(zip(new_zhi_list_guiren, sky_generals))
         elif clock_anti_clock == "逆佈":
             new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
-            return dict(zip(new_zhi_list_guiren, sky_generals_rev))
+            return dict(zip(new_zhi_list_guiren, sky_generals))
         
     def result(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
@@ -866,6 +866,6 @@ class Liuren():
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-#print(Liuren("清明", "戊寅", "戊午").result(0))
+#print(Liuren("穀雨", "乙巳", "乙酉").result(0))
 #print(Liuren("穀雨", "庚子", "癸未").find_sike_relations())
  
