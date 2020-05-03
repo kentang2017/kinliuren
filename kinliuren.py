@@ -839,7 +839,7 @@ class Liuren():
         clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
         if clock_anti_clock == "順佈":
             new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
-            return dict(zip(new_zhi_list_guiren, sky_generals))
+            return dict(zip(new_zhi_list_guiren, sky_generals_rev))
         elif clock_anti_clock == "逆佈":
             new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
             return dict(zip(new_zhi_list_guiren, sky_generals))
@@ -866,6 +866,6 @@ class Liuren():
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-#print(Liuren("穀雨", "乙巳", "乙酉").result(0))
+#print(Liuren("穀雨", "丙午", "戊戌").result(0))
 #print(Liuren("穀雨", "庚子", "癸未").find_sike_relations())
  
