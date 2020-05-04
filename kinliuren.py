@@ -791,7 +791,7 @@ class Liuren():
                         chuchuan = "不適用，或試他法" 
                         return chuchuan
                     else:
-                        chuchuan = ["八專", "八專",[pos, self.sky_n_earth_list().get(daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
+                        chuchuan = ["八專", "八專",[pos, self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
                         return chuchuan 
         elif self.find_sike_relations()[3] == "日干支不同位":
             chuchuan = "不適用，或試他法" 
@@ -838,11 +838,11 @@ class Liuren():
         starting_gangzhi = self.guiren_starting_gangzhi(num)
         clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
         if clock_anti_clock == "順佈":
-            new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
-            return dict(zip(new_zhi_list_guiren, sky_generals_rev))
-        elif clock_anti_clock == "逆佈":
             new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
             return dict(zip(new_zhi_list_guiren, sky_generals))
+        elif clock_anti_clock == "逆佈":
+            new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
+            return dict(zip(new_zhi_list_guiren, sky_generals_rev))
         
     def result(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
@@ -858,6 +858,7 @@ class Liuren():
         ju = [ju_three_pass[0][0], ju_three_pass[0][1]]
         three_pass_zhi = ju_three_pass[0][2]
         three_pass_generals = [guiren_order_list_2.get(i) for i in three_pass_zhi]
+        
         day_gz_vs_three_pass = [  liuqing_dict.get(multi_key_dict_get(wuxing_relation_2,ganzhiwuxing(self.daygangzhi[0])+ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
         three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0], shunkong(self.daygangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1], shunkong(self.daygangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2], shunkong(self.daygangzhi,three_pass_zhi[2])]}
         sike_zhi = self.all_sike()
@@ -866,6 +867,6 @@ class Liuren():
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-#print(Liuren("穀雨", "丙午", "戊戌").result(0))
+#print(Liuren("穀雨", "戊申", "壬子").result(0))
 #print(Liuren("穀雨", "庚子", "癸未").find_sike_relations())
  
