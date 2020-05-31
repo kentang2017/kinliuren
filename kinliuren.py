@@ -7,7 +7,7 @@ Created on Sun Dec  22 16:22:37 2019
 """
 
 from collections import Counter
-from kinliuren.liurendict import *
+from liurendict import *
 
 class Liuren():
     def __init__(self, jieqi, daygangzhi, hourgangzhi):
@@ -531,7 +531,6 @@ class Liuren():
                     result = ["涉害", name, self.find_three_pass(chuchuan)] 
                     return result
         
-        
         elif shangke.count("下賊上") >= 3:
             reducing = self.compare_shehai_number()
             if len(reducing[0]) == 1:
@@ -540,7 +539,6 @@ class Liuren():
             else: 
                 result = "不適用，或試他法"
             return result
-        
         
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟":
             reducing = self.compare_shehai_number()
@@ -832,17 +830,14 @@ class Liuren():
         find_day_or_night = multi_key_dict_get(daynight_richppl_dict, self.hourgangzhi[1])
         return get_day.get(find_day_or_night)
     
-    
     def guiren_order_list(self, num):
         #sky_generals_list = [sky_generals[i:i+2] for i in range(0, len(sky_generals), 2)]
         starting_gangzhi = self.guiren_starting_gangzhi(num)
-        clock_anti_clock = multi_key_dict_get(rotation, starting_gangzhi)
-        if clock_anti_clock == "順佈":
-            new_zhi_list_guiren = new_zhi_list_reverse(starting_gangzhi)
-            return dict(zip(new_zhi_list_guiren, sky_generals))
-        elif clock_anti_clock == "逆佈":
-            new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
-            return dict(zip(new_zhi_list_guiren, sky_generals_rev))
+        clock_anti_clock = multi_key_dict_get(rotation, self.hourgangzhi[1])
+        new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
+        result_dict = {"順佈": dict(zip(new_zhi_list_guiren, sky_generals)),
+          "逆佈": dict(zip(new_zhi_list_guiren, new_list(list(reversed(sky_generals)), "貴")))}
+        return result_dict.get(clock_anti_clock)
         
     def result(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
@@ -867,6 +862,6 @@ class Liuren():
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-#print(Liuren("穀雨", "戊申", "壬子").result(0))
+#print(Liuren("小滿", "乙亥", "丙子").result(0))
 #print(Liuren("穀雨", "庚子", "癸未").find_sike_relations())
  

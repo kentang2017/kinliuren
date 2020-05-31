@@ -69,11 +69,11 @@ ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):
 daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
 rotation = {tuple(list("巳午未申酉戌")): "逆佈",  tuple(list("亥子丑寅卯辰")):"順佈"}
 guiren_dict = {"甲":{"晝":"未", "夜":"丑"}, tuple(list("戊庚")):{"晝":"丑", "夜":"未"}, "丙":{"晝":"酉", "夜":"亥"}, "丁":{"晝":"亥", "夜":"酉"}, "壬":{"晝":"卯", "夜":"巳"}, "癸":{"晝":"巳", "夜":"卯"}, "乙":{"晝":"申", "夜":"子"}, "己":{"晝":"子", "夜":"申"}, "辛":{"晝":"寅", "夜":"午"} }
-guiren_dict2 = { tuple(list("甲戊庚")):{"晝":"丑", "夜":"未"}, tuple(list("乙己")):{"晝":"子", "夜":"申"}, tuple(list("丙丁")):{"晝":"亥", "夜":"酉"}, tuple(list("壬癸")):{"晝":"巳", "夜":"卯"}, "辛":{"晝":"午", "夜":"寅"}}
 
+guiren_dict2 = { tuple(list("甲戊庚")):{"晝":"丑", "夜":"未"}, tuple(list("乙己")):{"晝":"子", "夜":"申"}, tuple(list("丙丁")):{"晝":"亥", "夜":"酉"}, tuple(list("壬癸")):{"晝":"巳", "夜":"卯"}, "辛":{"晝":"午", "夜":"寅"}}
 #天將
 sky_generals  = "貴蛇雀合勾龍空虎常玄陰后"
-sky_generals_rev ="貴后陰玄常虎空龍勾合雀蛇"
+
 
 #刑沖
 ying_chong = {tuple(list("寅巳申丑戌未子卯")):"刑", tuple(list("午辰酉亥")):"自刑"}
@@ -129,6 +129,15 @@ def new_zhi_list(zhi):
         res1.append( Zhi[zhihead_code % len(Zhi)])
         zhihead_code = zhihead_code + 1
     return res1
+
+def new_list(olist, o):
+    zhihead_code = olist.index(o)
+    res1 = []
+    for i in range(len(olist)):
+        res1.append( olist[zhihead_code % len(olist)])
+        zhihead_code = zhihead_code + 1
+    return res1
+
 
 def new_zhi_list_reverse(zhi):
     Zhi2 = list("亥戌酉申未午巳辰卯寅丑子")
