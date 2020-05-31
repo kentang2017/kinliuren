@@ -14,11 +14,11 @@ Da Liu Ren is a form of Chinese calendrical astrology dating from the later Warr
 
 In the words of a contemporary Chinese master of Da Liu Ren, the six rén indicate an entire movement of the sexagenary cycle, during which an something may appear, rise to maturity and then decline and disappear. Thus the six rén indicate the life cycle of phenomena. There is a homonym in the Chinese language which carries the meaning of pregnancy and so the six rén also carry the meaning of the birth of a phenomenon.
 
-## **2. 安裝套件 Installation**
+## 2. 安裝套件 Installation**
 ```python
 	pip install kinliuren
 ```
-## **3. 起課方式 Quickstart**
+## 3. 起課方式 Quickstart**
 ```python
 	from kinliuren import Liuren
 	Liuren( 節氣, 日干支, 時干支).result(0)
