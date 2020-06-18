@@ -635,7 +635,7 @@ class Liuren():
             return chuchuan
         elif self.find_sike_relations()[2].count("被尅") == 2:
             if self.find_sike_relations()[6] == "反吟":
-                chuchuan = ["返吟","無親", [yima_dict.get(hourgangzhi[1]), self.sky_n_earth_list().get(daygangzhi[1]), self.sky_n_earth_list().get(shigangjigong.get(self.daygangzhi[0])) ]]
+                chuchuan = ["返吟","無親", [yima_dict.get(hourgangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(shigangjigong.get(self.daygangzhi[0])) ]]
                 return chuchuan
             else:
                 chuchuan = ["遙尅","彈射", self.find_three_pass(sike[self.find_sike_relations()[2].index("被尅")][0] )]
@@ -671,7 +671,7 @@ class Liuren():
                         chuchuan = "不適用，或試他法" 
                         return chuchuan
                     else:
-                        chuchuan = ["昴星", "虎視", [self.sky_n_earth_list().get("酉"), self.sky_n_earth_list().get(daygangzhi[1]), self.sky_n_earth_list().get(self.sky_n_earth_list().get(self.sky_n_earth_list().get("酉")))]]
+                        chuchuan = ["昴星", "虎視", [self.sky_n_earth_list().get("酉"), self.sky_n_earth_list().get(self.daygangzhi[1]), self.all_sike()[3][0]]]
                         return chuchuan
             if dayganzhi_yy == "陰":
                 try:
@@ -686,7 +686,7 @@ class Liuren():
                         chuchuan = "不適用，或試他法" 
                         return chuchuan
                     else:
-                        chuchuan = ["昴星","冬蛇掩目", [self.earth_n_sky_list().get("酉"), self.sky_n_earth_list().get(multi_key_dict_get(ganlivezhi, self.daygangzhi[0])), self.sky_n_earth_list().get(self.daygangzhi[1])]]
+                        chuchuan = ["昴星","冬蛇掩目", [self.earth_n_sky_list().get("酉"), self.sky_n_earth_list().get(multi_key_dict_get(ganlivezhi, self.daygangzhi[0])), self.all_sike()[1][0]]]
                         return chuchuan
         else:
             chuchuan = "不適用，或試他法"  
@@ -786,7 +786,7 @@ class Liuren():
                         chuchuan = "不適用，或試他法" 
                         return chuchuan
                     else:
-                        chuchuan = ["八專", "八專",[pos, self.sky_n_earth_list().get(daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
+                        chuchuan = ["八專", "八專",[pos, self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
                         return chuchuan 
         elif self.find_sike_relations()[3] == "日干支不同位":
             chuchuan = "不適用，或試他法" 
@@ -834,10 +834,10 @@ class Liuren():
         starting_gangzhi = self.guiren_starting_gangzhi(num)
         clock_anti_clock = multi_key_dict_get(rotation, self.hourgangzhi[1])
         new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
-        result_dict = {"晝":{"順佈": dict(zip(new_zhi_list_guiren, sky_generals)),
-          "逆佈": dict(zip(new_list(list(reversed( new_zhi_list_guiren)),starting_gangzhi),  sky_generals_r))},
-          "夜":{"順佈": dict(zip(new_zhi_list_guiren, sky_generals_r)),
-          "逆佈": dict(zip(new_list(new_zhi_list_guiren, starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))}}
+        result_dict = {"晝":{"順佈": dict(zip(new_zhi_list_guiren, sky_generals_r)),
+          "逆佈": dict(zip(new_list(list(reversed( new_zhi_list_guiren)),starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))},
+          "夜":{"順佈": dict(zip(new_zhi_list_guiren, sky_generals)),
+          "逆佈": dict(zip(new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))}}
         return result_dict.get(find_day_or_night).get(clock_anti_clock)
     
     def result(self, num):
@@ -862,4 +862,4 @@ class Liuren():
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
     
-#print(Liuren("芒種", "甲申", "癸酉").result(0))
+#print(Liuren("芒種","壬辰","戊申").guiren_order_list(0))
