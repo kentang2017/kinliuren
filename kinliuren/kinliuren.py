@@ -442,7 +442,7 @@ class Liuren():
         
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤返吟":
             chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(Max(self.find_sike_relations()[7][1]))]
-            result =  ["返吟", "無依", find_three_pass(jieqi, hourgangzhi, chuchuan[0])] 
+            result =  ["返吟", "無依", find_three_pass(chuchuan[0])] 
             return result
         
         elif self.compare_shehai_number() == ["不適用，或試他法"] and self.find_sike_relations()[9] == '天地盤返吟':
