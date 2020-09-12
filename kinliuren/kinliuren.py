@@ -285,7 +285,7 @@ class Liuren():
             findtrue =  "不適用，或試他法"
             return findtrue
         elif relation[0].count("下賊上") == 2 and relation[9] == '天地盤返吟':
-            findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][1], chong(sike_list[filter_list[4].index("True")][1]), chong(chong(sike_list[filter_list[4].index("True")][1]))]]
+            findtrue = ["返吟", "無依", [self.all_sike()[1][0], self.all_sike()[1][1],  self.all_sike()[0][1] ]]
             return findtrue
         elif relation[0].count("下賊上") == 3 and relation[9] == '天地盤返吟':
             findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
@@ -422,6 +422,10 @@ class Liuren():
         if d == 1:
             result = "不適用，或試他法"
             return result
+        elif len(self.compare_shehai_number()[0]) == 1:
+            reducing = self.compare_shehai_number()
+            result = ["涉害", "涉害", self.find_three_pass(reducing[0])]
+            return result
         elif shangke.count("比和") == 3:
             result = "不適用，或試他法"
             return result
@@ -442,7 +446,7 @@ class Liuren():
         
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤返吟":
             chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(Max(self.find_sike_relations()[7][1]))]
-            result =  ["返吟", "無依", find_three_pass(chuchuan[0])] 
+            result =  ["返吟", "無依", self.find_three_pass(chuchuan[0])] 
             return result
         
         elif self.compare_shehai_number() == ["不適用，或試他法"] and self.find_sike_relations()[9] == '天地盤返吟':
@@ -833,12 +837,31 @@ class Liuren():
         find_day_or_night = multi_key_dict_get(daynight_richppl_dict, self.hourgangzhi[1])
         starting_gangzhi = self.guiren_starting_gangzhi(num)
         clock_anti_clock = multi_key_dict_get(rotation, self.hourgangzhi[1])
+        yinyang = gangzhi_yinyang(self.daygangzhi[0])
         new_zhi_list_guiren = new_zhi_list(starting_gangzhi)
-        result_dict = {"晝":{"順佈": dict(zip(new_zhi_list_guiren, sky_generals_r)),
-          "逆佈": dict(zip(new_list(list(reversed( new_zhi_list_guiren)),starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))},
-          "夜":{"順佈": dict(zip(new_zhi_list_guiren, sky_generals)),
-          "逆佈": dict(zip(new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))}}
-        return result_dict.get(find_day_or_night).get(clock_anti_clock)
+        result_dict = {
+        "陰":{
+        	"晝":{
+        		"順佈": dict(zip(new_zhi_list_guiren, new_list(sky_generals, "貴"))),
+        		"逆佈": dict(zip(new_list(new_zhi_list_guiren,starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))
+        			},
+        	"夜":{
+        		"順佈": dict(zip(new_zhi_list_guiren, new_list(sky_generals, "貴"))),
+        		"逆佈": dict(zip(new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), new_list(sky_generals, "貴")))
+        		}
+        	},
+        "陽":{
+        	"晝":{
+        		"順佈": dict(zip(new_zhi_list_guiren, new_list(sky_generals, "貴"))),
+        		"逆佈": dict(zip(new_list(new_zhi_list_guiren,starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))
+        			},
+        	"夜":{
+        		"順佈": dict(zip(new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), new_list(list(reversed(sky_generals)), "貴"))),
+        		"逆佈": dict(zip(new_list(new_zhi_list_guiren, starting_gangzhi), new_list(list(reversed(sky_generals)), "貴")))
+        		}
+        	}
+        }
+        return result_dict.get(yinyang).get(find_day_or_night).get(clock_anti_clock)
     
     def result(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
@@ -855,11 +878,24 @@ class Liuren():
         three_pass_zhi = ju_three_pass[0][2]
         three_pass_generals = [guiren_order_list_2.get(i) for i in three_pass_zhi]
         day_gz_vs_three_pass = [  liuqing_dict.get(multi_key_dict_get(wuxing_relation_2,ganzhiwuxing(self.daygangzhi[0])+ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
-        three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0], shunkong(self.daygangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1], shunkong(self.daygangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2], shunkong(self.daygangzhi,three_pass_zhi[2])]}
+        three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0][0], shunkong(self.daygangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1][0], shunkong(self.daygangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2][0], shunkong(self.daygangzhi,three_pass_zhi[2])]}
         sike_zhi = self.all_sike()
         sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
         sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
         dyima = multi_key_dict_get(yimadict, self.daygangzhi[1])
-        return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
+        starpan = dict(zip(new_zhi_list("巳"), [multi_key_dict_get(hoursu, self.daygangzhi[0]).get(i) for i in new_zhi_list("巳")]))
+        return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general, "廿八宿":starpan}
     
-#print(Liuren("芒種","壬辰","戊申").guiren_order_list(0))
+    def result_html(self, num):
+        earth = new_zhi_list("巳")
+        sky = list(self.result(num).get('地轉天盤').values())
+        general = list(self.result(num).get('地轉天將').values())
+        threepasses = list(self.result(num).get("三傳").values())
+        fourke =  list(self.result(num).get("四課").values())
+        su =  list(self.result(num).get("廿八宿").values())
+        layer_one = "<tr>"+"".join(['''<td align="right">'''+"".join(['''{}<br>'''.format(i[j]) for i in threepasses])+"</td>" for j in range(0,3)])+"</tr>"
+        layer_two =  "<tr>"+"".join(['''<td align="right">{} <br>'''.format([a[1] for a in fourke][g]) + '''{} <br>'''.format([b[0][0] for b in fourke] [g])+ '''{} <br>'''.format([c[0][1] for c in fourke][g])+"</td>"   for g in range(0,3)])+"</tr><tr></tr>"
+        layer_three = "<tr>"+"".join(['''<td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(su[i])])+'''{}<br>'''.format(general[i]) + '''{}<br>'''.format(sky[i])+"</td>" for i in range(0,4)])+"/<tr>" + '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(su[11])])+'''{}<br>'''.format(general[11]) + '''{}<br>'''.format(sky[11])+"</td><td>&emsp;</td><td>&emsp;</td></tr>" +  '''<tr><td style="vertical-align:bottom" align="right">'''+'''{}<br>'''.format(sky[4]) + '''{}<br>'''.format(general[4])+"".join([ '''{}<br>'''.format(k) for k in list(su[4])])+"</td></tr>"+"<tr>"+"".join(['''<td style="vertical-align:bottom" align="right">'''+'''{}<br>'''.format(sky[i]) + '''{}<br>'''.format(general[i])+"".join([ '''{}<br>'''.format(k) for k in list(su[i])])+"</td>" for i in range(5,9)])+"</tr>" 
+        return layer_one+layer_two+layer_three
+    
+#print(Liuren("白露","戊午","丁巳").result_html(0))
