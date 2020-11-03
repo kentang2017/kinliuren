@@ -288,7 +288,8 @@ class Liuren():
             findtrue = ["返吟", "無依", [self.all_sike()[1][0], self.all_sike()[1][1],  self.all_sike()[0][1] ]]
             return findtrue
         elif relation[0].count("下賊上") == 3 and relation[9] == '天地盤返吟':
-            findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
+            #findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
+            findtrue = ["返吟", "返吟", [self.all_sike()[1][1],  self.all_sike()[0][1],self.all_sike()[1][1] ]]
             return findtrue    
         
         elif relation[0].count("下賊上") >= 2 and relation[9] == '天地盤沒有返吟':
@@ -886,16 +887,76 @@ class Liuren():
         starpan = dict(zip(new_zhi_list("巳"), [multi_key_dict_get(hoursu, self.daygangzhi[0]).get(i) for i in new_zhi_list("巳")]))
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general, "廿八宿":starpan}
     
+
+    def result_m(self, num):
+        answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
+        nouse = ["不適用，或試他法" ]
+        ju_three_pass = [i for i in answer if i not in nouse]
+        sky_earth = self.sky_n_earth_list()
+        sky = list(sky_earth.values())
+        earth = list(sky_earth.keys())
+        guiren_order_list_2 = self.guiren_order_list(num)
+        guiren_order_list_3 = [guiren_order_list_2.get(i) for i in sky]
+        earth_to_general = dict(zip(earth, guiren_order_list_3))
+        sky_earth_guiren_dict = {"天盤":sky, "地盤":earth, "天將":guiren_order_list_3}
+        ju = [ju_three_pass[0][0], ju_three_pass[0][1]]
+        three_pass_zhi = ju_three_pass[0][2]
+        three_pass_generals = [guiren_order_list_2.get(i) for i in three_pass_zhi]
+        day_gz_vs_three_pass = [  liuqing_dict.get(multi_key_dict_get(wuxing_relation_2,ganzhiwuxing(self.hourgangzhi[0])+ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
+        three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0], shunkong(self.hourgangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1], shunkong(self.hourgangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2], shunkong(self.hourgangzhi,three_pass_zhi[2])]}
+        sike_zhi = self.all_sike()
+        sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
+        sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
+        dyima = multi_key_dict_get(yimadict, self.hourgangzhi[1])
+        starpan = dict(zip(new_zhi_list("巳"), [multi_key_dict_get(hoursu, self.hourgangzhi[0]).get(i) for i in new_zhi_list("巳")]))
+        return {"節氣":self.jieqi, "日期":self.daygangzhi+"時"+self.hourgangzhi+"分", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general, "廿八宿":starpan}
+
     def result_html(self, num):
-        earth = new_zhi_list("巳")
+        earth = self.result(num).get('地盤')
         sky = list(self.result(num).get('地轉天盤').values())
         general = list(self.result(num).get('地轉天將').values())
+        Sky = self.result(num).get('地轉天盤')
+        General = self.result(num).get('地轉天將')
+        su =  self.result(num).get("廿八宿")
+        Su = [ self.result(num).get("廿八宿").get(b) for b  in new_list(Zhi, "巳")[0:4]]
+        Sky1 = [ self.result(num).get('地轉天盤').get(b) for b  in new_list(Zhi, "巳")[0:4]]
+        General1 =  [ self.result(num).get('地轉天將').get(b) for b  in new_list(Zhi, "巳")[0:4]]
+        Su2 = [ self.result(num).get("廿八宿").get(b) for b  in list("寅丑子亥")]
+        Sky2 = [ self.result(num).get('地轉天盤').get(b) for b  in list("寅丑子亥")]
+        General2 =  [ self.result(num).get('地轉天將').get(b) for b in list("寅丑子亥")]
         threepasses = list(self.result(num).get("三傳").values())
         fourke =  list(self.result(num).get("四課").values())
-        su =  list(self.result(num).get("廿八宿").values())
-        layer_one = "<tr>"+"".join(['''<td align="right">'''+"".join(['''{}<br>'''.format(i[j]) for i in threepasses])+"</td>" for j in range(0,3)])+"</tr>"
-        layer_two =  "<tr>"+"".join(['''<td align="right">{} <br>'''.format([a[1] for a in fourke][g]) + '''{} <br>'''.format([b[0][0] for b in fourke] [g])+ '''{} <br>'''.format([c[0][1] for c in fourke][g])+"</td>"   for g in range(0,3)])+"</tr><tr></tr>"
-        layer_three = "<tr>"+"".join(['''<td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(su[i])])+'''{}<br>'''.format(general[i]) + '''{}<br>'''.format(sky[i])+"</td>" for i in range(0,4)])+"/<tr>" + '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(su[11])])+'''{}<br>'''.format(general[11]) + '''{}<br>'''.format(sky[11])+"</td><td>&emsp;</td><td>&emsp;</td></tr>" +  '''<tr><td style="vertical-align:bottom" align="right">'''+'''{}<br>'''.format(sky[4]) + '''{}<br>'''.format(general[4])+"".join([ '''{}<br>'''.format(k) for k in list(su[4])])+"</td></tr>"+"<tr>"+"".join(['''<td style="vertical-align:bottom" align="right">'''+'''{}<br>'''.format(sky[i]) + '''{}<br>'''.format(general[i])+"".join([ '''{}<br>'''.format(k) for k in list(su[i])])+"</td>" for i in range(5,9)])+"</tr>" 
-        return layer_one+layer_two+layer_three
-    
-#print(Liuren("白露","戊午","丁巳").result_html(0))
+        layer_one = '''<table border="0" align="center"><tr>'''+"".join(['''<td align="right">'''+"".join(['''{}<br>'''.format(i[j]) for i in threepasses])+"</td>" for j in range(0,len(threepasses))])+ '''<td align="right">'''+ "".join(['''{}<br>'''.format(g) for g in [i[3] for i in threepasses]]) + "</td></tr><tr>&emsp;</tr><tr>&emsp;</tr></table>"
+        layer_two =  '''<table border="0" align="center"><tr>'''+"".join(['''<td align="right">{} <br>'''.format([a[1] for a in fourke][g]) + '''{} <br>'''.format([b[0][0] for b in fourke] [g])+ '''{} <br>'''.format([c[0][1] for c in fourke][g])+"</td>"   for g in range(0,4)])+"</tr><tr>&emsp;</tr><tr>&emsp;</tr><tr>&emsp;</tr></table>" 
+        layer_three = '''<table border="0" align="center"><tr>'''+"".join(['''<td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(Su[i])])+'''{}<br>'''.format(General1[i]) + '''{}<br>'''.format(Sky1[i])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:bottom" align="left">'''+"".join([ '''{}<br>'''.format(k) for k in list(su.get("申"))]) + '''{}<br>'''.format(General.get("申")) + '''{}<br>'''.format(Sky.get("申"))+"</td>"
+        layer_four = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("辰"))])+'''{}'''.format(General.get("辰")) + '''{}'''.format(Sky.get("辰"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("酉")) + '''{}'''.format(General.get("酉"))+"".join([ '''{}'''.format(k) for k in list(su.get("酉"))])+"</td></tr>" 
+        layer_five = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("卯"))])+'''{}'''.format(General.get("卯")) + '''{}'''.format(Sky.get("卯"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("戌")) + '''{}'''.format(General.get("戌"))+"".join([ '''{}'''.format(k) for k in list(su.get("戌"))])+"</td></tr>"
+        layer_six = "<tr>"+"".join(['''<td style="vertical-align:top" align="right">'''+'''{}<br>'''.format(Sky2[i]) + '''{}<br>'''.format(General2[i])+"".join([ '''{}<br>'''.format(k) for k in list(Su2[i])])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:top" align="left">'''+'''{}<br>'''.format(Sky.get("亥"))+'''{}<br>'''.format(General.get("亥"))+"".join([ '''{}<br>'''.format(k) for k in list(su.get("亥"))]) +"</td>"
+        return layer_one+layer_two+layer_three+layer_four+layer_five+layer_six+"</table>"
+
+    def resultm_html(self, num):
+        earth = self.result_m(num).get('地盤')
+        sky = list(self.result_m(num).get('地轉天盤').values())
+        general = list(self.result_m(num).get('地轉天將').values())
+        Sky = self.result_m(num).get('地轉天盤')
+        General = self.result_m(num).get('地轉天將')
+        su =  self.result_m(num).get("廿八宿")
+        Su = [ self.result_m(num).get("廿八宿").get(b) for b  in new_list(Zhi, "巳")[0:4]]
+        Sky1 = [ self.result_m(num).get('地轉天盤').get(b) for b  in new_list(Zhi, "巳")[0:4]]
+        General1 =  [ self.result_m(num).get('地轉天將').get(b) for b  in new_list(Zhi, "巳")[0:4]]
+        Su2 = [ self.result_m(num).get("廿八宿").get(b) for b  in list("寅丑子亥")]
+        Sky2 = [ self.result_m(num).get('地轉天盤').get(b) for b  in list("寅丑子亥")]
+        General2 =  [ self.result_m(num).get('地轉天將').get(b) for b in list("寅丑子亥")]
+        threepasses = list(self.result_m(num).get("三傳").values())
+        fourke =  list(self.result_m(num).get("四課").values())
+        layer_one = '''<table border="0" align="center"><tr>'''+"".join(['''<td align="right">'''+"".join(['''{}<br>'''.format(i[j]) for i in threepasses])+"</td>" for j in range(0,len(threepasses))])+ '''<td align="right">'''+ "".join(['''{}<br>'''.format(g) for g in [i[3] for i in threepasses]]) + "</td></tr><tr>&emsp;</tr><tr>&emsp;</tr></table>"
+        layer_two =  '''<table border="0" align="center"><tr>'''+"".join(['''<td align="right">{} <br>'''.format([a[1] for a in fourke][g]) + '''{} <br>'''.format([b[0][0] for b in fourke] [g])+ '''{} <br>'''.format([c[0][1] for c in fourke][g])+"</td>"   for g in range(0,4)])+"</tr><tr>&emsp;</tr><tr>&emsp;</tr><tr>&emsp;</tr></table>" 
+        layer_three = '''<table border="0" align="center"><tr>'''+"".join(['''<td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(Su[i])])+'''{}<br>'''.format(General1[i]) + '''{}<br>'''.format(Sky1[i])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:bottom" align="left">'''+"".join([ '''{}<br>'''.format(k) for k in list(su.get("申"))]) + '''{}<br>'''.format(General.get("申")) + '''{}<br>'''.format(Sky.get("申"))+"</td>"
+        layer_four = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("辰"))])+'''{}'''.format(General.get("辰")) + '''{}'''.format(Sky.get("辰"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("酉")) + '''{}'''.format(General.get("酉"))+"".join([ '''{}'''.format(k) for k in list(su.get("酉"))])+"</td></tr>" 
+        layer_five = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("卯"))])+'''{}'''.format(General.get("卯")) + '''{}'''.format(Sky.get("卯"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("戌")) + '''{}'''.format(General.get("戌"))+"".join([ '''{}'''.format(k) for k in list(su.get("戌"))])+"</td></tr>"
+        layer_six = "<tr>"+"".join(['''<td style="vertical-align:top" align="right">'''+'''{}<br>'''.format(Sky2[i]) + '''{}<br>'''.format(General2[i])+"".join([ '''{}<br>'''.format(k) for k in list(Su2[i])])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:top" align="left">'''+'''{}<br>'''.format(Sky.get("亥"))+'''{}<br>'''.format(General.get("亥"))+"".join([ '''{}<br>'''.format(k) for k in list(su.get("亥"))]) +"</td>"
+        return layer_one+layer_two+layer_three+layer_four+layer_five+layer_six+"</table>"
+
+
+if __name__ == '__main__':
+	print(Liuren("白露","戊午","癸亥").result_html(0))
