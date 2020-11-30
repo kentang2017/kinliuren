@@ -4,7 +4,6 @@ Created on Sun Dec  22 16:22:37 2019
 @author: ken tang
 @email: kinyeah@gmail.com
 """
-
 from collections import Counter
 
 class Liuren():
@@ -28,20 +27,13 @@ class Liuren():
         #夜貴人 甲牛戊庚羊乙鼠鄉。丙豬丁難上。壬中蛇癸兔藏。六辛逢午馬。陰貴夜時當。
         self.daynight_richppl_dict = {tuple(list("卯辰巳午未申")):"晝", tuple(list("酉戌亥子丑寅")):"夜" }
         #刑沖
-        self.ying = {"寅":"巳", "巳":"申", "申":"寅", "丑":"戌", "戌":"未", "未":"丑", "子":"卯", "卯":"子", "辰":"戌"}
+        self.ying = {"寅":"巳", "巳":"申", "申":"寅", "丑":"戌", "戌":"未", "未":"丑", "子":"卯", "卯":"子", "辰":"辰", "亥":"亥", "酉":"酉", "午":"午"}
         self.ying_chong = {tuple(list("寅巳申丑戌未子卯")):"刑", tuple(list("午辰酉亥")):"自刑"}
         self.chong2 = {"子":"午","午":"子", "丑":"未","未":"丑", "寅":"申","申":"寅", "卯":"酉", "酉":"卯", "辰":"戌","戌":"辰", "巳":"亥", "亥":"巳"}
         #天將
         self.sky_generals  = "貴蛇雀合勾龍空虎常玄陰后"
         self.sky_generals_r  = self.new_list(list(reversed(self.sky_generals)), "貴")
-        #廿八宿
-        self.hoursu = {tuple(list("甲己")):{"子":"角亢", "丑":"翼軫", "寅":"柳星張", "卯":"井鬼" , "辰":"參觜",  "巳":"胃昴畢", "午":"婁奎", "未":"危室壁", "申":"女虛", "酉":"斗牛", "戌":"尾箕", "亥":"氐房心"},
-                  tuple(list("乙庚")):{"子":"參觜", "丑":"昴畢", "寅":"奎婁胃", "卯":"危室壁" , "辰":"女虛",  "巳":"斗牛", "午":"尾箕", "未":"氐房心", "申":"角亢", "酉":"翼軫", "戌":"柳星張", "亥":"井鬼"},
-                  tuple(list("丙辛")):{"子":"奎婁", "丑":"危室壁", "寅":"女虛", "卯":"斗牛" , "辰":"尾箕",  "巳":"氐房心", "午":"角亢", "未":"翼軫", "申":"井鬼", "酉":"柳星張", "戌":"參觜", "亥":"胃昴畢"},
-                  tuple(list("戊癸")):{"子":"尾箕", "丑":"氐房心", "寅":"角亢", "卯":"翼軫" , "辰":"柳星張",  "巳":"井鬼", "午":"畢參觜", "未":"胃昴", "申":"奎婁", "酉":"危室壁", "戌":"女虛", "亥":"斗牛"},
-                  tuple(list("丁壬")):{"子":"女虛", "丑":"斗牛", "寅":"尾箕", "卯":"氐房心" , "辰":"角亢",  "巳":"翼軫", "午":"柳星張", "未":"井鬼", "申":"畢參觜", "酉":"胃昴", "戌":"奎婁", "亥":"危室壁"}}
-
-            
+   
     def gangzhi_yinyang(self, gangorzhi):
         gangzhi_yingyang = {tuple(self.Gan[0::2] + self.Zhi[0::2]):"陽", tuple(self.Gan[1::2] + self.Zhi[1::2]):"陰"}
         yinyang = self.multi_key_dict_get(gangzhi_yingyang, gangorzhi)
@@ -65,7 +57,7 @@ class Liuren():
         if len(list) == 1:
             return list[0]
         else:
-            m = Max(list[1:])
+            m = max(list[1:])
             return m if m > list[0] else list[0]
     
     def new_list(self, olist, o):
@@ -75,7 +67,6 @@ class Liuren():
             res1.append( olist[zhihead_code % len(olist)])
             zhihead_code = zhihead_code + 1
         return res1
-    
     
     def jiazi(self):
         tiangan = '甲乙丙丁戊己庚辛壬癸'
@@ -93,14 +84,13 @@ class Liuren():
         ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):"火",  ("壬", "亥", "癸", "子"):"水", ("庚", "申", "辛", "酉"):"金", ("未", "丑", "戊","己","未", "辰", "戌"):"土"}
         return self.multi_key_dict_get(ganzhiwuxing, gangorzhi)
     
-    
     def find_ke_relation(self, ke):
-        ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):"火",  ("壬", "亥", "癸", "子"):"水", ("庚", "申", "辛", "酉"):"金", ("未", "丑", "戊","己","未", "辰", "戌"):"土"}
+        #ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):"火",  ("壬", "亥", "癸", "子"):"水", ("庚", "申", "辛", "酉"):"金", ("未", "丑", "戊","己","未", "辰", "戌"):"土"}
         wuxing_relation = {("火水","金火", "木金", "水土", "土木"):"下賊上", ("水火","火金", "金木", "土水", "木土"):"上尅下", ("火火", "金金", "水水", "土土", "木木"):"比和", ("火木", "水金", "木水", "土火", "金土"):"下生上", ("木火", "金水", "水木", "火土", "土金"):"上生下"}
         top_botton = self.Ganzhiwuxing(ke[0])+self.Ganzhiwuxing(ke[1])
         return self.multi_key_dict_get(wuxing_relation, top_botton)
 
-    def sky_pan_list(self, jieqi):
+    def sky_pan_list(self):
         #找月將
         moon_general_dict = {("雨水","驚蟄"):"亥", 
                ("春分","清明"):"戌", 
@@ -114,8 +104,11 @@ class Liuren():
                ("小雪","大雪"):"寅", 
                ("冬至","小寒"):"丑", 
                ("大寒","立春"):"子"}
-        get_moon_general = self.multi_key_dict_get(moon_general_dict, jieqi)
+        get_moon_general = self.multi_key_dict_get(moon_general_dict, self.jieqi)
         return [self.new_zhi_list(get_moon_general), get_moon_general]
+    
+    def moongeneral(self):
+        return self.sky_pan_list()[1]
     
     def new_zhi_list(self, zhi):
         zhihead_code = self.Zhi.index(zhi)
@@ -127,12 +120,12 @@ class Liuren():
 
     def sky_n_earth_list(self):
         earth = self.new_zhi_list(self.hourgangzhi[1])
-        sky = self.sky_pan_list(self.jieqi)[0]
+        sky = self.sky_pan_list()[0]
         return dict(zip(earth, sky))
     
     def earth_n_sky_list(self):
         earth = self.new_zhi_list(self.hourgangzhi[1])
-        sky = self.sky_pan_list(self.jieqi)[0]
+        sky = self.sky_pan_list()[0]
         return dict(zip(sky, earth))
 
     def all_sike(self):
@@ -152,7 +145,6 @@ class Liuren():
             zhihead_code = zhihead_code + 1
         return res1
 
-    
     def fanyin(self):
         sky_earth = self.sky_n_earth_list()
         sky =  list(sky_earth.values())
@@ -216,7 +208,8 @@ class Liuren():
         fanyin_day_dict = {tuple(fanyin_days):"反吟",tuple(bazhuan_fanyin_days):"反吟八專",tuple(jiazi_remove_fanyin+bazhuan_fanyin_days):"非反吟"}
         checkdayganzhi = self.multi_key_dict_get(checkdayganzhi_dict, self.daygangzhi)
         checkfanyin = self.multi_key_dict_get(fanyin_day_dict, self.daygangzhi)
-        moon_general = self.sky_pan_list(self.jieqi)[1]
+        #moon_general = self.moongeneral(self.jieqi)
+        moon_general = self.sky_pan_list()[1]
         checkmoongeneralconflicttohour = self.multi_key_dict_get(self.wuxing_relation_2, self.Ganzhiwuxing(moon_general)+self.Ganzhiwuxing(self.hourgangzhi[1]))
         sky_earth_fanyin = self.fanyin()[0]
         blist = []
@@ -264,16 +257,12 @@ class Liuren():
             check_same = len(set(blist))
             if check_same == 1:
                 findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
-                
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-                
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and nn_list.count("False") >=1: 
                 findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-                
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=2 and nn_list.count("False") ==0:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-                
             return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, self.gangzhi_yinyang(self.daygangzhi[0]), fan_yin
     
         elif sike_list.count("上尅下")>1:
@@ -302,11 +291,16 @@ class Liuren():
                 findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1  and nn_list.count("False") >=1: 
+            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") ==1  and nn_list.count("False") ==1: 
                 findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1  and nn_list.count("False") >=1: 
+                findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
+                findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, self.gangzhi_yinyang(self.daygangzhi[0]), fan_yin
+           
 
     def sike_dict(self):
         sike = self.all_sike()
@@ -347,8 +341,13 @@ class Liuren():
         elif sike_list[0].count("上尅下") == 2 and sike_list[0].count("下賊上") == 0 and sike_list[7][2][0] != sike_list[7][2][1] and sike_list[7][6] == 1: 
             findtrue =   ["賊尅","元首", self.find_three_pass(sike_list[7][2][0][0])]
             return findtrue
-        elif sike_list[0].count("上尅下") > 2 and sike_list[0].count("下賊上") == 0: 
+        elif sike_list[0].count("上尅下") == 2 and sike_list[0].count("下賊上") == 0 and sike_list[7][2][0] == sike_list[7][2][1]:
+            findtrue =   ["賊尅","元首", self.find_three_pass(sike_list[7][2][0][0])]
+            return findtrue
+        elif sike_list[0].count("上尅下") >= 2 and sike_list[0].count("下賊上") == 0: 
             findtrue =  "不適用，或試他法" 
+        elif sike_list[0].count("上尅下") >= 2 and sike_list[0].count("下賊上") == 1: 
+            findtrue =  ["賊尅","重審", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         elif sike_list[0].count("上尅下") > 2 and sike_list[0].count("下賊上") == 0 and sike_list[7][0] == "試賊尅" and set(sike_list[7][1]) == 1:
             findtrue =  ["賊尅","元首", self.find_three_pass(sike_list[7][2][0][0])]
@@ -359,14 +358,20 @@ class Liuren():
             findtrue =  ["賊尅","重審", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         
-        elif sike_list[0].count("下賊上") >= 1 and sike_list[9] == '天地盤返吟':
+        elif sike_list[0].count("下賊上") >= 1 and sike_list[0].count("上尅下") == 0 and sike_list[9] == '天地盤返吟':
             findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
-        elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("下賊上") == 0 and  sike_list[9] == '天地盤沒有返吟': 
+        
+        elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("上尅下") == 0 and  sike_list[9] == '天地盤沒有返吟': 
             if sike_list[7][2][0] == sike_list[7][2][1]:
                 findtrue =  ["賊尅","重審", self.find_three_pass(sike_list[7][2][0][0])]
+                return findtrue
             elif sike_list[7][2][0] != sike_list[7][2][1]:
                 findtrue =   "不適用，或試他法" 
+                return findtrue
+
+        elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("上尅下") == 2  and sike_list[9] == '天地盤返吟':
+            findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         
         #一個上尅下
@@ -494,6 +499,9 @@ class Liuren():
             except (TypeError, IndexError):
                 result = ["不適用，或試他法"]
                 return result
+        else:
+            result = ["不適用，或試他法"]
+            return result
 
     def convert_munchongji(self):
         munconji = {tuple("寅申巳亥"):"孟",  tuple("子午卯酉"):"仲", tuple("辰戌丑未"):"季"}
@@ -540,10 +548,10 @@ class Liuren():
             b = z[i][0]
             blist.append(b)
         d = len(set(blist))
-        if d == 1:
-            result = "不適用，或試他法"
-            return result
-        return result
+        #if d == 1:
+            #result = "不適用，或試他法"
+            #return result
+        return self.find_sike_relations()
     
     def shehai(self):
         shangke = self.find_sike_relations()[0]
@@ -553,7 +561,7 @@ class Liuren():
             b = z[i][0]
             blist.append(b)
         d = len(set(blist))
-        if d == 1:
+        if d == 1 and self.find_sike_relations()[7][0] != "試涉害":
             result = "不適用，或試他法"
             return result
         elif len(self.compare_shehai_number()[0]) == 1:
@@ -587,12 +595,36 @@ class Liuren():
             chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(self.Max(self.find_sike_relations()[7][1]))]
             result =  ["返吟", "涉害", self.find_three_pass(chuchuan[0])] 
             return result
+
+        elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") >= 2 and self.find_sike_relations()[2].count("被尅") == 0:
+            chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(self.Max(self.find_sike_relations()[7][1]))]
+            result =  ["返吟", "涉害", self.find_three_pass(chuchuan[0])] 
+            return result
+
+        elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") >= 2 and self.find_sike_relations()[2].count("被尅") >= 1:
+            chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(self.Max(self.find_sike_relations()[7][1]))]
+            result =  ["返吟", "涉害", self.find_three_pass(chuchuan[0])] 
+            return result
         
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 1:
             sike = self.find_sike_relations()[1]
             result = ["涉害", "涉害", self.find_three_pass(sike[self.find_sike_relations()[2].index("尅")][0])]
             return result
         
+        elif shangke.count("下賊上") == 3 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 1:
+            sike = self.find_sike_relations()[1]
+            result = ["涉害", "涉害", self.find_three_pass(sike[self.find_sike_relations()[2].index("尅")][0])]
+            return result
+
+        elif shangke.count("下賊上") == 3 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("被尅") == 1:
+            sike = self.find_sike_relations()[1]
+            result = ["涉害", "涉害", self.find_three_pass(sike[self.find_sike_relations()[2].index("被尅")][0])]
+            return result
+
+        elif shangke.count("下賊上") == 4:
+            result = ["不適用，或試他法"]
+            return result
+
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") == 1:
             if self.find_sike_relations()[7][1][0] >  self.find_sike_relations()[7][1][1]:
                 result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
@@ -600,6 +632,14 @@ class Liuren():
             elif self.find_sike_relations()[7][1][0] <  self.find_sike_relations()[7][1][1]:
                 result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
                 return result
+        
+        elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") == 0:
+            result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+            return result
+
+        elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") >= 1:
+            result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+            return result
 
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") > 1:
             reducing = self.compare_shehai_number()
@@ -623,13 +663,13 @@ class Liuren():
                     return result
         
         elif self.compare_shehai_number() == ["不適用，或試他法"] and self.find_sike_relations()[9] == '天地盤返吟':
-            if self.find_sike_relations()[7][1] == 1:
+            if len([self.find_sike_relations()[7][1]]) == 1:
                 chuchuan = self.find_sike_relations()[1][1][0]
                 result = ["返吟", "無依",  self.find_three_pass(chuchuan[0])] 
-            elif self.find_sike_relations()[7][1] == 2:
+            elif len(self.find_sike_relations()[7][1]) == 2:
                 chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(self.Max(self.find_sike_relations()[7][1]))]
                 result = ["返吟", "無依",  self.find_three_pass(chuchuan[0])] 
-            elif self.find_sike_relations()[7][1] >= 3:
+            elif len(self.find_sike_relations()[7][1]) >= 3:
                 chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][4].index("True")]
                 result = ["返吟", "無依",   self.find_three_pass(chuchuan[0])] 
             return result
@@ -643,16 +683,51 @@ class Liuren():
             elif shangke.count("上尅下") == 0 and shangke.count("下賊上") == 0:
                 result = "不適用，或試他法"
                 return result
-    
+
             elif shangke.count("上尅下") >= 0 and shangke.count("下賊上") == 1:
                 result = "不適用，或試他法"
                 return result
             
-            elif shangke.count("上尅下") >= 2 and shangke.count("下賊上") == 0:
-                if len(reducing[0]) == 1:
-                    result = ["涉害", "涉害", self.find_three_pass(reducing[0])]
+            elif shangke.count("上尅下") == 2 and shangke.count("下賊上") == 0:
+                if len(reducing[0]) > 1: 
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
                     return result
-    
+            
+            elif shangke.count("上尅下") == 4 and shangke.count("下賊上") == 0:
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                return result
+
+            elif shangke.count("上尅下") > 2 and shangke.count("下賊上") == 0:
+                if len(reducing[0]) == 1:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                    return result
+                
+                elif len(reducing[0]) > 1 and self.find_sike_relations()[2].count("尅") == 1:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[1][self.find_sike_relations()[2].index("尅")][0])]
+                    return result
+                
+                elif len(reducing[0]) > 1 and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅")==1:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[1][self.find_sike_relations()[2].index("被尅")][0])]
+                    return result
+
+                elif len(reducing[0]) > 1 and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") >1:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[1][self.find_sike_relations()[2].index("被尅")][0])]
+                    return result
+
+                elif  len(reducing[0]) > 1 and self.find_sike_relations()[2].count("尅") >= 2:
+                    if self.find_sike_relations()[7][4].count('True') == 1 and self.find_sike_relations()[7][4].count('False')>1:
+                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[1][self.find_sike_relations()[7][4].index("True")][0])]
+                        return result
+                    elif self.find_sike_relations()[7][4].count('True') > 1 and self.find_sike_relations()[7][4].count('False') ==1:
+                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[1][self.find_sike_relations()[7][4].index("False")][0])]
+                        return result
+                    elif self.find_sike_relations()[7][4].count('True') == 0:
+                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                        return result
+                    elif self.find_sike_relations()[7][4].count('False') == 0:
+                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                        return result
+
                 elif reducing[0] == "不適用，或試他法":
                     tail = [self.find_sike_relations()[7][2][i][1] for i in range(0, len(self.find_sike_relations()[7][2]))]
                     if tail[0] == self.daygangzhi[0]:
@@ -662,7 +737,7 @@ class Liuren():
                         
                     elif tail[1] == self.daygangzhi[0]:
                         chuchuan = self.find_sike_relations()[7][2][1][0]
-                        result = ["涉害", "涉害", self.find_three_pass()]
+                        result = ["涉害", "涉害", self.find_three_pass(chuchuan)]
                         return result
                         
                 elif reducing[0] == "找孟仲季地":
@@ -703,8 +778,7 @@ class Liuren():
                     result = ["涉害", name, self.find_three_pass(chuchuan)] 
                     return result
               
-       
-        
+
         elif shangke.count("下賊上") >= 3:
             reducing = self.compare_shehai_number()
             if len(reducing[0]) == 1:
@@ -988,8 +1062,21 @@ class Liuren():
     
                     chuchuan = ["伏吟", "自信", [self.daygangzhi[1], self.ying.get(self.daygangzhi[1]), self.chong2.get(self.daygangzhi[1])]]
                     return chuchuan
+ 
 
-    
+    #丁馬    
+    def dinhorse(self):
+        dinhorsedict = {"甲子":"卯", "甲戌":"丑", "甲申":"亥", "甲午":"酉", "甲辰":"未", "甲寅":"巳"}
+        liujiashun_dict = {tuple(self.jiazi()[0:10]):'甲子', tuple(self.jiazi()[10:20]):"甲戌", tuple(self.jiazi()[20:30]):"甲申", tuple(self.jiazi()[30:40]):"甲午", tuple(self.jiazi()[40:50]):"甲辰",  tuple(self.jiazi()[50:60]):"甲寅"  }
+        shun =  self.multi_key_dict_get(liujiashun_dict, self.daygangzhi)
+        return self.multi_key_dict_get(dinhorsedict, shun)
+
+    #月馬
+    def moonhorse(self):
+        moonhorsedict = {tuple(list("寅申")):"午", tuple(list("卯酉")):"申", tuple(list("辰戌")):"戌", tuple(list("巳亥")):"子", tuple(list("午子")):"寅", tuple(list("丑未")):"辰"}
+        return self.multi_key_dict_get(moonhorsedict, self.daygangzhi[1])
+
+
     def guiren_starting_gangzhi(self, num):        
         guiren_dict = {"甲":{"晝":"未", "夜":"丑"}, tuple(list("戊庚")):{"晝":"丑", "夜":"未"}, "丙":{"晝":"酉", "夜":"亥"}, "丁":{"晝":"亥", "夜":"酉"}, "壬":{"晝":"卯", "夜":"巳"}, "癸":{"晝":"巳", "夜":"卯"}, "乙":{"晝":"申", "夜":"子"}, "己":{"晝":"子", "夜":"申"}, "辛":{"晝":"寅", "夜":"午"} }
         guiren_dict2 = { tuple(list("甲戊庚")):{"晝":"丑", "夜":"未"}, tuple(list("乙己")):{"晝":"子", "夜":"申"}, tuple(list("丙丁")):{"晝":"亥", "夜":"酉"}, tuple(list("壬癸")):{"晝":"巳", "夜":"卯"}, "辛":{"晝":"午", "夜":"寅"}}
@@ -1029,7 +1116,7 @@ class Liuren():
         	}
         }
         return result_dict.get(yinyang).get(find_day_or_night).get(clock_anti_clock)
-    
+   
     def result(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
         nouse = ["不適用，或試他法" ]
@@ -1050,79 +1137,11 @@ class Liuren():
         sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
         sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
         dyima = self.multi_key_dict_get(self.yimadict, self.daygangzhi[1])
-        starpan = dict(zip(self.new_zhi_list("巳"), [self.multi_key_dict_get(self.hoursu, self.daygangzhi[0]).get(i) for i in self.new_zhi_list("巳")]))
-        return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general, "廿八宿":starpan}
-    
+        return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-    def result_m(self, num):
-        answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
-        nouse = ["不適用，或試他法" ]
-        ju_three_pass = [i for i in answer if i not in nouse]
-        sky_earth = self.sky_n_earth_list()
-        sky = list(sky_earth.values())
-        earth = list(sky_earth.keys())
-        guiren_order_list_2 = self.guiren_order_list(num)
-        guiren_order_list_3 = [guiren_order_list_2.get(i) for i in sky]
-        earth_to_general = dict(zip(earth, guiren_order_list_3))
-        sky_earth_guiren_dict = {"天盤":sky, "地盤":earth, "天將":guiren_order_list_3}
-        ju = [ju_three_pass[0][0], ju_three_pass[0][1]]
-        three_pass_zhi = ju_three_pass[0][2]
-        three_pass_generals = [guiren_order_list_2.get(i) for i in three_pass_zhi]
-        day_gz_vs_three_pass = [  self.liuqing_dict.get(self.multi_key_dict_get(self.wuxing_relation_2,self.Ganzhiwuxing(self.hourgangzhi[0])+self.Ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
-        three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0], self.shunkong(self.hourgangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1], self.shunkong(self.hourgangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2], self.shunkong(self.hourgangzhi,three_pass_zhi[2])]}
-        sike_zhi = self.all_sike()
-        sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
-        sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
-        dyima = self.multi_key_dict_get(self.yimadict, self.hourgangzhi[1])
-        starpan = dict(zip(self.new_zhi_list("巳"), [self.multi_key_dict_get(self.hoursu, self.hourgangzhi[0]).get(i) for i in self.new_zhi_list("巳")]))
-        return {"節氣":self.jieqi, "日期":self.daygangzhi+"時"+self.hourgangzhi+"分", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general, "廿八宿":starpan}
-
-    def result_html(self, num):
-        earth = self.result(num).get('地盤')
-        sky = list(self.result(num).get('地轉天盤').values())
-        general = list(self.result(num).get('地轉天將').values())
-        Sky = self.result(num).get('地轉天盤')
-        General = self.result(num).get('地轉天將')
-        su =  self.result(num).get("廿八宿")
-        Su = [ self.result(num).get("廿八宿").get(b) for b  in self.new_list(self.Zhi, "巳")[0:4]]
-        Sky1 = [ self.result(num).get('地轉天盤').get(b) for b  in self.new_list(self.Zhi, "巳")[0:4]]
-        General1 =  [ self.result(num).get('地轉天將').get(b) for b  in self.new_list(self.Zhi, "巳")[0:4]]
-        Su2 = [ self.result(num).get("廿八宿").get(b) for b  in list("寅丑子亥")]
-        Sky2 = [ self.result(num).get('地轉天盤').get(b) for b  in list("寅丑子亥")]
-        General2 =  [ self.result(num).get('地轉天將').get(b) for b in list("寅丑子亥")]
-        threepasses = list(self.result(num).get("三傳").values())
-        fourke =  list(self.result(num).get("四課").values())
-        layer_one = ''' <div class="container"><table border="0" align="center"><tr>'''+"".join(['''<td align="right">'''+"".join(['''{}<br>'''.format(i[j]) for i in threepasses])+"</td>" for j in range(0,len(threepasses))])+ '''<td align="right">'''+ "".join(['''{}<br>'''.format(g) for g in [i[3] for i in threepasses]]) + "</td></tr><tr>&emsp;</tr><tr>&emsp;</tr></table>"
-        layer_two =  '''<table border="0" align="center"><tr>'''+"".join(['''<td align="right">{} <br>'''.format([a[1] for a in fourke][g]) + '''{} <br>'''.format([b[0][0] for b in fourke] [g])+ '''{} <br>'''.format([c[0][1] for c in fourke][g])+"</td>"   for g in range(0,4)])+"</tr><tr>&emsp;</tr><tr>&emsp;</tr><tr>&emsp;</tr></table></div><br>"
-        layer_three = '''<div style="width:100%"><table border="0" align="center"><tr>'''+"".join(['''<td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(Su[i])])+'''{}<br>'''.format(General1[i]) + '''{}<br>'''.format(Sky1[i])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:bottom" align="left">'''+"".join([ '''{}<br>'''.format(k) for k in list(su.get("申"))]) + '''{}<br>'''.format(General.get("申")) + '''{}<br>'''.format(Sky.get("申"))+"</td>"
-        layer_four = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("辰"))])+'''{}'''.format(General.get("辰")) + '''{}'''.format(Sky.get("辰"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("酉")) + '''{}'''.format(General.get("酉"))+"".join([ '''{}'''.format(k) for k in list(su.get("酉"))])+"</td></tr>"
-        layer_five = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("卯"))])+'''{}'''.format(General.get("卯")) + '''{}'''.format(Sky.get("卯"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("戌")) + '''{}'''.format(General.get("戌"))+"".join([ '''{}'''.format(k) for k in list(su.get("戌"))])+"</td></tr>"
-        layer_six = "<tr>"+"".join(['''<td style="vertical-align:top" align="right">'''+'''{}<br>'''.format(Sky2[i]) + '''{}<br>'''.format(General2[i])+"".join([ '''{}<br>'''.format(k) for k in list(Su2[i])])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:top" align="left">'''+'''{}<br>'''.format(Sky.get("亥"))+'''{}<br>'''.format(General.get("亥"))+"".join([ '''{}<br>'''.format(k) for k in list(su.get("亥"))]) +"</td></tr></table></div>"
-        return layer_one+layer_two+layer_three+layer_four+layer_five+layer_six
-
-    def resultm_html(self, num):
-        earth = self.result_m(num).get('地盤')
-        sky = list(self.result_m(num).get('地轉天盤').values())
-        general = list(self.result_m(num).get('地轉天將').values())
-        Sky = self.result_m(num).get('地轉天盤')
-        General = self.result_m(num).get('地轉天將')
-        su =  self.result_m(num).get("廿八宿")
-        Su = [ self.result_m(num).get("廿八宿").get(b) for b  in self.new_list(self.Zhi, "巳")[0:4]]
-        Sky1 = [ self.result_m(num).get('地轉天盤').get(b) for b  in self.new_list(self.Zhi, "巳")[0:4]]
-        General1 =  [ self.result_m(num).get('地轉天將').get(b) for b  in self.new_list(self.Zhi, "巳")[0:4]]
-        Su2 = [ self.result_m(num).get("廿八宿").get(b) for b  in list("寅丑子亥")]
-        Sky2 = [ self.result_m(num).get('地轉天盤').get(b) for b  in list("寅丑子亥")]
-        General2 =  [ self.result_m(num).get('地轉天將').get(b) for b in list("寅丑子亥")]
-        threepasses = list(self.result_m(num).get("三傳").values())
-        fourke =  list(self.result_m(num).get("四課").values())
-        layer_one = ''' <div class="container"><table border="0" align="center"><tr>'''+"".join(['''<td align="right">'''+"".join(['''{}<br>'''.format(i[j]) for i in threepasses])+"</td>" for j in range(0,len(threepasses))])+ '''<td align="right">'''+ "".join(['''{}<br>'''.format(g) for g in [i[3] for i in threepasses]]) + "</td></tr><tr>&emsp;</tr><tr>&emsp;</tr></table>"
-        layer_two =  '''<table border="0" align="center"><tr>'''+"".join(['''<td align="right">{} <br>'''.format([a[1] for a in fourke][g]) + '''{} <br>'''.format([b[0][0] for b in fourke] [g])+ '''{} <br>'''.format([c[0][1] for c in fourke][g])+"</td>"   for g in range(0,4)])+"</tr><tr>&emsp;</tr><tr>&emsp;</tr><tr>&emsp;</tr></table></div><br>"
-        layer_three = '''<div style="width:100%"><table border="0" align="center"><tr>'''+"".join(['''<td style="vertical-align:bottom" align="right">'''+"".join([ '''{}<br>'''.format(k) for k in list(Su[i])])+'''{}<br>'''.format(General1[i]) + '''{}<br>'''.format(Sky1[i])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:bottom" align="left">'''+"".join([ '''{}<br>'''.format(k) for k in list(su.get("申"))]) + '''{}<br>'''.format(General.get("申")) + '''{}<br>'''.format(Sky.get("申"))+"</td>"
-        layer_four = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("辰"))])+'''{}'''.format(General.get("辰")) + '''{}'''.format(Sky.get("辰"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("酉")) + '''{}'''.format(General.get("酉"))+"".join([ '''{}'''.format(k) for k in list(su.get("酉"))])+"</td></tr>"
-        layer_five = '''<tr><td style="vertical-align:bottom" align="right">'''+"".join([ '''{}'''.format(k) for k in list(su.get("卯"))])+'''{}'''.format(General.get("卯")) + '''{}'''.format(Sky.get("卯"))+"</td><td>&emsp;</td><td>&emsp;</td>" +  '''<td style="vertical-align:bottom" align="left">'''+'''{}'''.format(Sky.get("戌")) + '''{}'''.format(General.get("戌"))+"".join([ '''{}'''.format(k) for k in list(su.get("戌"))])+"</td></tr>"
-        layer_six = "<tr>"+"".join(['''<td style="vertical-align:top" align="right">'''+'''{}<br>'''.format(Sky2[i]) + '''{}<br>'''.format(General2[i])+"".join([ '''{}<br>'''.format(k) for k in list(Su2[i])])+"</td>" for i in range(0,3)])+'''<td style="vertical-align:top" align="left">'''+'''{}<br>'''.format(Sky.get("亥"))+'''{}<br>'''.format(General.get("亥"))+"".join([ '''{}<br>'''.format(k) for k in list(su.get("亥"))]) +"</td></tr></table></div>"
-        return layer_three+layer_four+layer_five+layer_six
 
 
 if __name__ == '__main__':
-	print(Liuren("立冬","乙卯","丁亥").result(0))
+	#find_sike_relations
+    print(Liuren("夏至","壬午","丁未").result_month(0))
+
