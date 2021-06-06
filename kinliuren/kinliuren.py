@@ -317,6 +317,13 @@ class Liuren():
         return [firstpass, secondpass, thirdpass]
 
     def zeike(self):
+        def unique(list1): 
+            unique_list = [] 
+            for x in list1: 
+                if x not in unique_list: 
+                    unique_list.append(x) 
+                return x
+        
         sike = self.all_sike()
         sike_list = self.find_sike_relations()
         #沒有上尅下或下賊上
@@ -331,8 +338,12 @@ class Liuren():
             findtrue =  "不適用，或試他法" 
             return findtrue
         elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] > 1 and sike_list[2].count("尅") == 1:
-            findtrue =  ["賊尅","重審"]
             return ["賊尅","重審", self.find_three_pass(sike_list[7][2][sike_list[2].index("尅")][0])]
+        elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] > 1 and sike_list[2].count("尅") == 0 and sike_list[2].count("被尅") == 1:
+            return ["賊尅","重審", self.find_three_pass(sike_list[7][2][sike_list[2].index("被尅")][0])]
+        elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] > 1 and sike_list[2].count("尅") == 0 and sike_list[2].count("被尅") > 1:
+            a = sike_list[7][2][sike_list[2].index("被尅")][0]
+            return ["賊尅","重審", self.find_three_pass(a)]
         elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] == 1  and sike_list[9] == '天地盤沒有返吟':
             findtrue =  ["賊尅","重審", self.find_three_pass(sike_list[7][2][0][0])]
             return findtrue
@@ -1144,9 +1155,7 @@ class Liuren():
         dyima = self.multi_key_dict_get(self.yimadict, self.daygangzhi[1])
         return {"節氣":self.jieqi, "日期":self.daygangzhi+"日"+self.hourgangzhi+"時", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-
-
 if __name__ == '__main__':
 	#find_sike_relations
-    print(Liuren("芒種","癸卯","丙辰").result(0))
+    print(Liuren("小寒","甲寅","丙寅").result(0))
 
