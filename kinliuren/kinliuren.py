@@ -78,7 +78,7 @@ class Liuren():
         liujiashun_dict = {tuple(self.jiazi()[0:10]):'甲子', tuple(self.jiazi()[10:20]):"甲戌", tuple(self.jiazi()[20:30]):"甲申", tuple(self.jiazi()[30:40]):"甲午", tuple(self.jiazi()[40:50]):"甲辰",  tuple(self.jiazi()[50:60]):"甲寅"  }
         dayshun = self.multi_key_dict_get(liujiashun_dict, daygangzhi)
         findshun = {'甲子':{'子':'甲', '丑':'乙', '寅':'丙', '卯':'丁', '辰':'戊', '巳':'己', '午':'庚', '未':'辛', '申':'壬',  '酉':'癸', '戌':'空', '亥':'空'}, '甲戌': {'子':'丙', '丑':'丁', '寅':'戊', '卯':'己', '辰':'庚', '巳':'辛', '午':'壬', '未':'癸', '申':'空',  '酉':'空', '戌':'甲', '亥':'乙'},  '甲申': {'子':'戊', '丑':'己', '寅':'庚', '卯':'辛', '辰':'壬', '巳':'癸', '午':'空', '未':'空', '申':'甲',  '酉':'乙', '戌':'丙', '亥':'丁'}, '甲午': {'子':'庚', '丑':'辛', '寅':'壬', '卯':'癸', '辰':'空', '巳':'空', '午':'甲', '未':'乙', '申':'丙',  '酉':'丁', '戌':'戊', '亥':'己'},  '甲辰': {'子':'壬', '丑':'癸', '寅':'空', '卯':'空', '辰':'甲', '巳':'乙', '午':'丙', '未':'丁', '申':'戊',  '酉':'己', '戌':'庚', '亥':'辛'},  '甲寅': {'子':'空', '丑':'空', '寅':'甲', '卯':'乙', '辰':'丙', '巳':'丁', '午':'戊', '未':'己', '申':'庚',  '酉':'辛', '戌':'壬', '亥':'癸'}}
-        return self.multi_key_dict_get(findshun,dayshun).get(zhi)
+        return self. multi_key_dict_get(findshun,dayshun).get(zhi)
     
     def Ganzhiwuxing(self, gangorzhi):
         ganzhiwuxing = {("甲","寅", "乙", "卯"):"木", ("丙", "巳", "丁", "午"):"火",  ("壬", "亥", "癸", "子"):"水", ("庚", "申", "辛", "酉"):"金", ("未", "丑", "戊","己","未", "辰", "戌"):"土"}
@@ -184,6 +184,8 @@ class Liuren():
             classify = "下賊上"
         elif sike_list.count("下賊上") == 2 and sike_list.count("上尅下") == 1 :
             classify = "下賊上"
+        elif sike_list.count("下賊上") == 4 and sike_list.count("上尅下") == 0 :
+            classify = "下賊上"
         elif sike_list.count("下賊上") == 2 and sike_list.count("上尅下") == 0 :
             classify = "下賊上"
         elif sike_list.count("下賊上") >= 2 and sike_list.count("上尅下") <= 1 :
@@ -255,7 +257,7 @@ class Liuren():
                 b = zeikeshang_list[i][0]
                 blist.append(b)
             check_same = len(set(blist))
-            if check_same == 1:
+            if check_same == 1 or len(set(sike_list)) == 1:
                 findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
@@ -325,9 +327,12 @@ class Liuren():
         elif sike_list[7][0] == "試涉害" or sike_list[7][0] == "試比用":
             findtrue =  "不適用，或試他法" 
             return findtrue
-        elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] > 1:
+        elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] > 1 and sike_list[2].count("尅") > 1:
             findtrue =  "不適用，或試他法" 
             return findtrue
+        elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] > 1 and sike_list[2].count("尅") == 1:
+            findtrue =  ["賊尅","重審"]
+            return ["賊尅","重審", self.find_three_pass(sike_list[7][2][sike_list[2].index("尅")][0])]
         elif sike_list[0].count("下賊上") > 2 and sike_list[7][6] == 1  and sike_list[9] == '天地盤沒有返吟':
             findtrue =  ["賊尅","重審", self.find_three_pass(sike_list[7][2][0][0])]
             return findtrue
@@ -1143,5 +1148,5 @@ class Liuren():
 
 if __name__ == '__main__':
 	#find_sike_relations
-    print(Liuren("夏至","壬午","丁未").result_month(0))
+    print(Liuren("芒種","癸卯","丙辰").result(0))
 
