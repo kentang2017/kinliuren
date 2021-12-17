@@ -3,6 +3,7 @@
 Created on Sun Dec  22 16:22:37 2019
 @author: ken tang
 @email: kinyeah@gmail.com
+@description:  2021年12月中旬，優化編碼內容
 """
 from collections import Counter
 import re, itertools
@@ -20,7 +21,7 @@ class Liuren():
         #日馬
         self.yimadict = dict(zip(list(map(lambda x: tuple(x),"戌寅午,酉丑巳,子辰申,亥卯未".split(","))), list("申亥寅巳")))
         #生尅六親
-        self.liuqing_dict = dict(zip("被生,生,尅,比和,被尅".split(","),re.findall("..", "父母子孫妻財兄弟官鬼")))
+        self.liuqing_dict = dict(zip("被生,生,尅,比和,被尅".split(","),re.findall("..", "父母子孫財妻兄弟官鬼")))
         self.wuxing = "火水金火木金水土土木,水火火金金木土水木土,火火金金木木土土水水,火木水金木水土火金土,木火金水水木火土土金"
         self.wuxing_relation_2 = dict(zip(list(map(lambda x: tuple(re.findall("..",x)), self.wuxing.split(","))), "被尅,尅,比和,被生,生".split(",")))
         #干支五行
@@ -385,7 +386,7 @@ class Liuren():
             return findtrue
         
         elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤返吟':
-            findtrue =  ["返吟","無依", [sike[sike_list[0].index("上尅下")][0], self.ying.get(sike[sike_list[0].index("上尅下")][0]), self.chong2.get(sike[sike_list[0].index("上尅下")][0])] ]
+            findtrue =  ["返吟","無依", [self.chong2.get(sike[sike_list[0].index("上尅下")][0]), self.ying.get(sike[sike_list[0].index("上尅下")][0]), self.chong2.get(sike[sike_list[0].index("上尅下")][0])] ]
             return findtrue
 
     def biyung(self):
@@ -458,7 +459,6 @@ class Liuren():
         if self.find_sike_relations()[9] == "天地盤返吟":
             result = ["不適用，或試他法"]
             return result
-       
         elif self.fiter_four_ke() == "不適用，或試他法":
             result = ["不適用，或試他法"]
             return result
@@ -468,8 +468,7 @@ class Liuren():
             if self.shigangjigong.get(t[-1]) == None:
                 t = t
             elif self.shigangjigong.get(t[-1]) is not None:
-                t[-1] = self.shigangjigong.get(t[-1])
-            
+                t[-1] = self.shigangjigong.get(t[-1]) 
             try:
                 for i in range(0,len(a)):
                     for k, v in self.sky_n_earth_list().items():
@@ -499,7 +498,7 @@ class Liuren():
             return result
 
     def convert_munchongji(self):
-        munconji = {tuple("寅申巳亥"):"孟",  tuple("子午卯酉"):"仲", tuple("辰戌丑未"):"季"}
+        munconji = dict(zip(list(map(lambda x: tuple(x),"寅申巳亥,子午卯酉,辰戌丑未".split(","))), list("孟仲季")))
         head = self.compare_shehai_number()[2]
         tail = self.compare_shehai_number()[3]
         head_convert = []
@@ -517,7 +516,7 @@ class Liuren():
         return result
         
     def convert_munchongji_shehai_number(self):
-        munconji = {tuple("寅申巳亥"):"孟",  tuple("子午卯酉"):"仲", tuple("辰戌丑未"):"季"}
+        munconji = dict(zip(list(map(lambda x: tuple(x),"寅申巳亥,子午卯酉,辰戌丑未".split(","))), list("孟仲季")))
         head = [self.shigangjigong.get(i) for i in self.compare_shehai_number()[2]]
         tail = [self.shigangjigong.get(i) for i in self.compare_shehai_number()[3]]
         head_convert = []
@@ -770,8 +769,6 @@ class Liuren():
                     
                     result = ["涉害", name, self.find_three_pass(chuchuan)] 
                     return result
-              
-
         elif shangke.count("下賊上") >= 3:
             reducing = self.compare_shehai_number()
             if len(reducing[0]) == 1:
@@ -780,7 +777,6 @@ class Liuren():
             else: 
                 result = "不適用，或試他法"
             return result
-        
         elif shangke.count("上尅下") == 1 and shangke.count("下賊上") == 3:
             reducing = self.compare_shehai_number()
             if self.find_sike_relations()[7][0] == "試比用":
@@ -790,7 +786,6 @@ class Liuren():
             elif len(reducing[0]) == 1:
                 result = ["涉害","涉害", self.find_three_pass(reducing[0])]
                 return result
-
             elif reducing[0] == "找孟仲季地":
                 convert = self.convert_munchongji_shehai_number()
                 convert_dict = {convert[2][0]+convert[0][0]: convert[3][0]+convert[1][0], convert[2][1]+convert[0][1]: convert[3][1]+convert[1][1] }
@@ -798,7 +793,6 @@ class Liuren():
                 convert_result_v = list(convert_dict.values())
                 convert_result_tail = [i[1] for i in convert_result_k]
                 change_daygangzhi = self.shigangjigong.get(self.daygangzhi[0])
-
                 if convert_result_v[0] == "孟季" or "仲季" or "季季":
                     if convert_result_v[1][1] == "孟":
                         if convert_result_tail[0] or convert_result_tail[1] ==  change_daygangzhi:
@@ -828,7 +822,6 @@ class Liuren():
         elif sike_list.count("下賊上") > 0 or sike_list.count("上尅下") > 0:
             chuchuan = "不適用，或試他法" 
             return chuchuan
-    
         if self.find_sike_relations()[2].count("尅") == 1:
             if self.find_sike_relations()[6] == "反吟":
                 chuchuan = ["返吟", "無親", [self.yima_dict.get(self.hourgangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.shigangjigong.get(self.shigangjigong.get(self.daygangzhi[0])))]]
@@ -909,8 +902,8 @@ class Liuren():
                         chuchuan = "不適用，或試他法" 
                         return chuchuan
                     else:
-                        ganlivezhi = {("甲","寅"):"寅", ("乙","辰"):"辰", ("丙","戊", "巳"):"巳",("丁","己", "未"):"未",("庚","申"):"申", ("辛","戌"):"戌", ("壬", "亥"):"亥", ("癸", "丑"):"丑"}
-                        chuchuan = ["昴星","冬蛇掩目", [self.earth_n_sky_list().get("酉"), self.sky_n_earth_list().get(self.multi_key_dict_get(ganlivezhi, self.daygangzhi[0])), self.all_sike()[1][0]]]
+                        ganlivezhi = self.shigangjigong
+                        chuchuan = ["昴星","冬蛇掩目", [self.earth_n_sky_list().get("酉"), self.sky_n_earth_list().get(ganlivezhi.get(self.daygangzhi[0])), self.all_sike()[1][0]]]
                         return chuchuan
         else:
             chuchuan = "不適用，或試他法"  
@@ -932,7 +925,7 @@ class Liuren():
         elif sike_list.count("下賊上") == 0 and sike_list.count("上尅下") == 0 :
             if dayganzhi_yy == "陽":
                 #寄干藏支
-                sky_ganhe = {"甲":"巳", "乙":"庚", "丙":"辛", "丁":"壬", "戊":"癸"}
+                sky_ganhe = dict(zip(self.Gan[0:5], self.Gan[5:10]))
                 ganhe_result1 = self.shigangjigong.get(sky_ganhe.get(self.daygangzhi[0]))
                 
                 if self.find_sike_relations()[6] == "反吟八專":
@@ -945,7 +938,8 @@ class Liuren():
                     chuchuan = ["別責", "別責", [self.sky_n_earth_list().get(ganhe_result1), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0])),  self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
                     return chuchuan
             if dayganzhi_yy == "陰":
-                earth_zhihe = {tuple(list("巳酉丑")):"巳酉丑", tuple(list("寅午戌")):"寅午戌", tuple(list("亥卯未")):"亥卯未", tuple(list("申子辰")):"申子辰"}
+                sep = "巳酉丑,寅午戌,亥卯未,申子辰".split(",")
+                earth_zhihe = dict(zip(list(map(lambda x: tuple(x), sep)), sep))
                 result = self.multi_key_dict_get(earth_zhihe, self.daygangzhi[1])
                 position = result.index(self.daygangzhi[1])
                 if position == 0:
@@ -1087,32 +1081,42 @@ class Liuren():
         find_day_or_night = self.multi_key_dict_get(self.daynight_richppl_dict, self.hourgangzhi[1])
         starting_gangzhi = self.guiren_starting_gangzhi(num)
         rotation = {tuple(list("巳午未酉戌辰卯")): "逆佈",  tuple(list("亥子丑寅申")):"順佈"}
+        #返吟
+        answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
+        nouse = ["不適用，或試他法" ]
+        ju_three_pass = [i for i in answer if i not in nouse]
+        ju = ju_three_pass[0][0]
+        if ju == "返吟":
+            pai_gui = self.new_list(list(reversed(self.sky_generals)), "貴")
+        elif ju != "返吟":
+            pai_gui = self.new_list(self.sky_generals, "貴")
         clock_anti_clock = self.multi_key_dict_get(rotation, self.hourgangzhi[1])
         yinyang = self.gangzhi_yinyang(self.daygangzhi[0])
         new_zhi_list_guiren = self.new_zhi_list(starting_gangzhi)
         result_dict = {
         "陰":{
         	"晝":{
-        		"順佈": dict(zip(new_zhi_list_guiren, self.new_list(self.sky_generals, "貴"))),
+        		"順佈": dict(zip(new_zhi_list_guiren, pai_gui)),
         		"逆佈": dict(zip(self.new_list(new_zhi_list_guiren,starting_gangzhi), self.new_list(list(reversed(self.sky_generals)), "貴")))
         			},
         	"夜":{
-        		"順佈": dict(zip(new_zhi_list_guiren, self.new_list(self.sky_generals, "貴"))),
+        		"順佈": dict(zip(new_zhi_list_guiren, pai_gui)),
         		"逆佈": dict(zip(self.new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), self.new_list(self.sky_generals, "貴")))
         		}
         	},
         "陽":{
         	"晝":{
-        		"順佈": dict(zip(new_zhi_list_guiren, self.new_list(self.sky_generals, "貴"))),
+        		"順佈": dict(zip(new_zhi_list_guiren, pai_gui)),
         		"逆佈": dict(zip(self.new_list(new_zhi_list_guiren,starting_gangzhi), self.new_list(list(reversed(self.sky_generals)), "貴")))
         			},
         	"夜":{
-        		"順佈": dict(zip(self.new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), self.new_list(list(reversed(self.sky_generals)), "貴"))),
+        		"順佈": dict(zip(self.new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), pai_gui)),
         		"逆佈": dict(zip(self.new_list(new_zhi_list_guiren, starting_gangzhi), self.new_list(list(reversed(self.sky_generals)), "貴")))
         		}
         	}
         }
         return result_dict.get(yinyang).get(find_day_or_night).get(clock_anti_clock)
+        
     
     def result_month(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
@@ -1164,5 +1168,5 @@ class Liuren():
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     
-    print(Liuren("立秋","戊子","癸亥").result(0))
+    print(Liuren("大雪","辛丑","丙申").guiren_order_list(0))
 
