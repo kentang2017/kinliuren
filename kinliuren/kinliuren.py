@@ -1032,12 +1032,15 @@ class Liuren():
         find_day_or_night = self.multi_key_dict_get(self.daynight_richppl_dict, self.hourgangzhi[1])
         return get_day.get(find_day_or_night)
     
+    def guiren_start_earth(self, num):
+        sky = self.earth_n_sky_list()
+        return sky.get(self.guiren_starting_gangzhi(num))
+    
     def guiren_order_list(self, num):
-        #sky_generals_list = [sky_generals[i:i+2] for i in range(0, len(sky_generals), 2)]
-        find_day_or_night = self.multi_key_dict_get(self.daynight_richppl_dict, self.hourgangzhi[1])
         starting_gangzhi = self.guiren_starting_gangzhi(num)
         rotation = dict(zip(list(map(lambda x: tuple(x), [list(i) for i in "巳午未申酉戌,亥子丑寅卯辰".split(",")])), "逆佈,順佈".split(",")))
-        #返吟
+        new_zhi_list_guiren = self.new_zhi_list(starting_gangzhi)
+        guiren = self.guiren_start_earth(num) 
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
         nouse = ["不適用，或試他法" ]
         ju_three_pass = [i for i in answer if i not in nouse]
@@ -1046,32 +1049,11 @@ class Liuren():
             pai_gui = self.new_list(list(reversed(self.sky_generals)), "貴")
         elif ju != "返吟":
             pai_gui = self.new_list(self.sky_generals, "貴")
-        clock_anti_clock = self.multi_key_dict_get(rotation, self.hourgangzhi[1])
-        yinyang = self.gangzhi_yinyang(self.daygangzhi[0])
-        new_zhi_list_guiren = self.new_zhi_list(starting_gangzhi)
-        result_dict = {
-        "陰":{
-        	"晝":{
-        		"順佈": dict(zip(new_zhi_list_guiren, pai_gui)),
-        		"逆佈": dict(zip(self.new_list(new_zhi_list_guiren,starting_gangzhi), self.new_list(list(reversed(self.sky_generals)), "貴")))
-        			},
-        	"夜":{
-        		"順佈": dict(zip(new_zhi_list_guiren, pai_gui)),
-        		"逆佈": dict(zip(self.new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), self.new_list(self.sky_generals, "貴")))
-        		}
-        	},
-        "陽":{
-        	"晝":{
-        		"順佈": dict(zip(new_zhi_list_guiren, pai_gui)),
-        		"逆佈": dict(zip(self.new_list(new_zhi_list_guiren,starting_gangzhi), self.new_list(list(reversed(self.sky_generals)), "貴")))
-        			},
-        	"夜":{
-        		"順佈": dict(zip(self.new_list(list(reversed(new_zhi_list_guiren)), starting_gangzhi), pai_gui)),
-        		"逆佈": dict(zip(self.new_list(new_zhi_list_guiren, starting_gangzhi), self.new_list(list(reversed(self.sky_generals)), "貴")))
-        		}
-        	}
-        }
-        return result_dict.get(yinyang).get(find_day_or_night).get(clock_anti_clock)
+        rotation_results = self.multi_key_dict_get(rotation, guiren)
+        if rotation_results == "順佈":
+            return dict(zip(new_zhi_list_guiren, pai_gui))
+        elif rotation_results == "逆佈":
+            return dict(zip(new_zhi_list_guiren, self.new_list(list(reversed(self.sky_generals)), "貴")))
         
     def result(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
