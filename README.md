@@ -137,6 +137,7 @@ In the words of a contemporary Chinese master of Da Liu Ren, the six rén indica
 | 清  | 佚名 | 六壬總論 |  |
 | 清  | 佚名 | 六壬集鈐不分卷 |  |
 | 清  | 佚名 | 六壬通仙四卷 |  |
+| 清  | 愈樾 | 遊藝錄六卷 | 載於春在堂全書。  |
 | 清  | 劉克猷 | 六壬捷錄 |  |
 | 清  | 高修纂 | 大六壬明體經 |  |
 | 清  | 雲湖樂道人 | 大六壬神妙要書六卷 | 清末民國初鈔本 |
