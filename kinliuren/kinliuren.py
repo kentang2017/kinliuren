@@ -278,12 +278,8 @@ class Liuren():
                 blist.append(b)
             check_same = len(set(blist))
             if check_same == 1 or len(set(sike_list)) == 1:
-                findtrue = ["試賊尅", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same] #結果, 尅克位置, 課式
-            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")==0:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=1 and nn_list.count("False") >=1: 
-                findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=2 and nn_list.count("False") ==0:
+            elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=0 and nn_list.count("False") >=0:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, self.gangzhi_yinyang(self.daygangzhi[0]), fan_yin
     
@@ -599,7 +595,7 @@ class Liuren():
             return result
         elif shangke.count("比和") == 2 and shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤返吟":
             chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(self.Max(self.find_sike_relations()[7][1]))]
-            result =  ["返吟", "無依", self.find_three_pass(chuchuan[0])] 
+            result =  ["返吟", "無依", self.find_three_pass(chuchuan[0])]
             return result
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤返吟" and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") == 0:
             chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(self.Max(self.find_sike_relations()[7][1]))]
@@ -618,26 +614,62 @@ class Liuren():
             result =  ["返吟", "涉害", self.find_three_pass(chuchuan[0])] 
             return result
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 1:
+            if self.find_sike_relations()[2].count("尅") >= 1 and self.find_sike_relations()[2].count("被尅") == 0:
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                return result 
+            
+            elif self.find_sike_relations()[2].count("被尅") >= 1 and self.find_sike_relations()[2].count("尅") == 0:
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][1])]
+                return result
+            
+            elif self.find_sike_relations()[2].count("被尅") >= 1 and self.find_sike_relations()[2].count("尅") >= 1:
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                return result
+            else:
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][1])]
+                return result
+            
+        elif shangke.count("下賊上") == 3 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 1 and shangke.count("上尅下") == 0:
             sike = self.find_sike_relations()[1]
-            result = ["涉害", "涉害", self.find_three_pass(sike[self.find_sike_relations()[2].index("尅")][0])]
+            if self.find_sike_relations()[2].count("被尅") == 1 and self.find_sike_relations()[2].count("尅") == 1:
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][1][0])]
+                return result
+            elif self.find_sike_relations()[2].count("被尅") == 1 and self.find_sike_relations()[2].count("尅") == 0:
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
+                return result
+            elif self.find_sike_relations()[2].count("被尅") == 0 and self.find_sike_relations()[2].count("尅") == 1:
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
+                return result
+        
+        elif shangke.count("下賊上") == 3 and shangke.count("上尅下") == 1: 
+            result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][2][0])]
             return result
-        elif shangke.count("下賊上") == 3 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 1:
-            sike = self.find_sike_relations()[1]
-            result = ["涉害", "涉害", self.find_three_pass(sike[self.find_sike_relations()[2].index("尅")][0])]
-            return result
+
+            
         elif shangke.count("下賊上") == 3 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("被尅") == 1:
             sike = self.find_sike_relations()[1]
             result = ["涉害", "涉害", self.find_three_pass(sike[self.find_sike_relations()[2].index("被尅")][0])]
             return result
+        
+        
         elif shangke.count("下賊上") == 4:
-            result = ["不適用，或試他法"]
-            return result
+            if self.find_sike_relations()[2].count("被尅") == 1 and self.find_sike_relations()[2].count("尅") == 1:
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
+                return result
+            elif self.find_sike_relations()[2].count("被尅") == 1 and self.find_sike_relations()[2].count("尅") == 0:
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
+                return result
+            elif self.find_sike_relations()[2].count("被尅") == 0 and self.find_sike_relations()[2].count("尅") == 1:
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
+                return result
+            
+            
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") == 1:
             if self.find_sike_relations()[7][1][0] >  self.find_sike_relations()[7][1][1]:
                 result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
                 return result
             elif self.find_sike_relations()[7][1][0] <  self.find_sike_relations()[7][1][1]:
-                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
                 return result
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") == 0:
             result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
@@ -667,7 +699,7 @@ class Liuren():
         elif self.compare_shehai_number() == ["不適用，或試他法"] and self.find_sike_relations()[9] == '天地盤返吟':
             if len([self.find_sike_relations()[7][1]]) == 1:
                 chuchuan = self.find_sike_relations()[1][1][0]
-                result = ["返吟", "無依",  self.find_three_pass(chuchuan[0])] 
+                result = ["返吟", "無依",  self.find_three_pass(self.hourgangzhi[1])] 
             elif len(self.find_sike_relations()[7][1]) == 2:
                 chuchuan = self.find_sike_relations()[7][2][self.find_sike_relations()[7][1].index(self.Max(self.find_sike_relations()[7][1]))]
                 result = ["返吟", "無依",  self.find_three_pass(chuchuan[0])] 
@@ -688,8 +720,24 @@ class Liuren():
                 result = "不適用，或試他法"
                 return result
             elif shangke.count("上尅下") == 2 and shangke.count("下賊上") == 0:
-                if len(reducing[0]) > 1: 
+                if self.find_sike_relations()[2].count("尅") >= 1 and self.find_sike_relations()[2].count("被尅") == 0:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                    return result 
+                
+                elif self.find_sike_relations()[2].count("被尅") > 1 and self.find_sike_relations()[2].count("尅") == 0:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][1])]
+                    return result
+                
+                elif self.find_sike_relations()[2].count("被尅") == 1 and self.find_sike_relations()[2].count("尅") == 0:
                     result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                    return result
+                
+                elif self.find_sike_relations()[2].count("被尅") == 1 and self.find_sike_relations()[2].count("尅") == 1:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                    return result
+                
+                else:
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][1])]
                     return result
             elif shangke.count("上尅下") == 4 and shangke.count("下賊上") == 0:
                 result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
@@ -718,7 +766,7 @@ class Liuren():
                         result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
                         return result
                     elif self.find_sike_relations()[7][4].count('False') == 0:
-                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][1])]
                         return result
 
                 elif reducing[0] == "不適用，或試他法":
@@ -1179,4 +1227,4 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    print(Liuren("冬至", "十二", "庚申","壬午").result(0))
+    print(Liuren("夏至", "五", "庚戌","己卯").shehai())
