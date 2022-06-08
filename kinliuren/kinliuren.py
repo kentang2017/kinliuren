@@ -1110,7 +1110,7 @@ class Liuren():
     def lightning(self):
         lightningd = dict(zip(self.Zhi, list(itertools.chain.from_iterable(map(lambda x: x*2, list("辰未戌丑寅卯"))))))
         return lightningd.get(self.daygangzhi[1])
-    
+   
     #季煞
     def sha(self, jq, g, z):
         s = self.find_season(jq)
@@ -1125,27 +1125,47 @@ class Liuren():
                 "月馬":self.moonhorse(),
                 "日馬":self.multi_key_dict_get(self.yimadict, z),
                 "丁馬":self.dinhorse(),
+                "天馬":dict(zip(self.Cmonth, list("午申戌子寅辰午申戌子寅辰"))).get(self.cmonth),
+                "驛馬":dict(zip(self.Cmonth, list("申巳寅亥申巳寅亥申巳寅亥"))).get(self.cmonth),
+                "支馬":dict(zip(self.Zhi,    list("寅亥申巳寅亥申巳寅亥申巳"))).get(z),
+                "天龍":dict(zip(self.Cmonth, list("卯辰巳午未申酉戌亥子丑寅"))).get(self.cmonth),
+                "鳳輦":dict(zip(self.Cmonth, list("戌丑辰未戌丑辰未戌丑辰未"))).get(self.cmonth),
+                "福神":dict(zip(self.Cmonth, list("未申酉戌亥子丑寅卯辰巳午"))).get(self.cmonth),
+                "金堂":dict(zip(self.Cmonth, list("辰戌巳亥午子未丑申寅酉卯"))).get(self.cmonth),
+                "天詔":dict(zip(self.Cmonth, list("亥子丑寅卯辰巳午未申酉戌"))).get(self.cmonth),
+                "戰雄":dict(zip(self.Cmonth, list("寅寅寅巳巳巳申申申亥亥亥"))).get(self.cmonth),
+                "天師":dict(zip(self.Cmonth, list("丑寅卯辰巳午未申酉戌亥子"))).get(self.cmonth),
+                "兵福":dict(zip(self.Cmonth, list("寅卯辰巳未午申酉戌亥子丑"))).get(self.cmonth),
+                "道路神":dict(zip(self.Cmonth, list("申酉戌亥子丑寅卯辰巳午未"))).get(self.cmonth),
+                "遊都":dict(zip(self.Gan, list("丑子寅巳申丑子寅巳申"))).get(g),
+                "魯都":dict(zip(self.Gan, list("未午申亥寅未午申亥寅"))).get(g),
+                "福星":dict(zip(self.Gan, list("亥亥寅寅午午巳巳申申"))).get(g),
+                "賢貴":dict(zip(self.Gan, list("丑申寅寅午丑申寅寅午"))).get(g),
                 "日德":dict(zip(self.Gan, list("寅申巳亥巳寅申巳亥巳"))).get(g),
                 "日祿":dict(zip(self.Gan, list("寅卯巳午巳午申酉亥子"))).get(g),
-                "賢貴":dict(zip(self.Gan, list("丑申寅寅午丑申寅寅午"))).get(g),
                 "進神":dict(zip(self.Gan, list("子子子子子卯卯卯卯卯"))).get(g),
                 "進神二":dict(zip(self.Gan, list("午午午午午酉酉酉酉酉"))).get(g),
                 "五合":dict(zip(self.Gan, list("未申戌亥丑寅辰巳未巳"))).get(g),
                 "支德":dict(zip(self.Zhi, self.new_list(list(reversed(self.Zhi)), "丑"))).get(z),
+                "天機":dict(zip(self.Zhi, list("酉戌亥子丑寅卯辰巳午未申"))).get(z),
                 "將星":dict(zip(self.Zhi, list("子酉午卯子酉午卯子酉午卯"))).get(z),
                 "六合":dict(zip(self.Zhi, list("丑子亥戌酉申未午巳辰卯寅"))).get(z),
-                "天馬":dict(zip(self.Cmonth, list("午申戌子寅辰午申戌子寅辰"))).get(self.cmonth),
                 "聖心":dict(zip(self.Cmonth, list("亥巳子午丑未寅申卯酉辰戌"))).get(self.cmonth),
                 "天恩":dict(zip(self.Cmonth, list("未酉亥丑卯巳未酉亥丑卯巳"))).get(self.cmonth),
                 "天財":dict(zip(self.Cmonth, list("辰午申戌子寅辰午申戌子寅"))).get(self.cmonth),
+                "天富":dict(zip(self.Cmonth, list("辰巳午未申酉戌亥子丑寅卯"))).get(self.cmonth),
+                "五富":dict(zip(self.Cmonth, list("亥寅巳申亥寅巳申亥寅巳申"))).get(self.cmonth),
+                "天目":dict(zip(self.Cmonth, list("卯卯卯午午午酉酉酉子子子"))).get(self.cmonth),
+                "天書":dict(zip(self.Cmonth, list("戌亥子丑寅卯辰巳午未申酉"))).get(self.cmonth),
+                "進爵":dict(zip(self.Cmonth, list("申亥巳申亥巳申亥巳申亥巳"))).get(self.cmonth),
                 "飛廉":dict(zip(self.Cmonth, list("戌巳午未寅卯辰亥子丑申酉"))).get(self.cmonth),
                 "會神":dict(zip(self.Cmonth, list("未戌寅亥酉子丑午巳卯申辰"))).get(self.cmonth),
+                "信神":dict(zip(self.Cmonth, list("申戌寅丑亥辰巳未巳未申戌"))).get(self.cmonth),
                 "成神":dict(zip(self.Cmonth, list("巳申亥寅巳申亥寅巳申亥寅"))).get(self.cmonth),
                 "生氣":dict(zip(self.Cmonth, self.Zhi)).get(self.cmonth),
                 "月合":dict(zip(self.Cmonth, list(reversed(self.Zhi)))).get(self.cmonth),
                 "閃電":self.lightning(),             
                 }
-
     #排貴人起點
     def guiren_starting_gangzhi(self, num):        
         guiren_dict = dict(zip(list(map(lambda x: tuple(x), list("甲,戊庚,丙,丁,壬,癸,乙,己,辛".split(",")))), list(map(lambda x: dict(zip(list("晝夜"), x)) ,"未丑,丑未,酉亥,亥酉,卯巳,巳卯,申子,子申,寅午".split(",")))))
