@@ -43,7 +43,7 @@ with pan:
     ltext = kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
     output2 = st.empty()
     with st_capture(output2.code):
-        print(ltext.get("干支"))
+        print(ltext.get("日期"))
         print("　　　{} | 節氣:{} | {}課 \n".format(ltext.get("日期"),ltext.get("節氣"), ltext.get("格局")[0]))
         print("　　　{}".format("".join(ltext.get("三傳").get("初傳"))))
         print("　　　{}".format("".join(ltext.get("三傳").get("中傳"))))
