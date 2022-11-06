@@ -2,6 +2,7 @@ import streamlit as st
 import pendulum as pdlm
 from contextlib import contextmanager, redirect_stdout
 from sxtwl import fromSolar
+from io import StringIO
 import streamlit.components.v1 as components
 from kinliuren import kinliuren
 from kinqimen import kinqimen
