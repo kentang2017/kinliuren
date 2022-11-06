@@ -3,7 +3,7 @@ import pendulum as pdlm
 from contextlib import contextmanager, redirect_stdout
 from sxtwl import fromSolar
 import streamlit.components.v1 as components
-import kinliuren
+from kinliuren import kinliuren
 from kinqimen import kinqimen
 
 @contextmanager
