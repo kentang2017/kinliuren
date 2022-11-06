@@ -4,7 +4,7 @@ from contextlib import contextmanager, redirect_stdout
 from sxtwl import fromSolar
 import streamlit.components.v1 as components
 import kinliuren
-import kinqimen
+from kinqimen import kinqimen
 
 @contextmanager
 def st_capture(output_func):
