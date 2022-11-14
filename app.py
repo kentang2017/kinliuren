@@ -53,7 +53,7 @@ with pan:
         print("　　　{}".format("".join([ltext.get("地轉天將").get(i) for i in list("巳午未申")])))
         print("　　　{}".format("".join([ltext.get("地轉天盤").get(i) for i in list("巳午未申")])))
         print("　　{}{}　　{}{}".format(ltext.get("地轉天將").get("辰"), ltext.get("地轉天盤").get("辰"), ltext.get("地轉天盤").get("酉"), ltext.get("地轉天將").get("酉")))
-        print("　　{}{}　　{}{}".format(ltext.get("地轉天將").get("卯"), ltext.get("地轉天盤").get("卯"), ltext.get("地轉天盤").get("申"), ltext.get("地轉天將").get("申")))
+        print("　　{}{}　　{}{}".format(ltext.get("地轉天將").get("卯"), ltext.get("地轉天盤").get("卯"), ltext.get("地轉天盤").get("戌"), ltext.get("地轉天將").get("戌")))
         print("　　　{}".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")])))
         print("　　　{}".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")])))
     expander = st.expander("原始碼")
