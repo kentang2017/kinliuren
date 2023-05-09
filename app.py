@@ -17,7 +17,15 @@ def st_capture(output_func):
             return ret
         stdout.write = new_write
         yield
-       
+
+def get_file_content_as_string(path):
+
+    url = 'https://raw.githubusercontent.com/kentang2017/kinliuren/master/' + path
+
+    response = urllib.request.urlopen(url)
+
+    return response.read().decode("utf-8")
+
 def lunar_date_d(y, m, d):
     day = fromSolar(y,m,d)
     return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
