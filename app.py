@@ -34,7 +34,11 @@ with st.sidebar:
     d = int(p[2])
     h = int(pp[0])
     min = int(pp[1])
-   
+
+with guji:
+    st.header('古籍')
+    st.markdown(get_file_content_as_string("guji.md"))
+  
 with pan:
     st.header('六壬排盘')
     cm =  dict(zip(list(range(1,13)), list("正二三四五六七八九十")+["十一","十二"])).get(int(lunar_date_d(y, m, d).get("月").replace("月", "")))
