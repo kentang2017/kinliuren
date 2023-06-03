@@ -51,7 +51,7 @@ with links:
     st.markdown(get_file_content_as_string("update.md"))
   
 with pan:
-    st.header('六壬排盘')
+    st.header('堅六壬')
     cm =  dict(zip(list(range(1,13)), list("正二三四五六七八九十")+["十一","十二"])).get(int(lunar_date_d(y, m, d).get("月").replace("月", "")))
     qgz = kinqimen.Qimen(y,m,d,h).gangzhi()
     jq =  kinqimen.Qimen(y,m,d,h).find_jieqi()
