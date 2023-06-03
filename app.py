@@ -30,7 +30,7 @@ def lunar_date_d(y, m, d):
     return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
         
 st.set_page_config(layout="wide",page_title="堅六壬 - 大六壬排盘")
-pan,example,guji,update = st.tabs([' 排盤 ', ' 案例 ', ' 古籍 ',' 日誌 ' ])
+pan,example,guji,links = st.tabs([' 排盤 ', ' 案例 ', ' 古籍 ',' 連結 ' ])
 with st.sidebar:
     pp_date=st.date_input("日期",pdlm.now(tz='Asia/Shanghai').date())
     pp_time=st.time_input("時間",pdlm.now(tz='Asia/Shanghai').time())
@@ -46,8 +46,8 @@ with guji:
     st.header('古籍')
     st.markdown(get_file_content_as_string("guji.md"))
 
-with update:
-    st.header('日誌')
+with links:
+    st.header('連結')
     st.markdown(get_file_content_as_string("update.md"))
   
 with pan:
