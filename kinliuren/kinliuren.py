@@ -318,7 +318,6 @@ class Liuren():
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, self.gangzhi_yinyang(self.daygangzhi[0]), fan_yin
-           
 
     def sike_dict(self):
         sike = self.all_sike()
@@ -1208,7 +1207,6 @@ class Liuren():
         lightningd = dict(zip(self.Zhi, list(itertools.chain.from_iterable(map(lambda x: x*2, list("辰未戌丑寅卯"))))))
         return lightningd.get(self.daygangzhi[1])
     
-
     #排貴人起點
     def guiren_starting_gangzhi(self, num):        
         guiren_dict = dict(zip(list(map(lambda x: tuple(x), list("甲,戊庚,丙,丁,壬,癸,乙,己,辛".split(",")))), list(map(lambda x: dict(zip(list("晝夜"), x)) ,"未丑,丑未,酉亥,亥酉,卯巳,巳卯,申子,子申,寅午".split(",")))))
