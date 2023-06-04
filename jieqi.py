@@ -103,4 +103,4 @@ def jq(year, month, day, hour):
         return jieqi_name[jieqi_name.index(bf[0])-1]
 
 
-print(jq(2023,6,4,10))
+
