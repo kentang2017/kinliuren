@@ -100,7 +100,7 @@ def jq(year, month, day, hour):
     if ct < bf[1]:
         return bbf[0]
     else:
-        return jieqi_name[jieqi_name.index(bf[0])]
+        return jieqi_name[jieqi_name.index(bf[0])-1]
 
 
 print(jq(2023,6,4,10))
