@@ -8,6 +8,7 @@ from io import StringIO
 import streamlit.components.v1 as components
 from kinliuren import kinliuren
 from kinqimen import kinqimen
+from jieqi import *
 
 @contextmanager
 def st_capture(output_func):
@@ -54,7 +55,7 @@ with pan:
     st.header('堅六壬')
     cm =  dict(zip(list(range(1,13)), list("正二三四五六七八九十")+["十一","十二"])).get(int(lunar_date_d(y, m, d).get("月").replace("月", "")))
     qgz = kinqimen.Qimen(y,m,d,h).gangzhi()
-    jq =  kinqimen.Qimen(y,m,d,h).find_jieqi()
+    jq = jq(y, m, d, h)
     ltext = kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
     output2 = st.empty()
     with st_capture(output2.code):
