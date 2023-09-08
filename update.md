@@ -6,6 +6,7 @@
 3. 堅六壬 https://kinliuren.streamlit.app/
 4. 堅六爻 https://iching.streamlit.app/
 5. 堅皇極 https://wangji.streamlit.app/
+6. 堅太玄 https://kintaixuan.streamlit.app/
 
 如對本系統有任何建議
 可加本人微信gnatnek
