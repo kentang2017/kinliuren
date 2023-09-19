@@ -9,8 +9,14 @@ import re
 from math import pi
 from ephem import Sun, Date, Ecliptic, Equatorial
 import eacal
+from sxtwl import fromSolar
 
+
+jqmc = ["冬至", "小寒", "大寒", "立春", "雨水", "驚蟄", "春分", "清明", "谷雨", "立夏",
+     "小滿", "芒種", "夏至", "小暑", "大暑", "立秋", "處暑","白露", "秋分", "寒露", "霜降", 
+     "立冬", "小雪", "大雪"]
 jieqi_name = re.findall('..', '春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至小寒大寒立春雨水驚蟄')
+c_t = eacal.EACal(zh_t=True)
 
 def multi_key_dict_get(d, k):
     for keys, v in d.items():
@@ -28,6 +34,10 @@ def ecliptic_lon(jd_utc):
 
 def sta(jd_num):
     return int(ecliptic_lon(jd_num)*180.0/pi/15)
+
+def solarterm_iter(jieqi):
+    new_s_list = new_list(jieqi_name, jieqi)
+    return new_s_list
 
 def iteration(jd_num):
     s1_jd=sta(jd_num)
