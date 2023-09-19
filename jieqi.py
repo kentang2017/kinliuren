@@ -10,6 +10,7 @@ from math import pi
 from ephem import Sun, Date, Ecliptic, Equatorial
 import eacal
 from sxtwl import fromSolar
+from datetime import datetime
 
 
 jqmc = ["冬至", "小寒", "大寒", "立春", "雨水", "驚蟄", "春分", "清明", "谷雨", "立夏",
