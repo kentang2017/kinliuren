@@ -407,7 +407,7 @@ class Liuren():
             findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("上尅下")][0])]
             return findtrue
         elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤返吟':
-            findtrue =  ["返吟","無依", [self.chong2.get(sike[sike_list[0].index("上尅下")][0]), self.ying.get(sike[sike_list[0].index("上尅下")][0]), self.chong2.get(sike[sike_list[0].index("上尅下")][0])] ]
+            findtrue =  ["返吟","無依", [self.chong2.get(sike[sike_list[0].index("上尅下")][0]), self.chong2.get(sike[sike_list[0].index("上尅下")][1]), self.chong2.get(sike[sike_list[0].index("上尅下")][0])]]
             return findtrue
 
     def biyung(self):
@@ -1288,15 +1288,15 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "驚蟄"
-    d =  "戊辰"
-    h =  "丙辰"
-    m = "二"
+    j = "白露"
+    d =  "庚辰"
+    h =  "丁亥"
+    m = "八"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).result(0))
     print("    ")
-    print(Liuren(j, m, d, h).shehai())
+    print(Liuren(j, m, d, h).zeike())
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
