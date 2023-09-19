@@ -55,7 +55,7 @@ with pan:
     st.header('堅六壬')
     cm =  dict(zip(list(range(1,13)), list("正二三四五六七八九十")+["十一","十二"])).get(int(lunar_date_d(y, m, d).get("月").replace("月", "")))
     qgz = kinqimen.Qimen(y,m,d,h).gangzhi()
-    jq = jq(y, m, d, h)
+    jq = jq(y, m, d, h, min)
     ltext = kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
     output2 = st.empty()
     with st_capture(output2.code):
