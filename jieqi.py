@@ -92,6 +92,14 @@ def fjqs(year, month, day, hour):
         c.append([jieqi_name[n], Date("{}/{}/{} {}:{}:00.00".format(str(d[0]).zfill(4), str(d[1]).zfill(2), str(d[2]).zfill(2), str(d[3]).zfill(2) , str(d[4]).zfill(2)))])
     return c[0]
 
+def find_jq(year, month, day):
+    dd = fromSolar(year, month, day) 
+    while True:
+        dd = dd.before(1)
+        if dd.hasJieQi():
+            return jqmc[dd.getJieQi()]
+            break
+
 def jq(year, month, day, hour, minute):
     solar_termlist = dict(zip([i[0] for i in c_t.get_annual_solar_terms(year)], [i[2] for i in c_t.get_annual_solar_terms(year)]))
     jq1 = find_jq(year, month, day)
