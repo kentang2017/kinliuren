@@ -1225,14 +1225,7 @@ class Liuren():
         rotation = dict(zip(list(map(lambda x: tuple(x), [list(i) for i in "巳午未申酉戌,亥子丑寅卯辰".split(",")])), "逆佈,順佈".split(",")))
         new_zhi_list_guiren = self.new_zhi_list(starting_gangzhi)
         guiren = self.guiren_start_earth(num) 
-        answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
-        nouse = ["不適用，或試他法" ]
-        ju_three_pass = [i for i in answer if i not in nouse]
-        ju = ju_three_pass[0][0]
-        if ju == "返吟":
-            pai_gui = self.new_list(list(reversed(self.sky_generals)), "貴")
-        elif ju != "返吟":
-            pai_gui = self.new_list(self.sky_generals, "貴")
+        pai_gui = self.new_list(self.sky_generals, "貴")
         rotation_results = self.multi_key_dict_get(rotation, guiren)
         if rotation_results == "順佈":
             return dict(zip(new_zhi_list_guiren, pai_gui))
@@ -1289,14 +1282,14 @@ class Liuren():
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "白露"
-    d =  "庚辰"
-    h =  "丁亥"
+    d =  "辛巳"
+    h =  "戊子"
     m = "八"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).result(0))
     print("    ")
-    print(Liuren(j, m, d, h).zeike())
+    print(Liuren(j, m, d, h).guiren_order_list(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
