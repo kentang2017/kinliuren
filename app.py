@@ -70,7 +70,7 @@ with pan:
     #b = "農曆︰{}{}月{}日\n".format(cn2an.transform(str(self.ld.get("年"))+"年", "an2cn"), an2cn(self.ld.get("月")), an2cn(self.ld.get("日")))
     b = "格局:{}\n".format(ltext.get("格局")[0])
     c = "節氣︰{}\n".format(self.jq)      
-    d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(self.Gangzhi[0], qgz[1], qgz[2], qgz[3], qgz[4] )
+    d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4] )
         
     d2 = "日馬︰{}(月) {}(日) {}(時)\n\n".format(dhorse1, dhorse2, dhorse3)
     d1 = "       月局               日局               時課\n\n"
