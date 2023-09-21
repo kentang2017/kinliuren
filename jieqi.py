@@ -11,7 +11,10 @@ from ephem import Sun, Date, Ecliptic, Equatorial
 import eacal
 from sxtwl import fromSolar
 from datetime import datetime
+from itertools import cycle, repeat
 
+tiangan = list('甲乙丙丁戊己庚辛壬癸')
+dizhi = list('子丑寅卯辰巳午未申酉戌亥')
 
 jqmc = ["冬至", "小寒", "大寒", "立春", "雨水", "驚蟄", "春分", "清明", "谷雨", "立夏",
      "小滿", "芒種", "夏至", "小暑", "大暑", "立秋", "處暑","白露", "秋分", "寒露", "霜降", 
@@ -128,5 +131,29 @@ def jq(year, month, day, hour, minute):
         if b == True:
             return jq2
     
-
-
+def jiazi():
+    jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
+    return jiazi
+     
+def repeat_list(n, thelist):
+    return [repetition for i in thelist for repetition in repeat(i,n) ]
+#分干支
+def minutes_jiazi_d():
+    t = []
+    for h in range(0,24):
+        for m in range(0,60):
+            b = str(h)+":"+str(m)
+            t.append(b)
+    minutelist = dict(zip(t, cycle(repeat_list(2, jiazi()))))
+    return minutelist
+     
+def gangzhi(year, month, day, hour, minute):
+    if hour == 23:
+        d = Date(round((Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2))) + 1 * hour), 3))
+    else:
+        d = Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2) ))
+    dd = list(d.tuple())
+    cdate = fromSolar(dd[0], dd[1], dd[2])
+    yTG,mTG,dTG,hTG = "{}{}".format(tiangan[cdate.getYearGZ().tg], dizhi[cdate.getYearGZ().dz]), "{}{}".format(tiangan[cdate.getMonthGZ().tg],dizhi[cdate.getMonthGZ().dz]), "{}{}".format(tiangan[cdate.getDayGZ().tg], dizhi[cdate.getDayGZ().dz]), "{}{}".format(tiangan[cdate.getHourGZ(dd[3]).tg], dizhi[cdate.getHourGZ(dd[3]).dz])
+    gangzhi_minute = minutes_jiazi_d().get(str(hour)+":"+str(minute))
+    return [yTG, mTG, dTG, hTG, gangzhi_minute]
