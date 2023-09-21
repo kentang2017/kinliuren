@@ -71,7 +71,7 @@ with pan:
     c = "節氣︰{}\n".format(jq)      
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
     d2 = "日馬︰{}(月) {}(日) {}(時)\n\n".format(dhorse1, dhorse2, dhorse3)
-    d1="　　　　月局　　　　　　日局　　　　　　時課\n\n"
+    d1="　　　　月局　　　　　　　　　日局　　　　　　時課\n\n"
     e ="　　　{}　　　　　　{}　　　　　　{}\n".format("".join(ltext.get("三傳").get("初傳")),"".join(ltext1.get("三傳").get("初傳")),"".join(ltext2.get("三傳").get("初傳")))
     f ="　　　{}　　　　　　{}　　　　　　{}\n".format("".join(ltext.get("三傳").get("中傳")),"".join(ltext1.get("三傳").get("中傳")),"".join(ltext2.get("三傳").get("中傳")))
     g ="　　　{}　　　　　　{}　　　　　　{}\n\n".format("".join(ltext.get("三傳").get("末傳")),"".join(ltext1.get("三傳").get("末傳")),"".join(ltext2.get("三傳").get("末傳")))
