@@ -66,9 +66,6 @@ with pan:
     dhorse1 = liuren_month.get("日馬")
     dhorse2 = liuren_day.get("日馬")
     dhorse3 = liuren_hour.get("日馬")
-    ltext = liuren_month
-    ltext1 = liuren_day
-    ltext2 = liuren_hour
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y, m, d, h, min)
     #b = "農曆︰{}{}月{}日\n".format(cn2an.transform(str(self.ld.get("年"))+"年", "an2cn"), an2cn(self.ld.get("月")), an2cn(self.ld.get("日")))
     b = "格局:{}\n".format(ltext.get("格局")[0])
