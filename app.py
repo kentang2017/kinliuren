@@ -58,7 +58,7 @@ with pan:
     jq = jq(y, m, d, h, min)
     ltext = kinliuren.Liuren(jq, cm, qgz[1], qgz[2]).result(0)
     ltext_day =  kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
-    ltext_hour =  kinliuren.Liuren(jq, cm, qgz[3], qgz[4]).result(0)
+    ltext_hour =  kinliuren.Liuren(jq, cm, qgz[3], qgz[4]).result_m(0)
     output2 = st.empty()
     with st_capture(output2.code):
         print("{}年{}月{}日{}時".format(y,m,d,h))
