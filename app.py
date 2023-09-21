@@ -59,7 +59,7 @@ with pan:
     #ltext = kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
     liuren_month = kinliuren.Liuren(jq, cm, qgz[1], qgz[2]).result(0)
     liuren_day = kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
-    liuren_hour = kinliuren.Liuren(jq, cm, qgz[3], qgz[4]).result(0)
+    liuren_hour = kinliuren.Liuren(jq, cm, qgz[3], qgz[4]).result_m(0)
     ltext = liuren_month
     ltext1 = liuren_day
     ltext2 = liuren_hour
