@@ -132,7 +132,6 @@ def jq(year, month, day, hour, minute): #'{}-{}-{} {}:{}:00'
     def closest(lst, K): 
         return lst[min(range(len(lst)), key = lambda i: abs(lst[i]-K))] 
     closest_date = closest(datetime_list, target_datetime)
-    
     def convert_key_to_value(object):
         jqeng = {"DONG_ZHI":"冬至", "XIAO_HAN":"小寒", "DA_HAN":"大寒", "LI_CHUN":"立春","YU_SHUI":"雨水","JING_ZHE":"驚蟄","DA_XUE":"大雪"}
         if object in jqeng:
@@ -141,19 +140,11 @@ def jq(year, month, day, hour, minute): #'{}-{}-{} {}:{}:00'
             return object
     jie_qi = convert_key_to_value(jq_dict.get(str(closest_date)))
     t_o_f = target_datetime > closest_date
-    if  t_o_f == True:
-        return converter.convert(jie_qi) 
-    if t_o_f == False and hour==closest_date.hour and minute!=closest_date.minute:
-        return converter.convert(new_list(jieqi_name,jie_qi)[-1])
-    if t_o_f == False and hour==closest_date.hour and minute==closest_date.minute:
+    b_o_f = closest_date > target_datetime
+    if  t_o_f == True and b_o_f == False:
         return converter.convert(jie_qi)
-    if t_o_f == False and hour>closest_date.hour:
-        return converter.convert(jie_qi)
-    if t_o_f == False and hour<closest_date.hour:
+    if t_o_f == False and b_o_f == True:
         return converter.convert(new_list(jieqi_name,jie_qi)[-1])
-    #if target_datetime > closest_date == False:
-    #    return 
-    
 
 def jiazi():
     jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
