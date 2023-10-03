@@ -8,7 +8,6 @@ Created on Tue May  9 20:32:01 2023
 import re
 from math import pi
 from ephem import Sun, Date, Ecliptic, Equatorial
-import eacal
 from sxtwl import fromSolar
 from datetime import datetime
 from itertools import cycle, repeat
@@ -25,7 +24,6 @@ jqmc = ["冬至", "小寒", "大寒", "立春", "雨水", "驚蟄", "春分", "�
      "小滿", "芒種", "夏至", "小暑", "大暑", "立秋", "處暑","白露", "秋分", "寒露", "霜降", 
      "立冬", "小雪", "大雪"]
 jieqi_name = re.findall('..', '春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至小寒大寒立春雨水驚蟄')
-c_t = eacal.EACal(zh_t=True)
 
 def multi_key_dict_get(d, k):
     for keys, v in d.items():
