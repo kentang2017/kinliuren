@@ -6,15 +6,12 @@ Created on Tue May  9 20:32:01 2023
 """
 
 import re
-from math import pi
+import math
 import ephem
 from ephem import Sun, Date, Ecliptic, Equatorial
 from sxtwl import fromSolar
 from datetime import datetime
 from itertools import cycle, repeat
-import re
-from lunar_python import Solar
-from datetime import datetime
 import opencc
 
 
