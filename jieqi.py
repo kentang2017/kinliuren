@@ -37,43 +37,60 @@ def new_list(olist, o):
     return res1
 
 def ecliptic_lon(jd_utc):
-    return Ecliptic(Equatorial(Sun(jd_utc).ra,Sun(jd_utc).dec,epoch=jd_utc)).lon
+    s=Sun(jd_utc)
+    equ=Equatorial(s.ra,s.dec,epoch=jd_utc)
+    e=Ecliptic(equ)
+    return e.lon
 
-def sta(jd_num):
-    return int(ecliptic_lon(jd_num)*180.0/pi/15)
+def sta(jd):
+    e=ecliptic_lon(jd)
+    n=int(e*180.0/math.pi/15)
+    return n
 
-def solarterm_iter(jieqi):
-    new_s_list = new_list(jieqi_name, jieqi)
-    return new_s_list
-
-def iteration(jd_num):
-    s1_jd=sta(jd_num)
-    s0_jd=s1_jd
+def iteration(jd,sta):
+    s1=sta(jd)
+    s0=s1
     dt=1.0
     while True:
-        jd_num+=dt
-        s=sta(jd_num)
-        if s0_jd!=s:
-            s0_jd=s
+        jd+=dt
+        s=sta(jd)
+        if s0!=s:
+            s0=s
             dt=-dt/2
-        if abs(dt)<0.0000001 and s!=s1_jd:
+        if abs(dt)<0.0000001 and s!=s1:
             break
-    return jd_num
+    return jd
 
-def find_jq_date(year, month, day, hour, jie_qi):
-    jd_format=Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2) ))
-    e_1=ecliptic_lon(jd_format)
-    n_1=int(e_1*180.0/pi/15)+1
-    dzlist = []
-    for i in range(24):
-        if n_1>=24:
-            n_1-=24
-        jd_d=iteration(jd_format)
-        d=Date(jd_d+1/3).tuple()
-        bb_1 = {jieqi_name[n_1]: Date("{}/{}/{} {}:{}:00.00".format(str(d[0]).zfill(4), str(d[1]).zfill(2), str(d[2]).zfill(2), str(d[3]).zfill(2) , str(d[4]).zfill(2)))}
-        n_1+=1
-        dzlist.append(bb_1)
-    return list(dzlist[list(map(lambda i:list(i.keys())[0], dzlist)).index(jie_qi)].values())[0]
+def change(year, month, day, hour, minute):
+    changets = Date("{}/{}/{} {}:{}:00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2),str(hour).zfill(2), str(minute).zfill(2)))
+    return Date(changets - 24 * ephem.hour *30)
+
+def jq(year, month, day, hour, minute):#从当前时间开始连续输出未来n个节气的时间
+    #current =  datetime.strptime("{}/{}/{} {}:{}:00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2),str(hour).zfill(2), str(minute).zfill(2)), '%Y/%m/%d %H:%M:%S')
+    current = Date("{}/{}/{} {}:{}:00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2),str(hour).zfill(2), str(minute).zfill(2)))
+    jd = change(year, month, day, hour, minute)
+    #jd = Date("{}/{}/{} {}:{}:00.00".format(str(b.year).zfill(4), str(b.month).zfill(2), str(b.day).zfill(2), str(b.hour).zfill(2), str(b.minute).zfill(2)  ))
+    result = []
+    e=ecliptic_lon(jd)
+    n=int(e*180.0/math.pi/15)+1
+    for i in range(3):
+        if n>=24:
+            n-=24
+        jd=iteration(jd,sta)
+        d=Date(jd+1/3).tuple()
+        dt = Date("{}/{}/{} {}:{}:00.00".format(d[0],d[1],d[2],d[3],d[4]).split(".")[0])
+        time_info = {  dt:jieqi_name[n]}
+        n+=1    
+        result.append(time_info)
+    j = [list(i.keys())[0] for i in result]
+    if current > j[0] and current > j[1] and current > j[2]:
+        return list(result[2].values())[0]
+    if current > j[0] and current > j[1] and current <= j[2]:
+        return list(result[1].values())[0]
+    if current >= j[1] and current < j[2]:
+        return list(result[1].values())[0]
+    if current < j[1] and current < j[2]:
+        return list(result[0].values())[0]
 
 def gong_wangzhuai(j_q):
     wangzhuai = list("旺相胎沒死囚休廢")
@@ -92,57 +109,6 @@ def gong_wangzhuai(j_q):
     return r1, r2
 
 
-def xzdistance(year, month, day, hour):
-    return int(find_jq_date(year, month, day, hour, "夏至") -  Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2))))
-
-def distancejq(year, month, day, hour, jq):
-    return int( Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2))) - find_jq_date(year-1, month, day, hour, jq) )
-
-def fjqs(year, month, day, hour):
-    jd_format = Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2) ))
-    n= int(ecliptic_lon(jd_format)*180.0/pi/15)+1
-    c = []
-    for i in range(1):
-        if n>=24:
-            n-=24
-        d = Date(jd_format+1/3).tuple()
-        c.append([jieqi_name[n], Date("{}/{}/{} {}:{}:00.00".format(str(d[0]).zfill(4), str(d[1]).zfill(2), str(d[2]).zfill(2), str(d[3]).zfill(2) , str(d[4]).zfill(2)))])
-    return c[0]
-
-def find_jq(year, month, day):
-    dd = fromSolar(year, month, day) 
-    while True:
-        dd = dd.before(1)
-        if dd.hasJieQi():
-            return jqmc[dd.getJieQi()]
-            break
-
-def jq(year, month, day, hour, minute): #'{}-{}-{} {}:{}:00'
-    lunar = Solar.fromYmd(year, month, day).getLunar()
-    jieQi = lunar.getJieQiTable()
-    converter = opencc.OpenCC('s2t.json')
-    jq_list = [jieQi[k].toYmdHms() for k in lunar.getJieQiList()]
-    jq_dict = {jieQi[k].toYmdHms():k for k in lunar.getJieQiList()}
-    #'1895-12-22 09:38:44'
-    target_datetime_str = '{}-{}-{} {}:{}:00'.format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2), str(minute).zfill(2))
-    target_datetime = datetime.strptime(target_datetime_str, '%Y-%m-%d %H:%M:%S')
-    datetime_list = [datetime.strptime(s, '%Y-%m-%d %H:%M:%S') for s in jq_list]
-    def closest(lst, K): 
-        return lst[min(range(len(lst)), key = lambda i: abs(lst[i]-K))] 
-    closest_date = closest(datetime_list, target_datetime)
-    def convert_key_to_value(object):
-        jqeng = {"DONG_ZHI":"冬至", "XIAO_HAN":"小寒", "DA_HAN":"大寒", "LI_CHUN":"立春","YU_SHUI":"雨水","JING_ZHE":"驚蟄","DA_XUE":"大雪"}
-        if object in jqeng:
-            return jqeng[object]
-        else:
-            return object
-    jie_qi = convert_key_to_value(jq_dict.get(str(closest_date)))
-    t_o_f = target_datetime > closest_date
-    b_o_f = closest_date > target_datetime
-    if  t_o_f == True and b_o_f == False:
-        return converter.convert(jie_qi)
-    if t_o_f == False and b_o_f == True:
-        return converter.convert(new_list(jieqi_name,jie_qi)[-1])
 
 def jiazi():
     jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
