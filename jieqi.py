@@ -7,6 +7,7 @@ Created on Tue May  9 20:32:01 2023
 
 import re
 from math import pi
+import ephem
 from ephem import Sun, Date, Ecliptic, Equatorial
 from sxtwl import fromSolar
 from datetime import datetime
