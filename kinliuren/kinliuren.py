@@ -407,8 +407,9 @@ class Liuren():
             findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("上尅下")][0])]
             return findtrue
         elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤返吟':
-            findtrue =  ["返吟","無依", [self.chong2.get(sike[sike_list[0].index("上尅下")][0]), self.chong2.get(sike[sike_list[0].index("上尅下")][1]), self.chong2.get(sike[sike_list[0].index("上尅下")][0])]]
+            findtrue =  ["伏吟","無依", [self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), self.chong2.get(self.hourgangzhi[1]), self.chong2.get(sike[sike_list[0].index("上尅下")][0])]]
             return findtrue
+
 
     def biyung(self):
         relation = self.find_sike_relations()
@@ -1157,7 +1158,7 @@ class Liuren():
                 return x
         sike_list = self.find_sike_relations()
         dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
-        if sike_list[4] == "非伏吟":
+        if sike_list[4] == "非伏吟" or len(self.zeike())> 2:
             chuchuan = "不適用，或試他法" 
             return chuchuan
         elif sike_list[4] == "伏吟":
