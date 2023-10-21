@@ -2,7 +2,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/kinliuren)](https://pypi.org/project/kinliuren/)
 [![PIP](https://img.shields.io/pypi/v/kinliuren)](https://pypi.org/project/kinliuren/)
 [![Downloads](https://img.shields.io/pypi/dm/kinliuren)](https://pypi.org/project/kinliuren/)
-[![TG](https://img.shields.io/badge/chat-on%20telegram-blue)](https://t.me/gnatnek)
+[![TG](https://img.shields.io/badge/chat-on%20telegram-blue)](https://t.me/haizhonggum)
 [![TG Channel](https://img.shields.io/badge/chat-on%20telegram-red)](https://t.me/numerology_coding)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?logo=paypal&style=flat-square)](https://www.paypal.me/kinyeah)&nbsp;
 
