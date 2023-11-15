@@ -1092,7 +1092,7 @@ class Liuren():
                     chuchuan =  "不適用，或試他法" 
                     return chuchuan
                 else:
-                    chuchuan = ["別責", "別責", [a, self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0])), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
+                    chuchuan = ["別責", "別責", [self.sky_n_earth_list().get(a), self.shigangjigong.get(self.daygangzhi[0]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
                     return chuchuan
         elif self.find_sike_relations()[4] == "伏吟":
             chuchuan =  "不適用，或試他法" 
