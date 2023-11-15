@@ -12,8 +12,6 @@ from ephem import Sun, Date, Ecliptic, Equatorial
 from sxtwl import fromSolar
 from datetime import datetime
 from itertools import cycle, repeat
-import opencc
-
 
 tiangan = list('甲乙丙丁戊己庚辛壬癸')
 dizhi = list('子丑寅卯辰巳午未申酉戌亥')
