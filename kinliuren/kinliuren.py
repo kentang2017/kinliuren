@@ -701,8 +701,6 @@ class Liuren():
             result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][2][0])]
             return result
      
-       
-        
         elif shangke.count("下賊上") == 4:
             if self.find_sike_relations()[2].count("被尅") == 1 and self.find_sike_relations()[2].count("尅") == 1:
                 if self.find_sike_relations()[5] == "被尅" or "尅":
@@ -717,8 +715,10 @@ class Liuren():
             elif self.find_sike_relations()[2].count("被尅") == 0 and self.find_sike_relations()[2].count("尅") == 1:
                 result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
                 return result
+            else:
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
+                return result
             
-        
         elif shangke.count("下賊上") == 2 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") == 0 and self.find_sike_relations()[2].count("被尅") == 0:
             result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
             return result
