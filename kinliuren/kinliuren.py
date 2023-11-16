@@ -1001,6 +1001,7 @@ class Liuren():
             chuchuan = "不適用，或試他法"  
             return chuchuan
     
+    
     def maosing(self):
         sike = self.all_sike()
         sike_list = self.find_sike_relations()[0]
@@ -1018,7 +1019,7 @@ class Liuren():
             if dayganzhi_yy == "陽":
                 try:
                     if len(res[0]) >= 1:
-                        chuchuan = "不適用，或試他法" 
+                        chuchuan =  ["昴星", "虎視", [self.sky_n_earth_list().get("酉"), self.sky_n_earth_list().get(self.daygangzhi[1]), self.all_sike()[3][0]]]
                         return chuchuan
                 except IndexError:
                     if self.find_sike_relations()[6] == "反吟":
@@ -1044,7 +1045,6 @@ class Liuren():
                         chuchuan = "不適用，或試他法" 
                         return chuchuan
                     else:
-                        ganlivezhi = self.shigangjigong
                         chuchuan = ["昴星","冬蛇掩目", [self.earth_n_sky_list().get("酉"), self.sky_n_earth_list().get(ganlivezhi.get(self.daygangzhi[0])), self.all_sike()[1][0]]]
                         return chuchuan
         else:
