@@ -943,6 +943,9 @@ class Liuren():
                 chuchuan = convert_result_k[1][0]
                 result = ["涉害", name, self.find_three_pass(chuchuan)]
                 return result
+            else:
+                result = "不適用，或試他法"
+                return result
            
     def yaoke(self):
         if self.find_sike_relations()[3] == "日干支同位":
