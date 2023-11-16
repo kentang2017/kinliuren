@@ -1010,7 +1010,7 @@ class Liuren():
         d =  Counter(sikehead)
         res = [k for k, v in d.items() if v > 1]
         if len(set(sike)) <4 and self.find_sike_relations()[2].count("尅") > 1:
-            chuchuan = "不適用，或試他法" 
+            chuchuan =  ["昴星", "虎視", [self.sky_n_earth_list().get("酉"), self.sky_n_earth_list().get(self.daygangzhi[1]), self.all_sike()[3][0]]]
             return chuchuan
         elif self.find_sike_relations()[2].count("尅") >0:
             chuchuan = "不適用，或試他法" 
