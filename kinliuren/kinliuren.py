@@ -686,10 +686,8 @@ class Liuren():
             elif self.find_sike_relations()[2].count("被尅") == 0 and self.find_sike_relations()[2].count("尅") == 1:
                 result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
                 return result
-            
-            
             else:
-                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][2][0])]
+                result = ["涉害", "涉害", self.find_three_pass( self.find_sike_relations()[7][2][0][0])]
                 return result
             
   
