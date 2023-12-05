@@ -1,5 +1,9 @@
 # 開發者資訊
+微信公眾號
 ![看倏爍](https://github.com/kentang2017/kintaiyi/blob/master/pic/qrcode_for_gh_561840f80b67_258.jpg?raw=true)
+
+開發者微信
+![微信](https://github.com/kentang2017/kintaiyi/blob/master/pic/20231205113526.jpg)
 
 1. 堅太乙 https://kintaiyi.streamlit.app/
 2. 堅奇門 https://kinqimen.streamlit.app/
