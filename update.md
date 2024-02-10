@@ -13,7 +13,8 @@
 
 
 如對上述起盤程序有任何建議或問題，可加本人微信
-<img src="[drawing.jpg](https://github.com/kentang2017/kintaiyi/blob/master/pic/圖片_20240210125711.jpg)https://github.com/kentang2017/kintaiyi/blob/master/pic/圖片_20240210125711.jpg" width="200"/>
+
+<img src="https://github.com/kentang2017/kintaiyi/blob/master/pic/圖片_20240210125711.jpg" width="200"/>
 
 或搜 gnatnek (請註明是在github加我的)
 聯繫通訊
