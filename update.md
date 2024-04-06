@@ -10,6 +10,7 @@
 5. 堅皇極 https://wangji.streamlit.app/
 6. 堅太玄 https://kintaixuan.streamlit.app/
 7. 堅荊訣 https://jingjue.streamlit.app/
+8. 堅兩頭鉗 https://liangtouqian.streamlit.app/
 
 
 如對上述起盤程序有任何建議或問題，可加本人微信
