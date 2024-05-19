@@ -9,7 +9,7 @@
 [![kinwangji](https://raw.githubusercontent.com/kentang2017/kinwangji/main/pic/kwj.png)](https://kinwangji.streamlit.app/)
 
 
-5. 堅皇極 https://kinwangji.streamlit.app/
+
 7. 堅荊訣 https://jingjue.streamlit.app/
 8. 堅兩頭鉗 https://liangtouqian.streamlit.app/
 
