@@ -1,12 +1,26 @@
 # 開發者資訊
 微信公眾號 "探究三式"
 
-[![iching](https://raw.githubusercontent.com/kentang2017/ichingshifa/master/pic/iching.png)](https://iching.streamlit.app/)
-[![kintaiyi](https://raw.githubusercontent.com/kentang2017/kintaiyi/master/pic/Untitled-1.png)](https://kintaiyi.streamlit.app/)
-[![kinliuren](https://raw.githubusercontent.com/kentang2017/kinliuren/master/pic/Untitled-33.png)](https://kinliuren.streamlit.app/)
-[![kinqimen](https://raw.githubusercontent.com/kentang2017/kinqimen/master/pic/Untitled-22.png)](https://kinqimen.streamlit.app/)
-[![taixuanshifa](https://raw.githubusercontent.com/kentang2017/taixuanshifa/master/pic/taixuan.png)](https://kintaixuan.streamlit.app/)
-[![kinwangji](https://raw.githubusercontent.com/kentang2017/kinwangji/main/pic/kwj.png)](https://kinwangji.streamlit.app/)
+<p align="center">
+  <a href="https://iching.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/kentang2017/ichingshifa/master/pic/iching.png" alt="iching" style="max-width: 100%; height: auto;">
+  </a>
+  <a href="https://kintaiyi.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/kentang2017/kintaiyi/master/pic/Untitled-1.png" alt="kintaiyi" style="max-width: 100%; height: auto;">
+  </a>
+  <a href="https://kinliuren.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/kentang2017/kinliuren/master/pic/Untitled-33.png" alt="kinliuren" style="max-width: 100%; height: auto;">
+  </a>
+  <a href="https://kinqimen.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/kentang2017/kinqimen/master/pic/Untitled-22.png" alt="kinqimen" style="max-width: 100%; height: auto;">
+  </a>
+  <a href="https://kintaixuan.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/kentang2017/taixuanshifa/master/pic/taixuan.png" alt="taixuanshifa" style="max-width: 100%; height: auto;">
+  </a>
+  <a href="https://kinwangji.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/kentang2017/kinwangji/main/pic/kwj.png" alt="kinwangji" style="max-width: 100%; height: auto;">
+  </a>
+</p>
 
 
 
