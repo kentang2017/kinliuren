@@ -49,7 +49,7 @@ with guji:
 
 with links:
     st.header('連結')
-    st.markdown(get_file_content_as_string("update.md"))
+    st.markdown(get_file_content_as_string("update.md"), unsafe_allow_html=True)
 
 with update:
     st.header('更新')
