@@ -277,8 +277,11 @@ class Liuren():
                 b = zeikeshang_list[i][0]
                 blist.append(b)
             check_same = len(set(blist))
+            
             if check_same == 1 or len(set(sike_list)) == 1:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+            elif len(set(zeikeshang_list)) == 2 and nn_list.count("True") ==1  and nn_list.count("False") ==1: 
+                findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") >=0 and nn_list.count("False") >=0:
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, self.gangzhi_yinyang(self.daygangzhi[0]), fan_yin
@@ -312,8 +315,6 @@ class Liuren():
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") ==1  and nn_list.count("False") ==1: 
                 findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1  and nn_list.count("False") >=1: 
-                findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
-            elif len(set(zeikeshang_list)) == 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
                 findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
@@ -791,7 +792,7 @@ class Liuren():
                     return result
                 
                 elif self.find_sike_relations()[2].count("被尅") >  1 and self.find_sike_relations()[2].count("尅") == 0:
-                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][1])]
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
                     return result
           
                 
@@ -1285,15 +1286,15 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "白露"
-    d =  "辛巳"
-    h =  "戊子"
-    m = "八"
+    j = "小滿"
+    d =  "甲午"
+    h =  "癸酉"
+    m = "四"
     tic = time.perf_counter()
     print(d +"     " + h)
-    print(Liuren(j, m, d, h).result(0))
+    print(Liuren(j, m, d, h).find_sike_relations())
     print("    ")
-    print(Liuren(j, m, d, h).guiren_order_list(0))
+    print(Liuren(j, m, d, h).result(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
