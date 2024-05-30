@@ -792,7 +792,7 @@ class Liuren():
                     return result
                 
                 elif self.find_sike_relations()[2].count("被尅") >  1 and self.find_sike_relations()[2].count("尅") == 0:
-                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
                     return result
           
                 
@@ -1288,7 +1288,7 @@ if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "小滿"
     d =  "甲午"
-    h =  "癸酉"
+    h =  "甲戌"
     m = "四"
     tic = time.perf_counter()
     print(d +"     " + h)
