@@ -1017,7 +1017,10 @@ class Liuren():
         elif sike_list.count("下賊上") == 0 and sike_list.count("上尅下") == 0 :
             if dayganzhi_yy == "陽":
                 try:
-                    if len(res[0]) >= 1:
+                    if len(res[0]) == 1:
+                        chuchuan =  ["伏吟", "伏吟", [self.all_sike()[3][0], "巳", self.sky_n_earth_list().get(self.hourgangzhi[1]) ]]
+                        return chuchuan
+                    if len(res[0]) > 1:
                         chuchuan =  ["昴星", "虎視", [self.sky_n_earth_list().get("酉"), self.sky_n_earth_list().get(self.daygangzhi[1]), self.all_sike()[3][0]]]
                         return chuchuan
                 except IndexError:
@@ -1288,7 +1291,7 @@ if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "小滿"
     d =  "甲午"
-    h =  "甲戌"
+    h =  "壬申"
     m = "四"
     tic = time.perf_counter()
     print(d +"     " + h)
