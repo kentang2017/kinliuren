@@ -27,7 +27,6 @@
     <a href="https://liangtouqian.streamlit.app/">
     <img src="https://raw.githubusercontent.com/kentang2017/liangtouqian/main/pic/Untitled-44.png" alt="liangtouqian" style="max-width: 100%; height: auto;">
   </a>
-  https://raw.githubusercontent.com/kentang2017/liangtouqian/main/pic/Untitled-44.png
   <img src="https://raw.githubusercontent.com/kentang2017/kintaiyi/master/pic/20231205113526.jpg" style="max-width : 100%; height: auto">
 </p>
 
