@@ -21,7 +21,7 @@
     <img src="https://raw.githubusercontent.com/kentang2017/kinwangji/main/pic/kwj.png" alt="kinwangji" style="max-width: 100%; height: auto;">
   </a>
     <a href="https://jingjue.streamlit.app/">
-    <img src="https://raw.githubusercontent.com/kentang2017/jingjue/main/pic/jingjue.png" alt="jingjue" style="max-width: 100%; height: auto;">
+    <img src="https://raw.githubusercontent.com/kentang2017/jingjue/master/pic/jingjue.png" alt="jingjue" style="max-width: 100%; height: auto;">
   </a>
   <img src="https://github.com/kentang2017/kintaiyi/blob/master/pic/20231205113526.jpg" style="max-width : 100%; height: auto">
 </p>
