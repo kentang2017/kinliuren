@@ -30,6 +30,6 @@
   <img src="https://raw.githubusercontent.com/kentang2017/kintaiyi/master/pic/20231205113526.jpg" style="max-width : 100%; height: auto">
 </p>
 
-如對上述起盤程序有任何建議或問題，可加本人微信
+如有任何建議或合作事宜，可加本人微信聯繫
 或搜 gnatnek (請註明是在github加我的)
 聯繫通訊
