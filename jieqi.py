@@ -117,7 +117,7 @@ def find_lunar_hour(day):
         result = multi_key_dict_get(fiverats, day[1])
     else:
         result = multi_key_dict_get(fiverats, day[0])
-    return dict(zip(list(di_zhi), new_list(jiazi(), result)[:12]))
+    return dict(zip(list(dizhi), new_list(jiazi(), result)[:12]))
 
 def jiazi():
     jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
