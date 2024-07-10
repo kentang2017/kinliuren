@@ -104,7 +104,20 @@ def gong_wangzhuai(j_q):
     r2 = {v: k for k, v in r1.items()}
     return r1, r2
 
-
+#五鼠遁，起子時
+def find_lunar_hour(day):
+    fiverats = {
+    tuple(list('甲己')):'甲子',
+    tuple(list('乙庚')):'丙子',
+    tuple(list('丙辛')):'戊子',
+    tuple(list('丁壬')):'庚子',
+    tuple(list('戊癸')):'壬子'
+    }
+    if multi_key_dict_get(fiverats, day[0]) == None:
+        result = multi_key_dict_get(fiverats, day[1])
+    else:
+        result = multi_key_dict_get(fiverats, day[0])
+    return dict(zip(list(di_zhi), new_list(jiazi(), result)[:12]))
 
 def jiazi():
     jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
