@@ -118,12 +118,25 @@ def find_lunar_hour(day):
     else:
         result = multi_key_dict_get(fiverats, day[0])
     return dict(zip(list(dizhi), new_list(jiazi(), result)[:12]))
+#五馬遁，起子刻
+def find_lunar_ke(hour):
+    fivehourses = {
+    tuple(list('丙辛')):'甲午',
+    tuple(list('丁壬')):'丙午',
+    tuple(list('戊癸')):'戊午',
+    tuple(list('甲己')):'庚午',
+    tuple(list('乙庚')):'壬午'
+    }
+    if multi_key_dict_get(fivehourses, hour[0]) == None:
+        result = multi_key_dict_get(fivehourses, hour[1])
+    else:
+        result = multi_key_dict_get(fivehourses, hour[0])
+    return new_list(jiazi(), result)
      
 def ke_jiazi_d(hour):
     t = [f"{h}:{m}0" for h in range(24) for m in range(6)]
     minutelist = dict(zip(t, cycle(repeat_list(1, find_lunar_ke(hour)))))
     return minutelist
-
 
 def jiazi():
     jiazi = [tiangan[x % len(tiangan)] + dizhi[x % len(dizhi)] for x in range(60)]
