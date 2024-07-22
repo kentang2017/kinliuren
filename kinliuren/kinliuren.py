@@ -381,7 +381,7 @@ class Liuren():
             findtrue =  ["賊尅","重審", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         elif sike_list[0].count("下賊上") >= 1 and sike_list[0].count("上尅下") == 0 and sike_list[9] == '天地盤返吟':
-            findtrue =  ["返吟", "自任", [self.shigangjigong.get(self.daygangzhi[0]), self.ying.get(self.shigangjigong.get(self.daygangzhi[1])), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[1])))]]
+            findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("上尅下") == 0 and  sike_list[9] == '天地盤沒有返吟': 
             if sike_list[7][2][0] == sike_list[7][2][1]:
@@ -813,10 +813,10 @@ class Liuren():
             
             elif shangke.count("上尅下") == 4 and shangke.count("下賊上") == 0:
                 if self.shehai2()[8] == "陽":
-                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][1])], 
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][1])]
                     return result
                 if self.shehai2()[8] == "陰":
-                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][2][0])], 
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][2][0])] 
                     return result
             
             elif shangke.count("上尅下") > 2 and shangke.count("下賊上") == 0:
@@ -1280,9 +1280,9 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "小暑"
-    d =  "乙亥"
-    h =  "癸未"
+    j = "大暑"
+    d =  "辛未"
+    h =  "丁亥"
     m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
@@ -1291,6 +1291,7 @@ if __name__ == '__main__':
     print(Liuren(j, m, d, h).fuyin())
     answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
     print(answer)
+    print("")
     #print(Liuren(j, m, d, h).shehai2())
     print(Liuren(j, m, d, h).result(0))
     toc = time.perf_counter()
