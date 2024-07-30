@@ -674,14 +674,14 @@ class Liuren():
         
         elif shangke.count("下賊上") == 3 and shangke.count("上尅下") == 1: 
             if self.shehai2()[8] == "陰":
-                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][1])], 
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][1])]
                 return result
             if self.shehai2()[8] == "陽":
-                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][2][0])], 
+                result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][2][0])]
                 return result
 
         elif shangke.count("下賊上") == 3 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("被尅") == 1 and  self.find_sike_relations()[2].count("尅") == 1:
-            result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])], 
+            result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
             return result
         
         elif shangke.count("下賊上") == 3 and self.find_sike_relations()[9] == "天地盤沒有返吟" and self.find_sike_relations()[2].count("尅") >= 1:
@@ -1151,14 +1151,15 @@ class Liuren():
                 return x
         sike_list = self.find_sike_relations()
         dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
-        if sike_list[4] == "非伏吟" or len(self.zeike())> 2:
+        if sike_list[4] == "非伏吟" and len(self.zeike())> 2  and len(self.shehai())> 2 :
             if dayganzhi_yy == "陽":
                 chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[0]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
                 return chuchuan
             if dayganzhi_yy == "陰":
-                
                 chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
                 return chuchuan
+        else:
+            return '不適用，或試他法'
         if sike_list[4] == "伏吟":
             if sike_list[0].count("上尅下") == 1 or sike_list[0].count("下賊上") == 1:
                 chuchuan = ["伏吟", "不虞",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
@@ -1280,10 +1281,10 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "大暑"
-    d =  "辛未"
-    h =  "丁亥"
-    m = "六"
+    j = "夏至"
+    d =  "戊辰"
+    h =  "壬子"
+    m = "五"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
@@ -1292,7 +1293,7 @@ if __name__ == '__main__':
     answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
     print(answer)
     print("")
-    #print(Liuren(j, m, d, h).shehai2())
+    #print(Liuren(j, m, d, h).shehai())
     print(Liuren(j, m, d, h).result(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
