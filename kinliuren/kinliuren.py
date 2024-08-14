@@ -563,10 +563,10 @@ class Liuren():
         for i in range(0, len(z)):
             b = z[i][0]
             blist.append(b)
-        if d == 1:
-            result = "不適用，或試他法"
-            return result
-        #return self.find_sike_relations()
+        #if d == 1:
+            #result = "不適用，或試他法"
+            #return result
+        return self.find_sike_relations()
     
     def shehai(self):
         shangke = self.find_sike_relations()[0]
@@ -778,7 +778,7 @@ class Liuren():
                     return result
                 
                 elif self.find_sike_relations()[2].count("被尅") >  1 and self.find_sike_relations()[2].count("尅") == 0:
-                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
                     return result
           
                 
@@ -1292,7 +1292,7 @@ if __name__ == '__main__':
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
     print("    ")
-    print(Liuren(j, m, d, h).shehai())
+    print(Liuren(j, m, d, h).fuyin())
     #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
     #print(answer)
     print("")
