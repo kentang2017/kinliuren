@@ -563,10 +563,10 @@ class Liuren():
         for i in range(0, len(z)):
             b = z[i][0]
             blist.append(b)
-        #if d == 1:
-            #result = "不適用，或試他法"
-            #return result
-        return self.find_sike_relations()
+        if d == 1:
+            result = "不適用，或試他法"
+            return result
+        #return self.find_sike_relations()
     
     def shehai(self):
         shangke = self.find_sike_relations()[0]
@@ -778,7 +778,7 @@ class Liuren():
                     return result
                 
                 elif self.find_sike_relations()[2].count("被尅") >  1 and self.find_sike_relations()[2].count("尅") == 0:
-                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
                     return result
           
                 
@@ -1151,36 +1151,39 @@ class Liuren():
                 return x
         sike_list = self.find_sike_relations()
         dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
-        if sike_list[4] == "非伏吟" and len(self.zeike())> 2  and len(self.shehai())> 2 :
-            if dayganzhi_yy == "陽":
-                chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[0]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
-                return chuchuan
-            if dayganzhi_yy == "陰":
-                chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
-                return chuchuan
-        else:
-            return '不適用，或試他法'
-        if sike_list[4] == "伏吟":
-            if sike_list[0].count("上尅下") == 1 or sike_list[0].count("下賊上") == 1:
-                chuchuan = ["伏吟", "不虞",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
-                return chuchuan
-            elif sike_list[0].count("上尅下") == 0 and sike_list[0].count("下賊上") == 0:
+        try:
+            if sike_list[4] == "非伏吟" and len(self.zeike())> 2  and len(self.shehai())> 2 :
                 if dayganzhi_yy == "陽":
-                    if self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[0])) =="刑":
-                        chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[0]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
-                        return chuchuan
-                    elif self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[0])) =="自刑":
-                        chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
-                        return chuchuan
-                elif dayganzhi_yy == "陰":
-                    if self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="刑":
-                        chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
-                        return chuchuan
-                    elif self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="自刑":
-                        chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[1]), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))), self.ying.get(self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))))]]
-                        return chuchuan
-                    chuchuan = ["伏吟", "自信", [self.daygangzhi[1], self.ying.get(self.daygangzhi[1]), self.chong2.get(self.daygangzhi[1])]]
+                    chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[0]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
                     return chuchuan
+                if dayganzhi_yy == "陰":
+                    chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
+                    return chuchuan
+            else:
+                return '不適用，或試他法'
+            if sike_list[4] == "伏吟":
+                if sike_list[0].count("上尅下") == 1 or sike_list[0].count("下賊上") == 1:
+                    chuchuan = ["伏吟", "不虞",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
+                    return chuchuan
+                elif sike_list[0].count("上尅下") == 0 and sike_list[0].count("下賊上") == 0:
+                    if dayganzhi_yy == "陽":
+                        if self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[0])) =="刑":
+                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[0]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
+                            return chuchuan
+                        elif self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[0])) =="自刑":
+                            chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
+                            return chuchuan
+                    elif dayganzhi_yy == "陰":
+                        if self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="刑":
+                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
+                            return chuchuan
+                        elif self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="自刑":
+                            chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[1]), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))), self.ying.get(self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))))]]
+                            return chuchuan
+                        chuchuan = ["伏吟", "自信", [self.daygangzhi[1], self.ying.get(self.daygangzhi[1]), self.chong2.get(self.daygangzhi[1])]]
+                        return chuchuan
+        except TypeError:
+            return '不適用，或試他法'
 
     #丁馬    
     def dinhorse(self):
@@ -1281,17 +1284,17 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "夏至"
-    d =  "戊辰"
-    h =  "庚申"
-    m = "五"
+    j = "立秋"
+    d =  "辛亥"
+    h =  "壬辰"
+    m = "七"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
     print("    ")
-    print(Liuren(j, m, d, h).fuyin())
-    answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    print(answer)
+    print(Liuren(j, m, d, h).shehai())
+    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
+    #print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
     print(Liuren(j, m, d, h).result(0))
