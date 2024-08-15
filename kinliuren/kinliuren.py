@@ -1285,8 +1285,8 @@ class Liuren():
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "立秋"
-    d =  "辛亥"
-    h =  "壬辰"
+    d =  "庚戌"
+    h =  "丙戌"
     m = "七"
     tic = time.perf_counter()
     print(d +"     " + h)
