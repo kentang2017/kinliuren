@@ -120,7 +120,7 @@ class Liuren():
         jq =re.findall('..','小寒大寒立春雨水驚蟄春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至')
         moon_general_dict = dict(zip(list(zip(self.new_list(jq, "大寒")[0::2] , self.new_list(jq, "立春")[1::2])), self.new_list(list(reversed(self.Zhi)), "子")))
         get_moon_general = self.multi_key_dict_get(moon_general_dict, self.jieqi)
-        return  moon_general_dict
+        return  [self.new_zhi_list(get_moon_general), get_moon_general]
     
     def find_season(self, s):
         jq = re.findall('..','立春雨水驚蟄春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至小寒大寒')
