@@ -117,11 +117,20 @@ class Liuren():
 
     def sky_pan_list(self):
         #找月將
-        jq =re.findall('..','小寒大寒立春雨水驚蟄春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至')
-        moon_general_dict = dict(zip(list(zip(self.new_list(jq, "大寒")[0::2] , self.new_list(jq, "雨水")[0::2])), self.new_list(list(reversed(self.Zhi)), "子")))
+        moon_general_dict = {('雨水', '驚蟄'): '亥', 
+                             ('春分', '清明'): '戌', 
+                             ('穀雨', '立夏'): '酉', 
+                             ('小滿', '芒種'): '申', 
+                             ('夏至', '小暑'): '未', 
+                             ('大暑', '立秋'): '午', 
+                             ('處暑', '白露'): '巳', 
+                             ('秋分', '寒露'): '辰', 
+                             ('霜降', '立冬'): '卯', 
+                             ('小雪', '大雪'): '寅', 
+                             ('冬至', '小寒'): '丑',
+                             ('大寒', '立春'): '子'}
         get_moon_general = self.multi_key_dict_get(moon_general_dict, self.jieqi)
         return  [self.new_zhi_list(get_moon_general), get_moon_general]
-   
     
     def find_season(self, s):
         jq = re.findall('..','立春雨水驚蟄春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至小寒大寒')
@@ -1322,7 +1331,7 @@ if __name__ == '__main__':
     #print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
-    #print(Liuren(j, m, d, h).result_m(0))
+    #print(Liuren(j, m, d, h).result(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
