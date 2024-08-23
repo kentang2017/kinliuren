@@ -120,7 +120,7 @@ class Liuren():
         jq =re.findall('..','小寒大寒立春雨水驚蟄春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至')
         moon_general_dict = dict(zip(list(zip(self.new_list(jq, "大寒")[0::2] , self.new_list(jq, "立春")[1::2])), self.new_list(list(reversed(self.Zhi)), "子")))
         get_moon_general = self.multi_key_dict_get(moon_general_dict, self.jieqi)
-        return  moon_general_dict
+        return  [self.new_zhi_list(get_moon_general), get_moon_general]
     
     def find_season(self, s):
         jq = re.findall('..','立春雨水驚蟄春分清明穀雨立夏小滿芒種夏至小暑大暑立秋處暑白露秋分寒露霜降立冬小雪大雪冬至小寒大寒')
@@ -1160,7 +1160,8 @@ class Liuren():
                     chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
                     return chuchuan
             else:
-                return '不適用，或試他法'
+                chuchuan = ["伏吟", [self.daygangzhi[1],  self.ying.get(self.daygangzhi[1]), self.shigangjigong.get(self.daygangzhi[0]), ]]
+                return chuchuan
             if sike_list[4] == "伏吟":
                 if sike_list[0].count("上尅下") == 1 or sike_list[0].count("下賊上") == 1:
                     chuchuan = ["伏吟", "不虞",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
@@ -1313,14 +1314,14 @@ if __name__ == '__main__':
     m = "七"
     tic = time.perf_counter()
     print(d +"     " + h)
-    #print(Liuren(j, m, d, h).find_sike_relations())
+    print(Liuren(j, m, d, h).find_sike_relations())
     print("    ")
-    #print(Liuren(j, m, d, h).fuyin())
-    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    #print(answer)
+    print(Liuren(j, m, d, h).fuyin())
+    answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
+    print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
-    print(Liuren(j, m, d, h).sky_pan_list())
+    #print(Liuren(j, m, d, h).result(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
