@@ -62,7 +62,7 @@ with pan:
     jq = jq(y, m, d, h, min)
     liuren_month = kinliuren.Liuren(jq, cm, qgz[1], qgz[2]).result(0)
     liuren_day =  kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
-    liuren_hour =  kinliuren.Liuren(jq, cm, qgz[3], qgz[4]).result(0)
+    liuren_hour =  kinliuren.Liuren(jq, cm, qgz[3], qgz[4]).result_m(0)
     dhorse1 = liuren_month.get("日馬")
     dhorse2 = liuren_day.get("日馬")
     dhorse3 = liuren_hour.get("日馬")
