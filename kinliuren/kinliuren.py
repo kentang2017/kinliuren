@@ -1308,20 +1308,21 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "立秋"
-    d =  "庚戌"
-    h =  "丙戌"
+    j = "秋分"
+    mm = "庚申"
+    d =  "辛未"
+    h =  "癸巳"
     m = "七"
     tic = time.perf_counter()
     print(d +"     " + h)
-    print(Liuren(j, m, d, h).find_sike_relations())
+    #print(Liuren(j, mm, m, d, h).find_sike_relations())
     print("    ")
-    print(Liuren(j, m, d, h).fuyin())
-    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    #print(answer)
+    #print(Liuren(j, mm, m, d, h).fuyin())
+    answer =  [Liuren(j, mm, m, d, h).zeike(), Liuren(j, mm, m, d, h).biyung(), Liuren(j, mm, m, d, h).shehai(), Liuren(j, mm, m, d, h).yaoke(), Liuren(j, mm, m, d, h).maosing(), Liuren(j, mm, m, d, h).bieze(), Liuren(j, mm, m, d, h).bazhuan(), Liuren(j, mm, m, d, h).fuyin()]
+    print(answer)
     print("")
-    #print(Liuren(j, m, d, h).shehai())
-    print(Liuren(j, m, d, h).result(0))
+    #print(Liuren(j, mm, m, d, h).shehai())
+    print(Liuren(j, mm, m, d, h).all_sike())
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
