@@ -13,7 +13,7 @@ class Liuren():
         self.jieqi = jieqi
         self.daygangzhi = daygangzhi
         self.hourgangzhi = hourgangzhi
-	self.monthgangzhi = monthgangzhi
+        self.monthgangzhi = monthgangzhi
         self.cmonth = cmonth
         self.Gan = list("甲乙丙丁戊己庚辛壬癸")
         self.Zhi = list("子丑寅卯辰巳午未申酉戌亥")
