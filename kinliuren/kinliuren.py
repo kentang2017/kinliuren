@@ -1160,7 +1160,8 @@ class Liuren():
                     chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
                     return chuchuan
             else:
-                return '不適用，或試他法'
+                chuchuan = ["伏吟", [self.daygangzhi[1],  self.ying.get(self.daygangzhi[1]), self.shigangjigong.get(self.daygangzhi[0]), ]]
+                return chuchuan
             if sike_list[4] == "伏吟":
                 if sike_list[0].count("上尅下") == 1 or sike_list[0].count("下賊上") == 1:
                     chuchuan = ["伏吟", "不虞",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
@@ -1313,14 +1314,14 @@ if __name__ == '__main__':
     m = "七"
     tic = time.perf_counter()
     print(d +"     " + h)
-    #print(Liuren(j, m, d, h).find_sike_relations())
+    print(Liuren(j, m, d, h).find_sike_relations())
     print("    ")
-    #print(Liuren(j, m, d, h).fuyin())
-    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    #print(answer)
+    print(Liuren(j, m, d, h).fuyin())
+    answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
+    print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
-    print(Liuren(j, m, d, h).sky_pan_list())
+    #print(Liuren(j, m, d, h).result(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
