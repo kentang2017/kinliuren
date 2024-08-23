@@ -60,7 +60,7 @@ with pan:
     cm =  dict(zip(list(range(1,13)), list("正二三四五六七八九十")+["十一","十二"])).get(int(lunar_date_d(y, m, d).get("月").replace("月", "")))
     qgz = gangzhi(y, m, d, h, min)
     jq = jq(y, m, d, h, min)
-    liuren_month = kinliuren.Liuren(jq, cm, qgz[1], qgz[2]).result(0)
+    liuren_month = kinliuren.Liuren(jq, cm, qgz[1], qgz[2]).result_d(0)
     liuren_day =  kinliuren.Liuren(jq, cm, qgz[2], qgz[3]).result(0)
     liuren_hour =  kinliuren.Liuren(jq, cm, qgz[3], qgz[4]).result_m(0)
     dhorse1 = liuren_month.get("日馬")
