@@ -1170,7 +1170,7 @@ class Liuren():
                     chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
                     return chuchuan
             else:
-                chuchuan = ["伏吟", [self.daygangzhi[1],  self.ying.get(self.daygangzhi[1]), self.shigangjigong.get(self.daygangzhi[0]), ]]
+                chuchuan = ["伏吟", "稼穡",[self.daygangzhi[1],  self.ying.get(self.daygangzhi[1]), self.shigangjigong.get(self.daygangzhi[0]), ]]
                 return chuchuan
             if sike_list[4] == "伏吟":
                 if sike_list[0].count("上尅下") == 1 or sike_list[0].count("下賊上") == 1:
@@ -1319,19 +1319,20 @@ class Liuren():
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "處暑"
-    d =  "癸亥"
-    h =  "癸亥"
+    d =  "辛未"
+    h =  "癸巳"
     m = "七"
     tic = time.perf_counter()
     print(d +"     " + h)
     #print(Liuren(j, m, d, h).find_sike_relations())
+    print(Liuren(j, m, d, h).fuyin())
     print("    ")
     print(Liuren(j, m, d, h).sky_pan_list())
-    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    #print(answer)
+    answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
+    print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
-    #print(Liuren(j, m, d, h).result(0))
+    print(Liuren(j, m, d, h).result(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
