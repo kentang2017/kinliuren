@@ -9,11 +9,10 @@ from collections import Counter
 import re, itertools, time
 
 class Liuren():
-    def __init__(self, jieqi, cmonth, monthgangzhi, daygangzhi, hourgangzhi):
+    def __init__(self, jieqi, cmonth, daygangzhi, hourgangzhi):
         self.jieqi = jieqi
         self.daygangzhi = daygangzhi
         self.hourgangzhi = hourgangzhi
-        self.monthgangzhi = monthgangzhi
         self.cmonth = cmonth
         self.Gan = list("甲乙丙丁戊己庚辛壬癸")
         self.Zhi = list("子丑寅卯辰巳午未申酉戌亥")
@@ -1273,15 +1272,15 @@ class Liuren():
         ju = [ju_three_pass[0][0], ju_three_pass[0][1]]
         three_pass_zhi = ju_three_pass[0][2]
         three_pass_generals = [guiren_order_list_2.get(i) for i in three_pass_zhi]
-        day_gz_vs_three_pass = [self.liuqing_dict.get(self.multi_key_dict_get(self.wuxing_relation_2,self.Ganzhiwuxing(self.monthgangzhi[0])+self.Ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
-        three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0][0], self.shunkong(self.monthgangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1][0], self.shunkong(self.monthgangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2][0], self.shunkong(self.monthgangzhi,three_pass_zhi[2])]}
+        day_gz_vs_three_pass = [self.liuqing_dict.get(self.multi_key_dict_get(self.wuxing_relation_2,self.Ganzhiwuxing(self.daygangzhi[0])+self.Ganzhiwuxing(three_pass_zhi[i])))for i in range(0,len(three_pass_zhi))]
+        three_pass = {"初傳":[three_pass_zhi[0], three_pass_generals[0], day_gz_vs_three_pass[0][0], self.shunkong(self.daygangzhi,three_pass_zhi[0])], "中傳":[three_pass_zhi[1], three_pass_generals[1], day_gz_vs_three_pass[1][0], self.shunkong(self.daygangzhi,three_pass_zhi[1])], "末傳":[three_pass_zhi[2], three_pass_generals[2], day_gz_vs_three_pass[2][0], self.shunkong(self.daygangzhi,three_pass_zhi[2])]}
         sike_zhi = self.all_sike()
         sike_generals = [ guiren_order_list_2.get(i[0]) for i in sike_zhi]
         sike = {"四課":[sike_zhi[0], sike_generals[0]], "三課":[sike_zhi[1], sike_generals[1]], "二課":[sike_zhi[2], sike_generals[2]], "一課":[sike_zhi[3], sike_generals[3]]}
-        dyima = self.multi_key_dict_get(self.yimadict, self.monthgangzhi[1])
+        dyima = self.multi_key_dict_get(self.yimadict, self.daygangzhi[1])
         #starpan = dict(zip(self.new_zhi_list("巳"), [self.multi_key_dict_get(self.hoursu, self.daygangzhi[0]).get(i) for i in self.new_zhi_list("巳")]))
-        return {"節氣":self.jieqi, "日期":self.monthgangzhi+"月"+self.daygangzhi+"日", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general }
-        
+        return {"節氣":self.jieqi, "日期":self.daygangzhi+"月"+self.hourgangzhi+"日", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general }
+
     def result_m(self, num):
         answer =  [self.zeike(), self.biyung(), self.shehai(), self.yaoke(), self.maosing(), self.bieze(), self.bazhuan(), self.fuyin()]
         nouse = ["不適用，或試他法" ]
