@@ -993,7 +993,7 @@ class Liuren():
                 chuchuan = ["遙尅","彈射", self.find_three_pass(sike[self.find_sike_relations()[2].index("被尅")][0] )]
                 return chuchuan
         elif self.find_sike_relations()[2].count("被尅") == 0 and self.find_sike_relations()[2].count("尅") == 0:
-            return ["遙尅","彈射", self.find_three_pass(sike[1][0]) ]
+            return "不適用，或試他法" 
     
     
     def maosing(self):
@@ -1082,7 +1082,9 @@ class Liuren():
                     return chuchuan
             if dayganzhi_yy == "陰":
                 sep = "巳酉丑,寅午戌,亥卯未,申子辰".split(",")
+                sky_ganhe = dict(zip(self.Gan[0:5], self.Gan[5:10]))
                 earth_zhihe = dict(zip(list(map(lambda x: tuple(x), sep)), sep))
+                ganhe_result1 = self.shigangjigong.get(sky_ganhe.get(self.daygangzhi[0]))
                 result = self.multi_key_dict_get(earth_zhihe, self.daygangzhi[1])
                 position = result.index(self.daygangzhi[1])
                 if position == 0:
@@ -1097,8 +1099,10 @@ class Liuren():
                 elif self.find_sike_relations()[4] == "伏吟":
                     chuchuan =  "不適用，或試他法" 
                     return chuchuan
+                elif self.find_sike_relations()[6] == "非反吟":
+                    return ["別責", "不備", [result[2] ,result[0], result[0] ]]
                 else:
-                    chuchuan = ["別責", "別責", [self.sky_n_earth_list().get(a), self.shigangjigong.get(self.daygangzhi[0]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
+                    chuchuan = ["別責", "蕪淫", [result[0], result[2], result[2]]]
                     return chuchuan
         elif self.find_sike_relations()[4] == "伏吟":
             chuchuan =  "不適用，或試他法" 
@@ -1319,19 +1323,19 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "小雪"
-    d = "乙酉"
-    h = "乙酉"
-    m = "十"
+    j = "小暑"
+    d = "辛未"
+    h = "戊戌"
+    m = "五"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
-    print(Liuren(j, m, d, h).biyung())
+    print(Liuren(j, m, d, h).bieze())
 
     print("    ")
     #print(Liuren(j, m, d, h).sky_pan_list())
-    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    #print(answer)
+    answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
+    print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
     print(Liuren(j, m, d, h).result(0))
