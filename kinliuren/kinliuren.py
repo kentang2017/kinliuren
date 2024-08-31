@@ -448,7 +448,7 @@ class Liuren():
             findtrue =  "不適用，或試他法"
             return findtrue
         elif relation[0].count("下賊上") == 2 and relation[9] == '天地盤返吟':
-            findtrue = ["返吟", "無依", [self.all_sike()[1][0], self.all_sike()[1][1],  self.all_sike()[0][1] ]]
+            findtrue = ["返吟", "無依", [self.all_sike()[1][1],  self.all_sike()[0][1],self.all_sike()[1][1] ]]
             return findtrue
         elif relation[0].count("下賊上") == 3 and relation[9] == '天地盤返吟':
             #findtrue = ["返吟", "無依", [sike_list[filter_list[4].index("True")][0], chong(sike_list[filter_list[4].index("True")][0]), chong(chong(sike_list[filter_list[4].index("True")][0]))]]
