@@ -1208,7 +1208,7 @@ class Liuren():
                             return chuchuan
                     elif dayganzhi_yy == "陰":
                         if self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="刑":
-                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
+                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[1])), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[1])))]]
                             return chuchuan
                         elif self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="自刑":
                             chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[1]), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))), self.ying.get(self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))))]]
@@ -1338,13 +1338,13 @@ class Liuren():
         #starpan = dict(zip(self.new_zhi_list("巳"), [self.multi_key_dict_get(self.hoursu, self.hourgangzhi[0]).get(i) for i in self.new_zhi_list("巳")]))
         return {"農曆月":self.cmonth, "節氣":self.jieqi, "日期":self.daygangzhi+"時"+self.hourgangzhi+"分", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
-    
+
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "芒種"
-    d = "乙卯"
-    h = "甲申"
-    m = "五"
+    j = "白露"
+    d = "己卯"
+    h = "己巳"
+    m = "八"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
