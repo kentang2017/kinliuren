@@ -17,8 +17,22 @@ class Liuren():
         self.Gan = list("甲乙丙丁戊己庚辛壬癸")
         self.Zhi = list("子丑寅卯辰巳午未申酉戌亥")
         self.Cmonth = list("正二三四五六七八九十")+["十一","十二"]
-	#五子元遁
+        #六壬金口訣
+        #五子元遁
         self.wuzi = {tuple(list("甲己")):"甲", tuple(list("乙庚")):"丙", tuple(list("丙辛")):"戊", tuple(list("丁壬")):"庚",  tuple(list("戊癸")):"壬"}
+        #月將
+        self.mg_dict = {"亥":"登明",
+          "戌":"河魁",
+          "酉":"從魁",
+          "申":"傳送",
+          "未":"小吉",
+          "午":"勝光",
+          "巳":"太乙",
+          "辰":"天罡",
+          "卯":"太沖",
+          "寅":"功曹",
+          "丑":"大吉",
+          "子":"神後"}
         #字典庫
         self.yima_dict = {"丑":"亥", "未":"巳"}
         self.shigangjigong  = dict(zip(self.Gan + self.Zhi, list("寅辰巳未巳未申戌亥丑") + self.Zhi))
@@ -1340,12 +1354,30 @@ class Liuren():
         #starpan = dict(zip(self.new_zhi_list("巳"), [self.multi_key_dict_get(self.hoursu, self.hourgangzhi[0]).get(i) for i in self.new_zhi_list("巳")]))
         return {"農曆月":self.cmonth, "節氣":self.jieqi, "日期":self.daygangzhi+"時"+self.hourgangzhi+"分", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
+    def jinkou(self, zhi):
+        getm = {"正":"寅",
+        "二":"卯",
+        "三":"辰",
+        "四":"巳",
+        "五":"午",
+        "六":"未",
+        "七":"申",
+        "八":"酉",
+        "九":"戌",
+        "十":"亥",
+        "十一":"子",
+        "十二":"丑"}
+        pyuen = self.multi_key_dict_get(self.wuzi, self.daygangzhi[0])
+        mg = self.moongeneral()
+        rmg = dict(zip(self.new_list(self.Zhi, self.hourgangzhi[1]), self.new_list(self.Zhi, mg))).get(getm.get(self.cmonth))
+        mg2 = self.mg_dict.get(rmg)
+        return {"人元":pyuen, "將神":[rmg, mg2]}
 
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "白露"
-    d = "己卯"
-    h = "己巳"
+    j = "秋分"
+    d = "甲午"
+    h = "乙亥"
     m = "八"
     tic = time.perf_counter()
     print(d +"     " + h)
@@ -1355,11 +1387,12 @@ if __name__ == '__main__':
 
     print("    ")
     #print(Liuren(j, m, d, h).sky_pan_list())
-    answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    print(answer)
+    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
+    #print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
-    print(Liuren(j, m, d, h).result(0))
+    #print(Liuren(j, m, d, h).result(0))
+    print(Liuren(j, m, d, h).jinkou("子"))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
