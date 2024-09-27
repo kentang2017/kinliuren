@@ -18,7 +18,7 @@ class Liuren():
         self.Zhi = list("子丑寅卯辰巳午未申酉戌亥")
         self.Cmonth = list("正二三四五六七八九十")+["十一","十二"]
 	#五子元遁
-	self.wuzi = {tuple(list("甲己"):"甲", tuple(list("乙庚"):"丙", tuple(list("丙辛"):"戊", tuple(list("丁壬"):"庚",  tuple(list("戊癸"):"壬"}
+        self.wuzi = {tuple(list("甲己")):"甲", tuple(list("乙庚")):"丙", tuple(list("丙辛")):"戊", tuple(list("丁壬")):"庚",  tuple(list("戊癸")):"壬"}
         #字典庫
         self.yima_dict = {"丑":"亥", "未":"巳"}
         self.shigangjigong  = dict(zip(self.Gan + self.Zhi, list("寅辰巳未巳未申戌亥丑") + self.Zhi))
