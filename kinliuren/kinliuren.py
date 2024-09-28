@@ -1355,23 +1355,12 @@ class Liuren():
         return {"農曆月":self.cmonth, "節氣":self.jieqi, "日期":self.daygangzhi+"時"+self.hourgangzhi+"分", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
     def jinkou(self, zhi):
-        getm = {"正":"寅",
-        "二":"卯",
-        "三":"辰",
-        "四":"巳",
-        "五":"午",
-        "六":"未",
-        "七":"申",
-        "八":"酉",
-        "九":"戌",
-        "十":"亥",
-        "十一":"子",
-        "十二":"丑"}
         pyuen = self.multi_key_dict_get(self.wuzi, self.daygangzhi[0])
         mg = self.moongeneral()
-        rmg = dict(zip(self.new_list(self.Zhi, self.hourgangzhi[1]), self.new_list(self.Zhi, mg))).get(getm.get(self.cmonth))
-        mg2 = self.mg_dict.get(rmg)
-        return {"人元":pyuen, "將神":[rmg, mg2]}
+        gg = dict(zip(self.Zhi, self.sky_generals)).get(self.guiren_starting_gangzhi(0))
+        general_gan = dict(zip(self.Zhi,self.new_list(self.Gan,  pyuen))).get(mg)
+        gg_gan = dict(zip(self.new_list(self.Zhi, self.guiren_starting_gangzhi(0)),self.new_list(self.Gan, pyuen))).get(self.guiren_starting_gangzhi(0))
+        return {"人元":pyuen, "貴神":[gg_gan, gg], "將神":[general_gan, self.mg_dict.get(mg)], "地分": zhi}, 
 
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
