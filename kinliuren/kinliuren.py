@@ -8,6 +8,7 @@ Created on Sun Dec  22 16:22:37 2019
 from collections import Counter
 import re, itertools, time
 
+
 class Liuren():
     def __init__(self, jieqi, cmonth, daygangzhi, hourgangzhi):
         self.jieqi = jieqi
@@ -1356,17 +1357,26 @@ class Liuren():
 
     def jinkou(self, zhi):
         pyuen = self.multi_key_dict_get(self.wuzi, self.daygangzhi[0])
-        mg = self.moongeneral()
-        gg = dict(zip(self.Zhi, self.sky_generals)).get(self.guiren_starting_gangzhi(0))
-        general_gan = dict(zip(self.Zhi,self.new_list(self.Gan,  pyuen))).get(mg)
-        gg_gan = dict(zip(self.new_list(self.Zhi, self.guiren_starting_gangzhi(0)),self.new_list(self.Gan, pyuen))).get(self.guiren_starting_gangzhi(0))
-        return {"人元":pyuen, "貴神":[gg_gan, gg], "將神":[general_gan, self.mg_dict.get(mg)], "地分": zhi}, 
+        #gg = dict(zip(self.Zhi, self.sky_generals)).get(self.guiren_starting_gangzhi(0))
+        #general_gan = dict(zip(self.Zhi,self.new_list(self.Gan,  pyuen))).get(mg)
+        gg_gan = dict(zip(self.Zhi, self.new_list(self.Gan, pyuen))).get(self.hourgangzhi[1])
+        sky_earth = self.sky_n_earth_list()
+        sky = list(sky_earth.values())
+        guiren_order_list_2 = self.guiren_order_list(0)
+        guiren_order_list_3 = [guiren_order_list_2.get(i) for i in sky]
+        sky_to_general = dict(zip(guiren_order_list_3, sky))
+        gui = sky_to_general.get("貴")
+        general_gan = dict(zip(self.Zhi, itertools.cycle(self.new_list(self.Gan, pyuen)))).get(gui)
+        gg =  list(dict(zip(list("貴蛇雀合勾龍空虎常玄陰后"), itertools.cycle(self.new_list(self.Gan, pyuen)))).values())
+        gg_god =  list("貴蛇雀合勾龍空虎常玄陰后")[gg.index(general_gan)]
+        
+        return {"人元":pyuen, "貴神":[gg_gan, gg_god], "將神":[general_gan, self.mg_dict.get(zhi)], "地分": zhi}, 
 
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "秋分"
-    d = "甲午"
-    h = "乙亥"
+    d = "丁酉"
+    h = "乙巳"
     m = "八"
     tic = time.perf_counter()
     print(d +"     " + h)
