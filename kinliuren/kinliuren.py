@@ -1356,7 +1356,8 @@ class Liuren():
         return {"農曆月":self.cmonth, "節氣":self.jieqi, "日期":self.daygangzhi+"時"+self.hourgangzhi+"分", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
     def jinkou(self, zhi):
-        pyuen = self.multi_key_dict_get(self.wuzi, self.daygangzhi[0])
+        pyuen_start = self.multi_key_dict_get(self.wuzi, self.daygangzhi[0])
+        pyuen = dict(zip(self.Zhi, itertools.cycle(self.new_list(self.Gan, pyuen_start)))).get(zhi)
         #gg = dict(zip(self.Zhi, self.sky_generals)).get(self.guiren_starting_gangzhi(0))
         #general_gan = dict(zip(self.Zhi,self.new_list(self.Gan,  pyuen))).get(mg)
         gg_gan = dict(zip(self.Zhi, self.new_list(self.Gan, pyuen))).get(self.hourgangzhi[1])
@@ -1367,16 +1368,17 @@ class Liuren():
         sky_to_general = dict(zip(guiren_order_list_3, sky))
         gui = sky_to_general.get("貴")
         general_gan = dict(zip(self.Zhi, itertools.cycle(self.new_list(self.Gan, pyuen)))).get(gui)
+        g = dict(zip( self.Zhi, itertools.cycle(self.new_list(self.Gan, general_gan)))).get(self.hourgangzhi[1])
         gg =  list(dict(zip(list("貴蛇雀合勾龍空虎常玄陰后"), itertools.cycle(self.new_list(self.Gan, pyuen)))).values())
         gg_god =  list("貴蛇雀合勾龍空虎常玄陰后")[gg.index(general_gan)]
-        
-        return {"人元":pyuen, "貴神":[gg_gan, gg_god], "將神":[general_gan, self.mg_dict.get(zhi)], "地分": zhi}, 
+        gen_g =  dict(zip(self.Zhi,list(dict(zip(self.Zhi, itertools.cycle(self.new_list(self.Gan, pyuen)))).values()))).get(zhi)
+        return {"人元":pyuen, "貴神":[g, gg_god], "將神":[gen_g, self.mg_dict.get(self.hourgangzhi[1])], "地分": zhi}
 
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "秋分"
     d = "丁酉"
-    h = "乙巳"
+    h = "丙午"
     m = "八"
     tic = time.perf_counter()
     print(d +"     " + h)
@@ -1391,7 +1393,7 @@ if __name__ == '__main__':
     print("")
     #print(Liuren(j, m, d, h).shehai())
     #print(Liuren(j, m, d, h).result(0))
-    print(Liuren(j, m, d, h).jinkou("子"))
+    print(Liuren(j, m, d, h).jinkou("申"))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
