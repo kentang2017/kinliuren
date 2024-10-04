@@ -8,7 +8,6 @@ Created on Sun Dec  22 16:22:37 2019
 from collections import Counter
 import re, itertools, time
 
-
 class Liuren():
     def __init__(self, jieqi, cmonth, daygangzhi, hourgangzhi):
         self.jieqi = jieqi
@@ -18,9 +17,7 @@ class Liuren():
         self.Gan = list("甲乙丙丁戊己庚辛壬癸")
         self.Zhi = list("子丑寅卯辰巳午未申酉戌亥")
         self.Cmonth = list("正二三四五六七八九十")+["十一","十二"]
-        #六壬金口訣
-        #五子元遁
-        self.wuzi = {tuple(list("甲己")):"甲", tuple(list("乙庚")):"丙", tuple(list("丙辛")):"戊", tuple(list("丁壬")):"庚",  tuple(list("戊癸")):"壬"}
+        
         #月將
         self.mg_dict = {"亥":"登明",
           "戌":"河魁",
@@ -1225,7 +1222,7 @@ class Liuren():
                             return chuchuan
                     elif dayganzhi_yy == "陰":
                         if self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="刑":
-                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[1])), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[1])))]]
+                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[1])), self.chong2.get(self.daygangzhi[1])]]
                             return chuchuan
                         elif self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="自刑":
                             chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[1]), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))), self.ying.get(self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))))]]
@@ -1356,7 +1353,14 @@ class Liuren():
         return {"農曆月":self.cmonth, "節氣":self.jieqi, "日期":self.daygangzhi+"時"+self.hourgangzhi+"分", "格局":ju, "日馬": dyima, "三傳":three_pass, "四課":sike, "天地盤":sky_earth_guiren_dict, "地轉天盤":sky_earth, "地轉天將": earth_to_general}
 
     def jinkou(self, zhi):
-        pyuen_start = self.multi_key_dict_get(self.wuzi, self.daygangzhi[0])
+        #六壬金口訣
+        #五子元遁
+        wuzi = {tuple(list("甲己")):"甲", 
+                tuple(list("乙庚")):"丙", 
+                tuple(list("丙辛")):"戊", 
+                tuple(list("丁壬")):"庚",  
+                tuple(list("戊癸")):"壬"}
+        pyuen_start = self.multi_key_dict_get(wuzi, self.daygangzhi[0])
         pyuen = dict(zip(self.Zhi, itertools.cycle(self.new_list(self.Gan, pyuen_start)))).get(zhi)
         #gg = dict(zip(self.Zhi, self.sky_generals)).get(self.guiren_starting_gangzhi(0))
         #general_gan = dict(zip(self.Zhi,self.new_list(self.Gan,  pyuen))).get(mg)
@@ -1373,13 +1377,14 @@ class Liuren():
         gg_god =  list("貴蛇雀合勾龍空虎常玄陰后")[gg.index(general_gan)]
         gen_g =  dict(zip(self.Zhi,list(dict(zip(self.Zhi, itertools.cycle(self.new_list(self.Gan, pyuen)))).values()))).get(zhi)
         return {"人元":pyuen, "貴神":[g, gg_god], "將神":[gen_g, self.mg_dict.get(self.hourgangzhi[1])], "地分": zhi}
-
+    
+    
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "秋分"
-    d = "丁酉"
-    h = "丙午"
-    m = "八"
+    d = "辛丑"
+    h = "壬辰"
+    m = "九"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
@@ -1392,8 +1397,9 @@ if __name__ == '__main__':
     #print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
-    #print(Liuren(j, m, d, h).result(0))
-    print(Liuren(j, m, d, h).jinkou("申"))
+    print(Liuren(j, m, d, h).result(0))
+    #print(Liuren(j, m, d, h).jinkou("子"))
+    #print(Liuren(j, m, d, h).guiren_starting_gangzhi(0))
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
