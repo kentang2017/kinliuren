@@ -417,6 +417,9 @@ class Liuren():
             if sike_list[2].count("比和") >= 1:
                 findtrue =  ["伏吟","杜傳", [self.chong2.get(self.chong2.get(sike[sike_list[0].index("下賊上")][0])), self.daygangzhi[1], "子"]]
                 return findtrue
+            else:
+                findtrue =   "不適用，或試他法" 
+                return findtrue
         elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("上尅下") == 0 and  sike_list[9] == '天地盤沒有返吟': 
             if sike_list[7][2][0] == sike_list[7][2][1]:
                 findtrue =  ["賊尅","重審", self.find_three_pass(sike_list[7][2][0][0])]
@@ -427,7 +430,8 @@ class Liuren():
         elif sike_list[0].count("下賊上") == 2 and sike_list[0].count("上尅下") == 2  and sike_list[9] == '天地盤返吟':
             findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
-    
+
+
         #一個上尅下
         elif sike_list[0].count("上尅下") == 1 and sike_list[0].count("下賊上") == 0 and sike_list[9] == '天地盤沒有返吟':
             findtrue =  ["賊尅","元首", self.find_three_pass(sike[sike_list[0].index("上尅下")][0])]
@@ -1381,20 +1385,20 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "秋分"
-    d = "辛丑"
-    h = "壬辰"
-    m = "九"
+    j = "大雪"
+    d = "乙巳"
+    h = "戊寅"
+    m = "十一"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
-    print(Liuren(j, m, d, h).maosing())
+    print(Liuren(j, m, d, h).zeike())
 
 
     print("    ")
     #print(Liuren(j, m, d, h).sky_pan_list())
-    #answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
-    #print(answer)
+    answer =  [Liuren(j, m, d, h).zeike(), Liuren(j, m, d, h).biyung(), Liuren(j, m, d, h).shehai(), Liuren(j, m, d, h).yaoke(), Liuren(j, m, d, h).maosing(), Liuren(j, m, d, h).bieze(), Liuren(j, m, d, h).bazhuan(), Liuren(j, m, d, h).fuyin()]
+    print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
     print(Liuren(j, m, d, h).result(0))
