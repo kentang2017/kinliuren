@@ -13,6 +13,8 @@
 
 堅六壬排盤 https://kinliuren.streamlit.app/
 
+如有遺漏紕繆，請向本人提出報錯，定必適時修正，謝謝！
+
 Da Liu Ren is a form of Chinese calendrical astrology dating from the later Warring States period. It is also a member of the Three Styles (三式; sānshì; 'three rites') of divination, along with Qi Men Dun Jia (奇门遁甲) and Taiyi (太乙).
 
 In the words of a contemporary Chinese master of Da Liu Ren, the six rén indicate an entire movement of the sexagenary cycle, during which an something may appear, rise to maturity and then decline and disappear. Thus the six rén indicate the life cycle of phenomena. There is a homonym in the Chinese language which carries the meaning of pregnancy and so the six rén also carry the meaning of the birth of a phenomenon.
