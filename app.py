@@ -35,51 +35,88 @@ pan,example,guji,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ', ' 📚�
 with st.sidebar:
     st.header("日期與時間選擇")
     
-    # Set default datetime to current time in Asia/Shanghai
-    default_datetime = pdlm.now(tz='Asia/Shanghai')
+    # Set default datetime to current time in Asia/Hong_Kong (HKT)
+    default_datetime = pdlm.now(tz='Asia/Hong_Kong')  # June 1, 2025, 12:49 PM HKT
     
-    # Combined datetime input
-    selected_date = st.date_input(
-        "選擇日期",
-        value=default_datetime.date(),
-        min_value=pdlm.datetime(1900, 1, 1).date(),
-        help="選擇占卜的日期"
-    )
+    # Separate input fields for year, month, day, hour, minute
+    col1, col2, col3 = st.columns([2, 1, 1])
+    with col1:
+        y = st.number_input(
+            "年",
+            min_value=1900,
+            max_value=2100,
+            value=default_datetime.year,
+            step=1,
+            help="輸入年份 (1900-2100)"
+        )
+    with col2:
+        m = st.number_input(
+            "月",
+            min_value=1,
+            max_value=12,
+            value=default_datetime.month,
+            step=1,
+            help="輸入月份 (1-12)"
+        )
+    with col3:
+        d = st.number_input(
+            "日",
+            min_value=1,
+            max_value=31,
+            value=default_datetime.day,
+            step=1,
+            help="輸入日期 (1-31)"
+        )
     
-    selected_time = st.time_input(
-        "選擇時間",
-        value=default_datetime.time(),
-        help="選擇占卜的時間 (24小時制)"
-    )
+    col4, col5 = st.columns(2)
+    with col4:
+        h = st.number_input(
+            "時",
+            min_value=0,
+            max_value=23,
+            value=default_datetime.hour,
+            step=1,
+            help="輸入小時 (0-23)"
+        )
+    with col5:
+        min = st.number_input(
+            "分",
+            min_value=0,
+            max_value=59,
+            value=default_datetime.minute,
+            step=1,
+            help="輸入分鐘 (0-59)"
+        )
     
     # Quick-select buttons for common times
     st.subheader("快速選擇")
-    col1, col2, col3 = st.columns(3)
-    with col1:
+    col6, col7, col8 = st.columns(3)
+    with col6:
         if st.button("現在"):
-            selected_date = pdlm.now(tz='Asia/Shanghai').date()
-            selected_time = pdlm.now(tz='Asia/Shanghai').time()
-    with col2:
+            now = pdlm.now(tz='Asia/Hong_Kong')
+            y = now.year
+            m = now.month
+            d = now.day
+            h = now.hour
+            min = now.minute
+    with col7:
         if st.button("午夜"):
-            selected_time = pdlm.time(0, 0)
-    with col3:
+            h = 0
+            min = 0
+    with col8:
         if st.button("中午"):
-            selected_time = pdlm.time(12, 0)
-    
-    # Convert selected date and time to components for existing logic
-    p = str(selected_date).split("-")
-    pp = str(selected_time).split(":")
-    y = int(p[0])
-    m = int(p[1])
-    d = int(p[2])
-    h = int(pp[0])
-    min = int(pp[1])
+            h = 12
+            min = 0
     
     # Display selected datetime
-    st.write(f"已選擇: {y}年{m}月{d}日 {h:02d}:{min:02d}")
+    try:
+        selected_datetime = pdlm.datetime(y, m, d, h, min, tz='Asia/Hong_Kong')
+        st.write(f"已選擇: {y}年{m}月{d}日 {h:02d}:{min:02d}")
+    except ValueError:
+        st.error("請輸入有效的日期和時間！")
     
     # Timezone info
-    st.caption(f"時區: Asia/Shanghai")
+    st.caption("時區: Asia/Hong_Kong")
 
 with guji:
     st.header('古籍')
