@@ -1,6 +1,5 @@
 import os, urllib
 import streamlit as st
-
 import pendulum as pdlm
 from contextlib import contextmanager, redirect_stdout
 from sxtwl import fromSolar
@@ -32,16 +31,55 @@ def lunar_date_d(y, m, d):
         
 st.set_page_config(layout="wide",page_title="堅六壬-六壬排盤")
 pan,example,guji,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ', ' 📚古籍 ',' 🔗連結 ',' 🆕更新 ' ])
+
 with st.sidebar:
-    pp_date=st.date_input("日期",pdlm.now(tz='Asia/Shanghai').date())
-    pp_time=st.time_input("時間",pdlm.now(tz='Asia/Shanghai').time())
-    p = str(pp_date).split("-")
-    pp = str(pp_time).split(":")
+    st.header("日期與時間選擇")
+    
+    # Set default datetime to current time in Asia/Shanghai
+    default_datetime = pdlm.now(tz='Asia/Shanghai')
+    
+    # Combined datetime input
+    selected_date = st.date_input(
+        "選擇日期",
+        value=default_datetime.date(),
+        min_value=pdlm.datetime(1900, 1, 1).date(),
+        help="選擇占卜的日期"
+    )
+    
+    selected_time = st.time_input(
+        "選擇時間",
+        value=default_datetime.time(),
+        help="選擇占卜的時間 (24小時制)"
+    )
+    
+    # Quick-select buttons for common times
+    st.subheader("快速選擇")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button("現在"):
+            selected_date = pdlm.now(tz='Asia/Shanghai').date()
+            selected_time = pdlm.now(tz='Asia/Shanghai').time()
+    with col2:
+        if st.button("午夜"):
+            selected_time = pdlm.time(0, 0)
+    with col3:
+        if st.button("中午"):
+            selected_time = pdlm.time(12, 0)
+    
+    # Convert selected date and time to components for existing logic
+    p = str(selected_date).split("-")
+    pp = str(selected_time).split(":")
     y = int(p[0])
     m = int(p[1])
     d = int(p[2])
     h = int(pp[0])
     min = int(pp[1])
+    
+    # Display selected datetime
+    st.write(f"已選擇: {y}年{m}月{d}日 {h:02d}:{min:02d}")
+    
+    # Timezone info
+    st.caption(f"時區: Asia/Shanghai")
 
 with guji:
     st.header('古籍')
@@ -70,7 +108,6 @@ with pan:
     ltext1 = liuren_day
     ltext2 = liuren_hour
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
-    #b = "農曆︰{}{}月{}日\n".format(cn2an.transform(str(self.ld.get("年"))+"年", "an2cn"), an2cn(self.ld.get("月")), an2cn(self.ld.get("日")))
     b = "格局︰{}\n".format(ltext.get("格局")[0])
     c = "節氣︰{}\n".format(jq)      
     d = "干支︰{}年 {}月 {}日 {}時 {}分\n".format(qgz[0], qgz[1], qgz[2], qgz[3], qgz[4])
@@ -89,19 +126,6 @@ with pan:
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     output2 = st.empty()
     with st_capture(output2.code):
-        print( a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o)
-        #print("{}年{}月{}日{}時".format(y,m,d,h))
-        #print("{} | 節氣:{} | {}課 \n".format(ltext.get("日期"),ltext.get("節氣"), ltext.get("格局")[0]))
-        #print("　　　{}".format("".join(ltext.get("三傳").get("初傳"))))
-        #print("　　　{}".format("".join(ltext.get("三傳").get("中傳"))))
-        #print("　　　{}\n".format("".join(ltext.get("三傳").get("末傳"))))
-        #print("　　　{}".format("".join([ltext.get("四課").get(i)[0][0] for i in ['四課','三課','二課','一課']])))
-        #print("　　　{}\n".format("".join([ltext.get("四課").get(i)[0][1] for i in ['四課','三課','二課','一課']])))
-        #print("　　　{}".format("".join([ltext.get("地轉天將").get(i) for i in list("巳午未申")])))
-        #print("　　　{}".format("".join([ltext.get("地轉天盤").get(i) for i in list("巳午未申")])))
-        #print("　　{}{}　　{}{}".format(ltext.get("地轉天將").get("辰"), ltext.get("地轉天盤").get("辰"), ltext.get("地轉天盤").get("酉"), ltext.get("地轉天將").get("酉")))
-        #print("　　{}{}　　{}{}".format(ltext.get("地轉天將").get("卯"), ltext.get("地轉天盤").get("卯"), ltext.get("地轉天盤").get("戌"), ltext.get("地轉天將").get("戌")))
-        #print("　　　{}".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")])))
-        #print("　　　{}".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")])))
+        print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o)
     expander = st.expander("原始碼")
     expander.write(str(ltext))
