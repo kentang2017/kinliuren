@@ -29,7 +29,8 @@
   </a>
   <img src="https://raw.githubusercontent.com/kentang2017/kintaiyi/master/pic/20231205113526.jpg" style="max-width : 100%; height: auto">
 </p>
-
 如有任何建議或合作事宜，可加本人微信聯繫
 或搜 gnatnek (請註明是在github加我的)
+
+或 加入QQ群組 堅三式軟件交流群 (770621021)
 聯繫通訊
