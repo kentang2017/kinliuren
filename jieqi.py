@@ -186,49 +186,25 @@ def gangzhi1(year, month, day, hour, minute):
     hTG1 = find_lunar_hour(dTG).get(hTG[1])
     return [yTG, mTG1, dTG, hTG1]
 
+#換算干支
 def gangzhi(year, month, day, hour, minute):
+    if year == 0:
+        return ["無效"]
+    if year < 0:
+        year = year + 1 
     if hour == 23:
-        d = ephem.Date(round((ephem.Date("{}/{}/{} {}:00:00.00".format(
-            str(year).zfill(4),
-            str(month).zfill(2),
-            str(day+1).zfill(2),
-            str(0).zfill(2)))),3))
+        d = Date(round((Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day+1).zfill(2), str(0).zfill(2)))), 3))
     else:
-        d = ephem.Date("{}/{}/{} {}:00:00.00".format(
-            str(year).zfill(4),
-            str(month).zfill(2),
-            str(day).zfill(2),
-            str(hour).zfill(2)))
+        d = Date("{}/{}/{} {}:00:00.00".format(str(year).zfill(4), str(month).zfill(2), str(day).zfill(2), str(hour).zfill(2) ))
     dd = list(d.tuple())
     cdate = fromSolar(dd[0], dd[1], dd[2])
-    yTG,mTG,dTG,hTG = "{}{}".format(
-        tiangan[cdate.getYearGZ().tg],
-        dizhi[cdate.getYearGZ().dz]), "{}{}".format(
-            tiangan[cdate.getMonthGZ().tg],
-            dizhi[cdate.getMonthGZ().dz]), "{}{}".format(
-                tiangan[cdate.getDayGZ().tg],
-                dizhi[cdate.getDayGZ().dz]), "{}{}".format(
-                    tiangan[cdate.getHourGZ(dd[3]).tg],
-                    dizhi[cdate.getHourGZ(dd[3]).dz])
+    yTG,mTG,dTG,hTG = "{}{}".format(tian_gan[cdate.getYearGZ().tg], di_zhi[cdate.getYearGZ().dz]), "{}{}".format(tian_gan[cdate.getMonthGZ().tg],di_zhi[cdate.getMonthGZ().dz]), "{}{}".format(tian_gan[cdate.getDayGZ().tg], di_zhi[cdate.getDayGZ().dz]), "{}{}".format(tian_gan[cdate.getHourGZ(dd[3]).tg], di_zhi[cdate.getHourGZ(dd[3]).dz])
     if year < 1900:
         mTG1 = find_lunar_month(yTG).get(lunar_date_d(year, month, day).get("月"))
     else:
         mTG1 = mTG
     hTG1 = find_lunar_hour(dTG).get(hTG[1])
     zi = gangzhi1(year, month, day, 0, 0)[3]
-    if minute < 10 and minute >=0:
-        reminute = "00"
-    if minute < 20 and minute >=10:
-        reminute = "10"
-    if minute < 30 and minute >=20:
-        reminute = "20"
-    if minute < 40 and minute >=30:
-        reminute = "30"
-    if minute < 50 and minute >=40:
-        reminute = "40"
-    if minute < 60 and minute >=50:
-        reminute = "50"
-    hourminute = str(hour)+":"+str(reminute)
-    zi = gangzhi1(year, month, day, 0, 0)[3]
+    hourminute = str(hour)+":"+str(minute)
     gangzhi_minute = minutes_jiazi_d(zi).get(hourminute)
     return [yTG, mTG1, dTG, hTG1, gangzhi_minute]
