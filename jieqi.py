@@ -145,15 +145,20 @@ def jiazi():
 def repeat_list(n, thelist):
     return [repetition for i in thelist for repetition in repeat(i,n) ]
 #分干支
-def minutes_jiazi_d():
-    t = []
-    for h in range(0,24):
-        for m in range(0,60):
-            b = str(h)+":"+str(m)
-            t.append(b)
-    minutelist = dict(zip(t, cycle(repeat_list(2, jiazi()))))
+#def minutes_jiazi_d():
+    #t = []
+    #for h in range(0,24):
+    #    for m in range(0,60):
+    #        b = str(h)+":"+str(m)
+    #        t.append(b)
+    #minutelist = dict(zip(t, cycle(repeat_list(2, jiazi()))))
+    #return minutelist
+
+#分干支
+def minutes_jiazi_d(hour):
+    t = [f"{h}:{m}" for h in range(24) for m in range(60)]
+    minutelist = dict(zip(t, cycle(repeat_list(1, find_lunar_minute(hour)))))
     return minutelist
-     
 #換算干支
 def gangzhi1(year, month, day, hour, minute):
     if hour == 23:
