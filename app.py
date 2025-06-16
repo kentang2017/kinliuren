@@ -90,15 +90,13 @@ with st.sidebar:
     
     # Quick-select buttons for common times
     st.subheader("快速選擇")
-    col6 = st.columns(1)
-    with col6:
-        if st.button("現在"):
-            now = pdlm.now(tz='Asia/Hong_Kong')
-            y = now.year
-            m = now.month
-            d = now.day
-            h = now.hour
-            min = now.minute
+    if st.button("現在"):
+        now = pdlm.now(tz='Asia/Hong_Kong')
+        y = now.year
+        m = now.month
+        d = now.day
+        h = now.hour
+        min = now.minute
 
     
     # Display selected datetime
