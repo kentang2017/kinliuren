@@ -90,7 +90,7 @@ with st.sidebar:
     
     # Quick-select buttons for common times
     st.subheader("快速選擇")
-    col6, col7, col8 = st.columns(3)
+    col6 = st.columns(1)
     with col6:
         if st.button("現在"):
             now = pdlm.now(tz='Asia/Hong_Kong')
@@ -99,14 +99,7 @@ with st.sidebar:
             d = now.day
             h = now.hour
             min = now.minute
-    with col7:
-        if st.button("午夜"):
-            h = 0
-            min = 0
-    with col8:
-        if st.button("中午"):
-            h = 12
-            min = 0
+
     
     # Display selected datetime
     try:
