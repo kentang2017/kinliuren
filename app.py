@@ -29,7 +29,11 @@ def lunar_date_d(y, m, d):
     day = fromSolar(y,m,d)
     return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
         
-st.set_page_config(layout="wide",page_title="堅六壬-六壬排盤")
+st.set_page_config(
+    layout="wide",
+    page_title="堅六壬 - 六壬排盘",
+    page_icon="icon.jpg"
+)
 pan,example,guji,links,update = st.tabs([' 🧮排盤 ', ' 📜案例 ', ' 📚古籍 ',' 🔗連結 ',' 🆕更新 ' ])
 
 with st.sidebar:
