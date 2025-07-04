@@ -14,6 +14,9 @@
   <a href="https://kinqimen.streamlit.app/">
     <img src="https://raw.githubusercontent.com/kentang2017/kinqimen/master/pic/Untitled-22.png"  style="max-width: 100%; height: auto;">
   </a>
+  <a href="https://kinwuzhao.streamlit.app/">
+    <img src="https://raw.githubusercontent.com/kentang2017/kinqimen/master/pic/Untitled-22.png"  style="max-width: 100%; height: auto;">
+  </a>
   <a href="https://kintaixuan.streamlit.app/">
     <img src="https://raw.githubusercontent.com/kentang2017/taixuanshifa/master/pic/taixuan.png"  style="max-width: 100%; height: auto;">
   </a>
