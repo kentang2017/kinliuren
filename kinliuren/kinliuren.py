@@ -1226,7 +1226,7 @@ class Liuren():
                             return chuchuan
                     elif dayganzhi_yy == "陰":
                         if self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="刑":
-                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[1])), self.chong2.get(self.daygangzhi[1])]]
+                            chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[1]), self.ying.get(self.shigangjigong.get(self.daygangzhi[1])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[1])))]]
                             return chuchuan
                         elif self.multi_key_dict_get(self.ying_chong, self.shigangjigong.get(self.daygangzhi[1])) =="自刑":
                             chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[1]), self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))), self.ying.get(self.chong2.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0]))))]]
@@ -1385,10 +1385,10 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "大雪"
-    d = "乙巳"
-    h = "戊寅"
-    m = "十一"
+    j = "立秋"
+    d = "己未"
+    h = "庚午"
+    m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
