@@ -282,8 +282,8 @@ class Liuren():
             findtrue = ["試賊尅", sike_list.index("下賊上"),  "沒有", classify, "沒有", "沒有"]
             return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, self.gangzhi_yinyang(self.daygangzhi[0]), fan_yin
         
-        elif sike_list.count("下賊上") >= 2:
-            findtrue = ["試比用", sike_list.index("下賊上"),  "沒有", classify, "沒有", "沒有"]
+        elif sike_list.count("下賊上") >= 2 and  self.Ganzhiwuxing(self.daygangzhi[0])!=self.Ganzhiwuxing(self.daygangzhi[1]):
+            findtrue = ["試比用", sike_list.index("下賊上"),  "沒有", classify, "沒有", "沒有", self.Ganzhiwuxing(self.daygangzhi[0]), self.Ganzhiwuxing(self.daygangzhi[1])]
             return sike_list, sike, shangke_list, checkdayganzhi, checkfuyin, checkmoongeneralconflicttohour, checkfanyin, findtrue, self.gangzhi_yinyang(self.daygangzhi[0]), fan_yin
         
         elif sike_list.count("下賊上") >1:
@@ -479,7 +479,7 @@ class Liuren():
             elif filter_list_yy[1] == dayganzhi_yy:
                 findtrue = ["比用", "比用", self.find_three_pass(self.all_sike()[1][0])]
             else:
-                findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][0])]
+                findtrue = "不適用，或試他法"
             return findtrue
         elif relation[0].count("上尅下") >= 2 and relation[0].count("下賊上") == 0 and relation[9] == '天地盤沒有返吟':
             if filter_list_yy[0] == dayganzhi_yy:
@@ -1387,12 +1387,14 @@ if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "立秋"
     d = "己未"
-    h = "庚午"
+    h = "丙寅"
     m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
-    print(Liuren(j, m, d, h).zeike())
+    print(Liuren(j, m, d, h).shehai())
+    print(Liuren(j, m, d, h).find_sike_relations()[7][0])
+    #print(Liuren(j, m, d, h).biyung())
 
 
     print("    ")
