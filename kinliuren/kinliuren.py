@@ -509,7 +509,7 @@ class Liuren():
             if filter_list_yy[0] == dayganzhi_yy:
                 findtrue = ["比用", "比用", self.find_three_pass(self.all_sike()[1][0])]
             elif filter_list_yy[1] == dayganzhi_yy:
-                findtrue = ["比用", "比用", self.find_three_pass(self.all_sike()[1][0])]
+                findtrue = ["比用", "比用", self.find_three_pass(self.all_sike()[2][1])]
             else:
                 try:
                     if relation[0].count("上尅下") == 0:
@@ -919,6 +919,7 @@ class Liuren():
                     return result
                 elif len(reducing[0]) > 1 and self.find_sike_relations()[2].count("尅") == 1:
                     if dayganzhi_yy == "陽":
+                        
                         result = ["涉害1", "涉害", self.find_three_pass(self.find_sike_relations()[1][2][0][0])]   
                     if dayganzhi_yy == "陰":
                         result = ["涉害1", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]   
@@ -1450,7 +1451,7 @@ if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "立秋"
     d = "丙午"
-    h = "辛卯"
+    h = "己丑"
     m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
