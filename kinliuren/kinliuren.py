@@ -49,6 +49,8 @@ class Liuren():
         self.ying = dict(zip("寅巳申丑戌未子卯辰亥酉午","巳申寅戌未丑卯子辰亥酉午"))
         self.ying_chong = dict(zip(list(map(lambda x: tuple(x), "寅巳申丑戌未子卯,午辰酉亥".split(","))),"刑,自刑".split(","))) 
         self.chong2 = dict(zip("子午丑未寅申卯酉辰戌巳亥","午子未丑申寅酉卯戌辰亥巳"))
+        #合
+        self.he = dict(zip("子丑午未巳申寅亥卯戌辰酉","丑子未午申巳亥寅戌卯酉辰"))
         #天將
         self.sky_generals  = "貴蛇雀合勾龍空虎常玄陰后"
         self.sky_generals_r  = self.new_list(list(reversed(self.sky_generals)), "貴")
@@ -356,8 +358,9 @@ class Liuren():
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True") ==1  and nn_list.count("False") ==1: 
                 findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=1  and nn_list.count("False") >=1:
-                if self.Ganzhiwuxing(self.daygangzhi[0]) in [self.Ganzhiwuxing(i[0]) for i in sike] and dayganzhi_yy == "陽":
+                if self.Ganzhiwuxing(self.daygangzhi[0]) in [self.Ganzhiwuxing(i[0]) for i in sike] and dayganzhi_yy == "陽" or self.Ganzhiwuxing(self.daygangzhi[0])  == self.Ganzhiwuxing(self.daygangzhi[1]):
                     findtrue = ["試比用", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
+
                 else:
                     findtrue = ["試涉害", find_ke,  zeikeshang_list, classify, nn_list, yy_list, check_same]
             elif len(set(zeikeshang_list)) >= 2 and nn_list.count("True")>=2  and nn_list.count("False") ==0: 
@@ -416,8 +419,8 @@ class Liuren():
             return findtrue
         elif sike_list[0].count("上尅下") >= 2 and sike_list[0].count("下賊上") == 0: 
             findtrue =  "不適用，或試他法" 
-        elif sike_list[0].count("上尅下") >= 2 and sike_list[0].count("下賊上") == 1: 
-            findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
+        elif sike_list[0].count("上尅下") >= 2 and sike_list[0].count("下賊上") == 1:
+            findtrue =  ["賊尅","重審斫輪", self.find_three_pass(sike[sike_list[0].index("下賊上")][0])]
             return findtrue
         elif sike_list[0].count("上尅下") > 2 and sike_list[0].count("下賊上") == 0 and sike_list[7][0] == "試賊尅" and set(sike_list[7][1]) == 1:
             findtrue =  ["賊尅","元首", self.find_three_pass(sike_list[7][2][0][0])]
@@ -449,6 +452,9 @@ class Liuren():
 
 
         #一個上尅下
+        
+        
+        
         elif sike_list[0].count("上尅下") == 1 and sike_list[0].count("下賊上") == 0 and sike_list[9] == '天地盤沒有返吟':
             findtrue =  ["賊尅","元首", self.find_three_pass(sike[sike_list[0].index("上尅下")][0])]
             return findtrue
@@ -461,19 +467,25 @@ class Liuren():
         elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤沒有返吟':
             findtrue =  ["返吟","無依", self.find_three_pass(sike[sike_list[0].index("上尅下")][0])]
             return findtrue
-        elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤返吟':
+        elif sike_list[0].count("上尅下") == 1 and sike_list[9] == '天地盤返吟' and sike_list[0].count("下賊上") == 0:
             if self.hourgangzhi[1] != "子":
-                findtrue =  ["返吟","無依", [ self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), self.ying[self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))], self.chong2.get(sike[sike_list[0].index("上尅下")][0])]]
+                if self.Ganzhiwuxing(self.daygangzhi[1]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                    findtrue = ["返吟","勵德", [self.chong2.get(sike[sike_list[0].index("上尅下")][0]), self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), self.chong2.get(sike[sike_list[0].index("上尅下")][0])]]
+                else:
+                    findtrue =  ["返吟","無依", [ self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), self.ying[self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))], self.chong2.get(sike[sike_list[0].index("上尅下")][0])]]
             if self.hourgangzhi[1] == "子":
                 if dayganzhi_yy == "陽":
                     if sike_list[5] == "被尅":
-                        findtrue =  ["返吟","無依", [ self.ying[self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))], self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), ]]
+                        findtrue =  ["返吟","無依", [ self.ying[self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))], self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), self.ying[self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))]]]
                     else:
                         findtrue =  ["返吟","無依", [ self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0])), self.ying[self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))], self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))]]
                 if dayganzhi_yy == "陰":
                     findtrue =  ["返吟","無依", [ sike[0][1], self.ying[self.chong2.get(self.chong2.get(sike[sike_list[0].index("上尅下")][0]))], sike[0][1]]]
             return findtrue
-
+        elif sike_list[0].count("上尅下") == 1 and sike_list[0].count("下賊上") == 1 and sike_list[9] == '天地盤返吟':
+            findtrue =  ["返吟", "斫輪",[sike[0][0], sike[0][1], sike[0][0]]]
+            return findtrue
+        
 
     def biyung(self):
         sike = self.all_sike()
@@ -482,6 +494,7 @@ class Liuren():
         filter_list_four_ke = self.find_sike_relations()[7][2]
         filter_list_yy = self.find_sike_relations()[7][5]
         dayganzhi_yy = self.find_sike_relations()[8]
+        hourganzhi_yy = self.gangzhi_yinyang(self.hourgangzhi[1])
         if filter_list[0] == "試賊尅":
             findtrue =  "不適用，或試他法"
             return findtrue
@@ -492,8 +505,15 @@ class Liuren():
             findtrue =  "不適用，或試他法"
             return findtrue
         elif relation[0].count("下賊上") == 2 and relation[9] == '天地盤返吟':
-            if dayganzhi_yy == "陽":    
-                findtrue = ["返吟", "無依", [self.all_sike()[0][1],self.all_sike()[1][1],  self.all_sike()[0][1]]]
+            if dayganzhi_yy == "陽":
+               if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[1]) or self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                   findtrue = ["返吟", "無依", [self.all_sike()[1][1], self.all_sike()[0][1],  self.all_sike()[1][1]]]
+               if self.Ganzhiwuxing(self.daygangzhi[1]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                   findtrue = ["返吟", "元胎", [self.all_sike()[2][1], self.all_sike()[2][0],  self.all_sike()[2][1]]]
+               if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[0]):
+                   findtrue = ["返吟", "無依", [self.all_sike()[2][0], self.all_sike()[2][1],  self.all_sike()[2][0]]]
+               else:
+                   findtrue = ["返吟", "無依", [self.all_sike()[0][1],self.all_sike()[1][1],  self.all_sike()[0][1]]]
             if dayganzhi_yy == "陰":
                 findtrue = ["返吟", "無依", [self.all_sike()[1][1],  self.all_sike()[0][1], self.all_sike()[1][1] ]]
             return findtrue
@@ -514,34 +534,112 @@ class Liuren():
                 try:
                     if relation[0].count("上尅下") == 0:
                         f = [self.Ganzhiwuxing(i[0]) for i in sike].index(self.Ganzhiwuxing(self.daygangzhi[0]))
-                        findtrue = ["比用", "比用", self.find_three_pass(sike[f][0])]   
+                        if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]) and hourganzhi_yy == "陰":
+                            findtrue = ["涉害", "極陰", self.find_three_pass(self.all_sike()[0][1])]
+                        if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]) and hourganzhi_yy == "陽":
+                            findtrue = ["涉害", "從革", self.find_three_pass(self.all_sike()[2][0])]
+                        else:
+                            findtrue = ["比用", "比用", self.find_three_pass(sike[f][0])]   
                     if relation[0].count("上尅下") == 1:
-                        f = [self.Ganzhiwuxing(i[0]) for i in sike].index(self.Ganzhiwuxing(self.hourgangzhi[1]))
-                        findtrue = ["涉害", "涉害", self.find_three_pass(sike[f][0])]   
+                        if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[0]):
+                            findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][0])]    
+                        if self.Ganzhiwuxing(self.hourgangzhi[1]) == self.Ganzhiwuxing(self.daygangzhi[1]):
+                            findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[2][0])]    
+                        else:
+                            try:
+                                if [char for char, count in Counter([self.Ganzhiwuxing(char) for item in sike for char in item]).items() if count > 3][0] == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                                    findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][0])]
+                                else:
+                                    f = [self.Ganzhiwuxing(i[0]) for i in sike].index(self.Ganzhiwuxing(self.hourgangzhi[1]))
+                                    findtrue = ["涉害", "涉害", self.find_three_pass(sike[f][0])]   
+                            except IndexError:
+                                findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][0])]
+                                
                 except ValueError:
                     try:
                         fa = self.find_duplicates(sike)[0]
-                        findtrue = ["賊克", "重審", self.find_three_pass(fa[0])]
+                        if relation[0][self.all_sike().index(fa)] == "下賊上":
+                            findtrue = ["賊克", "重審", self.find_three_pass(fa[0])]
+                        if relation[0][self.all_sike().index(fa)] == "上尅下":
+                            findtrue = ["賊克", "元首", self.find_three_pass(fa[0])]
+                        if relation[0][self.all_sike().index(fa)] != "上尅下" and  relation[0][self.all_sike().index(fa)] != "下賊上":
+                            findtrue = ["涉害", "涉害", self.find_three_pass(fa[1])] 
                     except IndexError:
                         if dayganzhi_yy == "陰":
-                            findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][0])]
+                            if hourganzhi_yy == "陰":
+                                if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                                    findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[2][0])]
+                                else:
+                                    findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[3][0])]
+                            else:
+                                findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][0])]
                         if dayganzhi_yy == "陽":
-                            findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[1][1])]
+                            if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[0]) and self.Ganzhiwuxing(self.hourgangzhi[1]) == self.Ganzhiwuxing(self.daygangzhi[1]):
+                                findtrue = ["涉害", "涉害", self.find_three_pass(self.all_sike()[3][0])]
+                            if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[0]):
+                                findtrue = ["涉害", "涉害", self.find_three_pass(self.all_sike()[0][0])]
+                            else:
+                                findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[1][1])]
+                if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[0]):
+                    if relation[0].count("上尅下") == 2 and relation[0].count("下賊上") == 2:
+                        findtrue = ["比用", "知一三奇", self.find_three_pass(self.all_sike()[2][0])]
+                    if relation[0].count("上尅下") == 0 and relation[0].count("下賊上") == 3:
+                        findtrue = ["涉害", "龍戰", self.find_three_pass(self.all_sike()[1][0])]
+                    else:
+                        findtrue = ["涉害", "涉害", self.find_three_pass(self.all_sike()[0][0])]
+                else:
+                    try:
+                        fa = self.find_duplicates(sike)[0]
+                        if relation[0][self.all_sike().index(fa)] != "上尅下" and  relation[0][self.all_sike().index(fa)] != "下賊上":
+                            findtrue = ["涉害", "曲直", self.find_three_pass(self.all_sike()[0][0])] 
+                        else:
+                            findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[2][0])]
+                    except IndexError:
+                        if self.Ganzhiwuxing(self.hourgangzhi[1]) == self.Ganzhiwuxing(self.daygangzhi[0]):
+                            findtrue = ["比用", "知一進茹", self.find_three_pass(self.all_sike()[0][0])]
+                        if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[1]):
+                            findtrue = ["涉害", "度厄", self.find_three_pass(self.all_sike()[0][0])]
+                        if relation[0].count("上尅下") == 2 and relation[0].count("下賊上") == 2:
+                            findtrue = ["比用", "知一四絕", self.find_three_pass(self.all_sike()[0][0])]
+                        if  relation[0].count("上尅下") == 1 and relation[0].count("下賊上") == 3:
+                            findtrue = ["比用", "知一鑄印", self.find_three_pass(self.all_sike()[0][0])]
+                        if  relation[0].count("上尅下") == 0 and relation[0].count("下賊上") == 3:
+                            findtrue = ["比用", "知一不備", self.find_three_pass(self.all_sike()[0][0])]  
+                        if  relation[0].count("上尅下") == 1 and relation[0].count("下賊上") == 2:
+                            findtrue = ["涉害", "間傳", self.find_three_pass(self.all_sike()[1][0])]  
+                        if relation[0].count("上尅下") == 0 and relation[0].count("下賊上") == 2:
+                            if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[1]):
+                                findtrue =  ["比用", "知一元胎", self.find_three_pass(self.all_sike()[2][0])]
+                            else:
+                                if self.Ganzhiwuxing(self.hourgangzhi[0]) =="火":
+                                    findtrue = ["涉害", "炎上", self.find_three_pass(self.all_sike()[0][1])]
+                                else:
+                                    findtrue = ["涉害", "間傳", self.find_three_pass(self.all_sike()[3][0])]
+                                
+                       # else:
+                       #     findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[2][0])]
             return findtrue
         elif relation[0].count("上尅下") >= 2 and relation[0].count("下賊上") == 0 and relation[9] == '天地盤沒有返吟':
             if filter_list_yy[0] == dayganzhi_yy:
                 if dayganzhi_yy == "陰":
-                    findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][1])]
-                if dayganzhi_yy == "陽":
+                    if self.hourgangzhi[1] in [char for item in sike for char in item]:
+                        findtrue = ["比用", "曲直", self.find_three_pass(self.all_sike()[0][0])]
+                    else:
+                        findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][1])]
+                if dayganzhi_yy == "陽" or self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
                     findtrue = ["比用", "知一", self.find_three_pass(self.all_sike()[0][0])]
             elif filter_list_yy[1] == dayganzhi_yy:
                 f = [char for char, count in Counter([char for item in sike for char in item]).items() if count > 1]
                 if len(f) == 1:
                     findtrue = ["比用", "知一", self.find_three_pass(f)]
                 else:
-                    f1 = [self.Ganzhiwuxing(i) for i in f].index(self.Ganzhiwuxing(self.hourgangzhi[1]))
-                    findtrue = ["比用", "知一", self.find_three_pass(f[f1])]
+                    try:
+                        f1 = [self.Ganzhiwuxing(i) for i in f].index(self.Ganzhiwuxing(self.hourgangzhi[1]))
+                        findtrue = ["比用", "知一", self.find_three_pass(f[f1])]
+                    except ValueError:
+                        findtrue = ["比用", "知一斬關", self.find_three_pass(self.all_sike()[3][0])]
             return findtrue
+
 
     def fiter_four_ke(self):
         a = self.find_sike_relations()[7][2]
@@ -872,7 +970,7 @@ class Liuren():
                     return result
                 
                 elif self.find_sike_relations()[2].count("被尅") >  1 and self.find_sike_relations()[2].count("尅") == 0:
-                    result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                    result = ["涉害", "涉害間傳", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
                     return result
           
                 
@@ -890,7 +988,7 @@ class Liuren():
                         return result
                     
                     elif self.find_sike_relations()[5] == "生":
-                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                        result = ["涉害", "涉害", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
                         return result
                     
                     elif self.find_sike_relations()[5] == "被生":
@@ -1124,7 +1222,10 @@ class Liuren():
                 except IndexError:
                     if self.find_sike_relations()[6] == "反吟":
                         ganlivezhi = self.shigangjigong
-                        chuchuan = ["返吟","冬蛇掩目", [self.earth_n_sky_list().get("酉"), self.sky_n_earth_list().get(ganlivezhi.get(self.daygangzhi[0])), self.all_sike()[1][0]]]
+                        if self.Ganzhiwuxing(self.daygangzhi[1]) == self.Ganzhiwuxing(self.hourgangzhi[0]):
+                            chuchuan = ["返吟","斬關", [self.earth_n_sky_list()["巳"],  self.all_sike()[1][0], self.sky_n_earth_list().get(ganlivezhi.get(self.daygangzhi[0])),]]
+                        else:
+                            chuchuan = ["返吟","冬蛇掩目", [self.earth_n_sky_list().get("酉"), self.sky_n_earth_list().get(ganlivezhi.get(self.daygangzhi[0])), self.all_sike()[1][0]]]
                         return chuchuan
                     elif self.find_sike_relations()[6] == "反吟八專":
                         chuchuan = "不適用，或試他法" 
@@ -1186,7 +1287,10 @@ class Liuren():
                 elif self.find_sike_relations()[6] == "非反吟":
                     return ["別責", "不備", [result[2] ,result[0], result[0] ]]
                 else:
-                    chuchuan = ["別責", "蕪淫", [result[0], result[2], result[2]]]
+                    if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                        chuchuan = ["別責", "斬關", [result[0], sike[0][0], sike[0][0]]]
+                    else:
+                        chuchuan = ["別責", "蕪淫", [result[0], result[2], result[2]]]
                     return chuchuan
         elif self.find_sike_relations()[4] == "伏吟":
             chuchuan =  "不適用，或試他法" 
@@ -1260,6 +1364,7 @@ class Liuren():
                 if x not in unique_list: 
                     unique_list.append(x) 
                 return x
+        sike = self.all_sike()
         sike_list = self.find_sike_relations()
         dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
         try:
@@ -1268,14 +1373,23 @@ class Liuren():
                     chuchuan = ["伏吟","自任", [self.shigangjigong.get(self.daygangzhi[0]), self.ying.get(self.shigangjigong.get(self.daygangzhi[0])), self.ying.get(self.ying.get(self.shigangjigong.get(self.daygangzhi[0])))]]
                     return chuchuan
                 if dayganzhi_yy == "陰":
-                    chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
+                    try:
+                        if [char for char, count in Counter([self.Ganzhiwuxing(char) for item in sike for char in item]).items() if count > 3][0] ==  self.Ganzhiwuxing(self.daygangzhi[1]):
+                            chuchuan = ["伏吟", "無依", [sike[3][0] ,self.shigangjigong.get(self.daygangzhi[0]),  sike[3][0] ]]
+                        else:
+                            chuchuan = ["伏吟", "杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
+                    except IndexError:
+                        chuchuan = ["遙尅", "蒿矢", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1], self.ying.get(self.daygangzhi[1])]]
                     return chuchuan
             if sike_list[4] == "伏吟":
                 if sike_list[0].count("上尅下") == 1 and sike_list[0].count("下賊上") == 0:
                     chuchuan = ["伏吟", "不虞",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
                     return chuchuan
                 elif sike_list[0].count("下賊上") == 1 and sike_list[0].count("上尅下") == 0:
-                    chuchuan = ["伏吟", "自任",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
+                    if dayganzhi_yy == "陽":
+                        chuchuan = ["伏吟", "自任",  [unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]), self.ying.get(self.ying.get(unique(sike_list[1])[0])) ]]
+                    if dayganzhi_yy == "陰":
+                        chuchuan = ["伏吟", "自任", [sike_list[1][sike_list[0].index("下賊上")][0], unique(sike_list[1])[0], self.ying.get(unique(sike_list[1])[0]) ]]
                     return chuchuan
                 elif sike_list[0].count("上尅下") == 0 and sike_list[0].count("下賊上") == 0:
                     if dayganzhi_yy == "陽":
@@ -1449,9 +1563,9 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "立秋"
-    d = "丙午"
-    h = "己丑"
+    j = "小暑"
+    d = "庚寅"
+    h = "丙戌"
     m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
