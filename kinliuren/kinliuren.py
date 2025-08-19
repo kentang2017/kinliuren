@@ -1300,6 +1300,7 @@ class Liuren():
             return chuchuan
     
     def bazhuan(self):
+		bazhuan_dgz = "壬子,甲寅,乙卯,丁巳,已未,庚申,辛酉,癸亥".split(",")
         sike = self.all_sike()
         sike_list = self.find_sike_relations()[0]
         dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
@@ -1589,3 +1590,4 @@ if __name__ == '__main__':
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
+
