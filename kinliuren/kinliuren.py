@@ -1312,7 +1312,10 @@ class Liuren():
                 chuchuan = "不適用，或試他法" 
                 return chuchuan
             elif sike_list.count("下生上") == 4:
-                chuchuan = ["八專", "獨足", [self.ying[self.ying.get(self.shigangjigong.get(self.daygangzhi[1]))], self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
+                if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.daygangzhi[1]):
+                    chuchuan = ["八專", "帷簿", [self.sky_n_earth_list()[self.he[self.hourgangzhi[1]]],  self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]
+                else:
+                    chuchuan = ["八專", "獨足", [self.ying[self.ying.get(self.shigangjigong.get(self.daygangzhi[1]))], self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
                 return chuchuan 
             elif self.find_sike_relations()[4] == "伏吟" :
                 chuchuan = "不適用，或試他法" 
@@ -1571,7 +1574,7 @@ if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "立秋"
     d = "庚申"
-    h = "庚辰"
+    h = "丁亥"
     m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
