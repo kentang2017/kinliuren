@@ -1300,12 +1300,12 @@ class Liuren():
             return chuchuan
     
     def bazhuan(self):
-		bazhuan_dgz = "壬子,甲寅,乙卯,丁巳,已未,庚申,辛酉,癸亥".split(",")
+        bazhuan_dgz = "壬子,甲寅,乙卯,丁巳,已未,庚申,辛酉,癸亥".split(",")
         if self.daygangzhi in bazhuan_dgz:
-			sike = self.all_sike()
-			sike_list = self.find_sike_relations()[0]
-			dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
-			if sike_list.count("下賊上") == 1 and sike_list.count("上尅下") == 1:
+            sike = self.all_sike()
+            sike_list = self.find_sike_relations()[0]
+            dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
+            if sike_list.count("下賊上") == 1 and sike_list.count("上尅下") == 1:
                chuchuan = "不適用，或試他法" 
                return chuchuan
             elif sike_list.count("下賊上") > 0 or sike_list.count("上尅下") > 0:
@@ -1357,8 +1357,8 @@ class Liuren():
             elif self.find_sike_relations()[3] == "日干支不同位":
                  chuchuan = "不適用，或試他法" 
                  return chuchuan
-		else:
-			chuchuan = "不適用，或試他法" 
+        else:
+            chuchuan = "不適用，或試他法"
             return chuchuan
 					
     
@@ -1569,9 +1569,9 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "小暑"
-    d = "庚寅"
-    h = "丙戌"
+    j = "立秋"
+    d = "庚申"
+    h = "庚辰"
     m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
