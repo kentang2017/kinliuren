@@ -1301,45 +1301,46 @@ class Liuren():
     
     def bazhuan(self):
 		bazhuan_dgz = "壬子,甲寅,乙卯,丁巳,已未,庚申,辛酉,癸亥".split(",")
-        sike = self.all_sike()
-        sike_list = self.find_sike_relations()[0]
-        dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
-        if sike_list.count("下賊上") == 1 and sike_list.count("上尅下") == 1:
-            chuchuan = "不適用，或試他法" 
-            return chuchuan
-        elif sike_list.count("下賊上") > 0 or sike_list.count("上尅下") > 0:
-            chuchuan = "不適用，或試他法" 
-            return chuchuan
-        elif sike_list.count("下生上") == 4:
-            chuchuan = ["八專", "獨足", [self.ying[self.ying.get(self.shigangjigong.get(self.daygangzhi[1]))], self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
-            return chuchuan 
-        elif self.find_sike_relations()[4] == "伏吟" :
-            chuchuan = "不適用，或試他法" 
-            return chuchuan
-        elif sike_list.count("比和") == 4:
-            chuchuan = ["八專", "八專", [self.sky_n_earth_list().get(self.sky_n_earth_list().get(self.yima_dict.get(self.daygangzhi[1]))), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
-            return chuchuan
-        elif sike_list.count("比和") == 3:
-            chuchuan = ["八專", "帷簿", [self.sky_n_earth_list().get(self.sky_n_earth_list().get(self.yima_dict.get(self.daygangzhi[1]))), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
-            return chuchuan
-        elif self.find_sike_relations()[6] == "反吟八專" and self.find_sike_relations()[4] == "伏吟" :
-            chuchuan = ["返吟", "無親", [self.yima_dict.get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
-            return chuchuan
-        elif self.find_sike_relations()[3] == "日干支同位":
-            if sike_list.count("下賊上") == 0 and sike_list.count("上尅下") == 0 :
-                if dayganzhi_yy == "陽":
-                    pos = self.Zhi.index(sike[3][0])+2
-                    if pos == 13:
-                        pos = 1
-                    elif pos == 14:
-                        pos = 0
-                    pos = self.Zhi[pos]
-                    if self.find_sike_relations()[4] == "伏吟":
-                        chuchuan = "不適用，或試他法" 
-                        return chuchuan
-                    else:
-                        chuchuan = ["八專","八專", [pos, self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]
-                        return chuchuan
+        if self.daygangzhi in bazhuan_dgz:
+			sike = self.all_sike()
+			sike_list = self.find_sike_relations()[0]
+			dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
+			if sike_list.count("下賊上") == 1 and sike_list.count("上尅下") == 1:
+               chuchuan = "不適用，或試他法" 
+               return chuchuan
+            elif sike_list.count("下賊上") > 0 or sike_list.count("上尅下") > 0:
+                chuchuan = "不適用，或試他法" 
+                return chuchuan
+            elif sike_list.count("下生上") == 4:
+                chuchuan = ["八專", "獨足", [self.ying[self.ying.get(self.shigangjigong.get(self.daygangzhi[1]))], self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
+                return chuchuan 
+            elif self.find_sike_relations()[4] == "伏吟" :
+                chuchuan = "不適用，或試他法" 
+                return chuchuan
+            elif sike_list.count("比和") == 4:
+                chuchuan = ["八專", "八專", [self.sky_n_earth_list().get(self.sky_n_earth_list().get(self.yima_dict.get(self.daygangzhi[1]))), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
+                return chuchuan
+            elif sike_list.count("比和") == 3:
+                chuchuan = ["八專", "帷簿", [self.sky_n_earth_list().get(self.sky_n_earth_list().get(self.yima_dict.get(self.daygangzhi[1]))), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
+                return chuchuan
+            elif self.find_sike_relations()[6] == "反吟八專" and self.find_sike_relations()[4] == "伏吟" :
+                chuchuan = ["返吟", "無親", [self.yima_dict.get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.shigangjigong.get(self.daygangzhi[0]))]]
+                return chuchuan
+            elif self.find_sike_relations()[3] == "日干支同位":
+                if sike_list.count("下賊上") == 0 and sike_list.count("上尅下") == 0 :
+                   if dayganzhi_yy == "陽":
+                       pos = self.Zhi.index(sike[3][0])+2
+                       if pos == 13:
+                          pos = 1
+                       elif pos == 14:
+                           pos = 0
+                       pos = self.Zhi[pos]
+                       if self.find_sike_relations()[4] == "伏吟":
+                           chuchuan = "不適用，或試他法" 
+                           return chuchuan
+                       else:
+                           chuchuan = ["八專","八專", [pos, self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]
+                           return chuchuan
                 elif dayganzhi_yy == "陰":
                     pos = self.Zhi.index(sike[0][0])-2
                     if pos == -2:
@@ -1353,9 +1354,13 @@ class Liuren():
                     else:
                         chuchuan = ["反吟", "井欄射",[pos, self.sky_n_earth_list().get(self.daygangzhi[1]), self.sky_n_earth_list().get(self.daygangzhi[1])]]   
                         return chuchuan 
-        elif self.find_sike_relations()[3] == "日干支不同位":
-            chuchuan = "不適用，或試他法" 
+            elif self.find_sike_relations()[3] == "日干支不同位":
+                 chuchuan = "不適用，或試他法" 
+                 return chuchuan
+		else:
+			chuchuan = "不適用，或試他法" 
             return chuchuan
+					
     
     def fuyin(self):
         dayganzhi_yy = self.gangzhi_yinyang(self.daygangzhi[0])
@@ -1590,4 +1595,5 @@ if __name__ == '__main__':
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
     
+
 
