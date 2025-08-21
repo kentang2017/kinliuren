@@ -1756,6 +1756,8 @@ class Liuren():
                                 chuchuan = ["伏吟", "元胎", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1],  "巳"]]
                             if self.Ganzhiwuxing(self.daygangzhi[1]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
                                 chuchuan = ["伏吟", "三奇杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1],  self.ying[sike[0][0]]]]
+                            if self.Ganzhiwuxing(self.hourgangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                                chuchuan = ["伏吟", "三奇杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1],  self.he[self.hourgangzhi[1]]]]
                             else:
                                 chuchuan = ["伏吟", "三奇杜傳", [self.shigangjigong.get(self.daygangzhi[0]), self.daygangzhi[1],  self.hai[self.hourgangzhi[1]]]]
                             return chuchuan
@@ -1928,10 +1930,10 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "寒露"
-    d = "癸亥"
-    h = "辛酉"
-    m = "八"
+    j = "立秋"
+    d = "壬戌"
+    h = "丙午"
+    m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
