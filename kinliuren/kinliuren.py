@@ -1246,7 +1246,10 @@ class Liuren():
                     elif self.find_sike_relations()[5] == "生":
                         if self.Ganzhiwuxing(self.daygangzhi[1]) ==  self.Ganzhiwuxing(self.hourgangzhi[1]):
                             if hourganzhi_yy == "陽":
-                                result = ["涉害", "見機", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
+                                if [char for char, count in Counter([self.Ganzhiwuxing(char) for item in sike for char in item]).items() if count > 2][0] == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                                    result = ["涉害", "曲直", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
+                                else:
+                                    result = ["涉害", "見機", self.find_three_pass(self.find_sike_relations()[7][2][0][0])]
                             else:
                                 result = ["涉害", "見機間傳", self.find_three_pass(self.find_sike_relations()[7][2][1][0])]
                         else:
@@ -1932,7 +1935,7 @@ if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "立秋"
     d = "壬戌"
-    h = "丙午"
+    h = "庚戌"
     m = "六"
     tic = time.perf_counter()
     print(d +"     " + h)
@@ -1945,7 +1948,7 @@ if __name__ == '__main__':
     print(answer)
     print("")
     #print(Liuren(j, m, d, h).shehai())
-    jz_order = new_list(jiazi(), "壬子")[0:12]
+    jz_order = new_list(jiazi(), "庚子")[0:12]
     try:
         print([print([Liuren(j, m, d, c).result(0)["三傳"][i][0] for i in ["初傳", "中傳", "末傳"]]) for c in jz_order])
     except TypeError:
