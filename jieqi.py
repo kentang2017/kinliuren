@@ -298,7 +298,7 @@ def gangzhi(year, month, day, hour, minute):
         reminute = "40"
     if minute < 60 and minute >=50:
         reminute = "50"
-    gangzhi_minute = minutes_jiazi_d(zi).get(hourminute)
+    gangzhi_minute = minutes_jiazi_d(zi).get(minute)
     return [yTG, mTG1, dTG, hTG1, gangzhi_minute]
 
 if __name__ == '__main__':
@@ -316,6 +316,7 @@ if __name__ == '__main__':
     print(jq(year, month, day, hour, minute))
 
         
+
 
 
 
