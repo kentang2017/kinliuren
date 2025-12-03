@@ -190,8 +190,8 @@ with pan:
     m ="{}{}　　{}{}　　　{}{}　　{}{}　　　{}{}　　{}{}\n".format(ltext.get("地轉天將").get("卯"), ltext.get("地轉天盤").get("卯"), ltext.get("地轉天盤").get("戌"), ltext.get("地轉天將").get("戌"),ltext1.get("地轉天將").get("卯"), ltext1.get("地轉天盤").get("卯"), ltext1.get("地轉天盤").get("戌"), ltext1.get("地轉天將").get("戌"), ltext2.get("地轉天將").get("卯"), ltext2.get("地轉天盤").get("卯"), ltext2.get("地轉天盤").get("戌"), ltext2.get("地轉天將").get("戌"))
     n ="　{}　　　　　{}　　　　　{}\n".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天盤").get(i) for i in list("寅丑子亥")]))
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
-    richp = ltext2.get("地轉天盤").get(bidict(ltext2.get("地轉天將")).inverse["貴"])
-    p = "\n地禽︰"+ dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1]) + "(主) vs  天禽︰" + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(richp) + "(客)"
+    richp = ltext1.get("地轉天盤").get(bidict(ltext2.get("地轉天將")).inverse["貴"])
+    p = "\n地禽︰"+ dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[4][1]) + "(主) vs  天禽︰" + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(richp) + "(客)"
 
     output2 = st.empty()
     with st_capture(output2.code):
