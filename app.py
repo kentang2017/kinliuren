@@ -4,6 +4,7 @@ import pendulum as pdlm
 from contextlib import contextmanager, redirect_stdout
 from sxtwl import fromSolar
 from io import StringIO
+from bidict import bidict
 import streamlit.components.v1 as components
 from kinliuren import kinliuren
 from kinqimen import kinqimen
@@ -190,8 +191,8 @@ with pan:
     n ="　{}　　　　　{}　　　　　{}\n".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天盤").get(i) for i in list("寅丑子亥")]))
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     p ="="*108+"\n"
-    q = dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1])
-    
+    q = "地禽︰"+ dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1]) + "(主) vs  天禽"# + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1]) 
+    r = bidict(ltext1.get("地轉天盤")).inverse['貴']
     output2 = st.empty()
     with st_capture(output2.code):
         print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o+p+q)
