@@ -88,16 +88,6 @@ class Liuren():
                 **dict(zip(['雀'+i for i in self.Zhi], "凶,凶,吉,吉,凶,吉,吉,凶,吉,凶,凶,凶".split(","))),
                 **dict(zip(['蛇'+i for i in self.Zhi], "吉,吉,吉,凶,吉,吉,吉,吉,吉,凶,凶,吉".split(",")))}
 
-	def day_chin(self, zhi, weekday):
-		three_zhi = "申子辰,巳酉丑,寅午戌,亥卯未".split(",")
-        head = ["虛畢翼箕奎鬼氐", "房危觜軫斗婁柳", "星心室參角牛胃", "昴張尾壁井亢女"]
-		cweekdays = ["星期"+i for i in list("日一二三四五六")]
-        ydict = {}
-        for i in range(4):
-            b = {tuple(list(three_zhi[i])): dict(zip(cweekdays , list(head[i])))}
-            ydict.update(b)
-        return self.multi_key_dict_get(ydict, zhi).get(weekday)
-
     def gangzhi_yinyang(self, gangorzhi):
         gangzhi_yingyang = dict(zip(list(map(lambda x: tuple(x), [self.Gan[0::2] + self.Zhi[0::2], self.Gan[1::2] + self.Zhi[1::2]])), list("陽陰")))
         yinyang = self.multi_key_dict_get(gangzhi_yingyang, gangorzhi)
@@ -1968,4 +1958,5 @@ if __name__ == '__main__':
     #print(jz_order)
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
+
 
