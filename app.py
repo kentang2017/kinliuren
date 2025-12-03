@@ -154,6 +154,7 @@ with pan:
     ltext = liuren_month
     ltext1 = liuren_day
     ltext2 = liuren_hour
+    dchin = day_chin(qgz[2], weekday(y, m, d))
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
     b = "格局︰{}\n".format(ltext.get("格局")[0])
     c = "節氣︰{}\n".format(jq)      
@@ -171,8 +172,11 @@ with pan:
     m ="{}{}　　{}{}　　　{}{}　　{}{}　　　{}{}　　{}{}\n".format(ltext.get("地轉天將").get("卯"), ltext.get("地轉天盤").get("卯"), ltext.get("地轉天盤").get("戌"), ltext.get("地轉天將").get("戌"),ltext1.get("地轉天將").get("卯"), ltext1.get("地轉天盤").get("卯"), ltext1.get("地轉天盤").get("戌"), ltext1.get("地轉天將").get("戌"), ltext2.get("地轉天將").get("卯"), ltext2.get("地轉天盤").get("卯"), ltext2.get("地轉天盤").get("戌"), ltext2.get("地轉天將").get("戌"))
     n ="　{}　　　　　{}　　　　　{}\n".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天盤").get(i) for i in list("寅丑子亥")]))
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
+    p ="="*108
+    q =dchin
+    
     output2 = st.empty()
     with st_capture(output2.code):
-        print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o)
+        print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o+p)
     expander = st.expander("原始碼")
     expander.write(str(ltext))
