@@ -1,4 +1,4 @@
-import os, urllib
+import os, urllib, calendar
 import streamlit as st
 import pendulum as pdlm
 from contextlib import contextmanager, redirect_stdout
@@ -28,7 +28,12 @@ def get_file_content_as_string(path):
 def lunar_date_d(y, m, d):
     day = fromSolar(y,m,d)
     return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
-        
+
+def weekday(y, m, d):
+    cweekdays = ["星期"+i for i in list("日一二三四五六")]
+    dayNumber = calendar.weekday(y, m, d)
+    return dict(zip([int(i) for i in list("6012345")], cweekdays)).get(dayNumber)
+
 st.set_page_config(
     layout="wide",
     page_title="堅六壬 - 六壬排盘",
