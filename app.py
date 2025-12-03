@@ -25,14 +25,14 @@ def get_file_content_as_string(path):
     response = urllib.request.urlopen(url)
     return response.read().decode("utf-8")
 
-def lunar_date_d(y, m, d):
-    day = fromSolar(y,m,d)
-    return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
-
 def weekday(y, m, d):
     cweekdays = ["星期"+i for i in list("日一二三四五六")]
     dayNumber = calendar.weekday(y, m, d)
     return dict(zip([int(i) for i in list("6012345")], cweekdays)).get(dayNumber)
+
+def lunar_date_d(y, m, d):
+    day = fromSolar(y,m,d)
+    return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
 
 st.set_page_config(
     layout="wide",
