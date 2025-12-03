@@ -160,7 +160,7 @@ with pan:
     ltext = liuren_month
     ltext1 = liuren_day
     ltext2 = liuren_hour
-    dchin = day_chin(qgz[2], weekday(y, m, d))
+    dchin = day_chin(qgz[2][1], weekday(y, m, d))
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
     b = "格局︰{}\n".format(ltext.get("格局")[0])
     c = "節氣︰{}\n".format(jq)      
