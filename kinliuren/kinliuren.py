@@ -75,7 +75,6 @@ class Liuren():
                   tuple(list("丙辛")):{"子":"奎婁", "丑":"危室壁", "寅":"女虛", "卯":"斗牛" , "辰":"尾箕",  "巳":"氐房心", "午":"角亢", "未":"翼軫", "申":"井鬼", "酉":"柳星張", "戌":"參觜", "亥":"胃昴畢"},
                   tuple(list("戊癸")):{"子":"尾箕", "丑":"氐房心", "寅":"角亢", "卯":"翼軫" , "辰":"柳星張",  "巳":"井鬼", "午":"畢參觜", "未":"胃昴", "申":"奎婁", "酉":"危室壁", "戌":"女虛", "亥":"斗牛"},
                   tuple(list("丁壬")):{"子":"女虛", "丑":"斗牛", "寅":"尾箕", "卯":"氐房心" , "辰":"角亢",  "巳":"翼軫", "午":"柳星張", "未":"井鬼", "申":"畢參觜", "酉":"胃昴", "戌":"奎婁", "亥":"危室壁"}}
-
         self.generals_zhi = {**dict(zip(['貴'+i for i in self.Zhi], "吉,吉,凶,吉,凶,凶,凶,吉,吉,凶,凶,吉".split(","))),
                 **dict(zip(['后'+i for i in self.Zhi], "凶,凶,吉,凶,凶,凶,凶,凶,吉,凶,凶,吉".split(","))),
                 **dict(zip(['陰'+i for i in self.Zhi], "凶,凶,凶,凶,吉,凶,凶,吉,吉,吉,凶,凶".split(","))),
@@ -89,6 +88,15 @@ class Liuren():
                 **dict(zip(['雀'+i for i in self.Zhi], "凶,凶,吉,吉,凶,吉,吉,凶,吉,凶,凶,凶".split(","))),
                 **dict(zip(['蛇'+i for i in self.Zhi], "吉,吉,吉,凶,吉,吉,吉,吉,吉,凶,凶,吉".split(",")))}
 
+	def day_chin(self, zhi, weekday):
+		three_zhi = "申子辰,巳酉丑,寅午戌,亥卯未".split(",")
+        head = ["虛畢翼箕奎鬼氐", "房危觜軫斗婁柳", "星心室參角牛胃", "昴張尾壁井亢女"]
+		cweekdays = ["星期"+i for i in list("日一二三四五六")]
+        ydict = {}
+        for i in range(4):
+            b = {tuple(list(three_zhi[i])): dict(zip(cweekdays , list(head[i])))}
+            ydict.update(b)
+        return self.multi_key_dict_get(ydict, zhi).get(weekday)
 
     def gangzhi_yinyang(self, gangorzhi):
         gangzhi_yingyang = dict(zip(list(map(lambda x: tuple(x), [self.Gan[0::2] + self.Zhi[0::2], self.Gan[1::2] + self.Zhi[1::2]])), list("陽陰")))
@@ -1960,3 +1968,4 @@ if __name__ == '__main__':
     #print(jz_order)
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
+
