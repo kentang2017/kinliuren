@@ -25,6 +25,12 @@ def get_file_content_as_string(path):
     response = urllib.request.urlopen(url)
     return response.read().decode("utf-8")
 
+def multi_key_dict_get(d, k):
+    for keys, v in d.items():
+        if k in keys:
+            return v
+    return None
+
 def weekday(y, m, d):
     cweekdays = ["星期"+i for i in list("日一二三四五六")]
     dayNumber = calendar.weekday(y, m, d)
@@ -38,7 +44,7 @@ def day_chin(zhi, weekday):
     for i in range(4):
         b = {tuple(list(three_zhi[i])): dict(zip(cweekdays , list(head[i])))}
         ydict.update(b)
-    return kinliuren.multi_key_dict_get(ydict, zhi).get(weekday)
+    return multi_key_dict_get(ydict, zhi).get(weekday)
 
 def lunar_date_d(y, m, d):
     day = fromSolar(y,m,d)
