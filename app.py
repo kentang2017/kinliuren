@@ -191,11 +191,11 @@ with pan:
     n ="　{}　　　　　{}　　　　　{}\n".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天盤").get(i) for i in list("寅丑子亥")]))
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     p ="="*108+"\n"
-    q = "地禽︰"+ dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1]) + "(主) vs  天禽"# + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1]) 
-    r = ltext1.get("地轉天盤").get(bidict(ltext1.get("地轉天將")).inverse["貴"])
+    richp = ltext1.get("地轉天盤").get(bidict(ltext1.get("地轉天將")).inverse["貴"])
+    q = "地禽︰"+ dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1]) + "(主) vs  天禽︰" + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(richp) + "(客)"
+
     output2 = st.empty()
     with st_capture(output2.code):
         print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o+p+q)
-        print(r)
     expander = st.expander("原始碼")
     expander.write(str(ltext))
