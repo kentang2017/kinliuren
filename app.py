@@ -183,6 +183,6 @@ with pan:
     
     output2 = st.empty()
     with st_capture(output2.code):
-        print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o+p)
+        print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o+p+q)
     expander = st.expander("原始碼")
     expander.write(str(ltext))
