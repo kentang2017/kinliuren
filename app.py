@@ -198,7 +198,7 @@ with pan:
     home = dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[4][1]])
     away = dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[3][1]]) 
     skychin = dict(zip(range(1,29),new_list(chin_list, dchin))).get( richp1+richp2  ) 
-    p = "\n《堅六壬用禽法》\n地禽︰{}(主) VS {}(客) | 天禽︰{}".format(home, away, skychin) 
+    p = "\n《堅六壬用禽法》\n地禽︰{}(主分禽) VS {}(客時禽) | 天禽︰{}".format(home, away, skychin) 
 
     output2 = st.empty()
     with st_capture(output2.code):
