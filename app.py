@@ -172,7 +172,10 @@ with pan:
     ltext1 = liuren_day
     ltext2 = liuren_hour
     dchin = day_chin(qgz[2][1], weekday(y, m, d))
+    zhi = list("子丑寅卯辰巳午未申酉戌亥")
+    zdict = dict(zip(zhi, range(1, 13))
     chin_list = list('角亢氐房心尾箕斗牛女虛危室壁奎婁胃昴畢觜參井鬼柳星張翼軫')
+    d_n_h = zdict[qgz[2][1]] + zdict[qgz[3][1]] 
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
     b = "格局︰{}\n".format(ltext.get("格局")[0])
     c = "節氣︰{}\n".format(jq)      
@@ -191,7 +194,7 @@ with pan:
     n ="　{}　　　　　{}　　　　　{}\n".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天盤").get(i) for i in list("寅丑子亥")]))
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     richp = ltext1.get("地轉天盤").get(bidict(ltext2.get("地轉天將")).inverse["貴"])
-    p = "\n地禽︰"+ dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[4][1]) + "(主) vs  天禽︰" + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(richp) + "(客)"
+    p = "\n地禽︰"+ dict(zip(range(1,29),new_list(chin_list, dchin))).get(d_n_h) + "(主) vs  天禽︰" + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(richp) + "(客)"
 
     output2 = st.empty()
     with st_capture(output2.code):
