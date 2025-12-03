@@ -30,6 +30,16 @@ def weekday(y, m, d):
     dayNumber = calendar.weekday(y, m, d)
     return dict(zip([int(i) for i in list("6012345")], cweekdays)).get(dayNumber)
 
+def day_chin(zhi, weekday):
+    three_zhi = "申子辰,巳酉丑,寅午戌,亥卯未".split(",")
+    head = ["虛畢翼箕奎鬼氐", "房危觜軫斗婁柳", "星心室參角牛胃", "昴張尾壁井亢女"]
+    cweekdays = ["星期"+i for i in list("日一二三四五六")]
+    ydict = {}
+    for i in range(4):
+        b = {tuple(list(three_zhi[i])): dict(zip(cweekdays , list(head[i])))}
+        ydict.update(b)
+    return kinliuren.multi_key_dict_get(ydict, zhi).get(weekday)
+
 def lunar_date_d(y, m, d):
     day = fromSolar(y,m,d)
     return {"月": str(day.getLunarMonth())+"月", "日":str(day.getLunarDay())}
