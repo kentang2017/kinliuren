@@ -190,7 +190,7 @@ with pan:
     n ="　{}　　　　　{}　　　　　{}\n".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天盤").get(i) for i in list("寅丑子亥")]))
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     p ="="*108+"\n"
-    q = dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12]))
+    q = dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(qgz[3][1])
     
     output2 = st.empty()
     with st_capture(output2.code):
