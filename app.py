@@ -195,10 +195,11 @@ with pan:
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     richp1 = zdict[bidict(ltext2.get("地轉天將")).inverse["貴"]]
     richp2 = zdict[ltext1.get("地轉天盤").get(bidict(ltext2.get("地轉天將")).inverse["貴"])]
-    home = dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[4][1])
-    away = dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[3][1]) 
-    skychin = dict(zip(range(1,29),new_list(chin_list, dchin))).get( richp1+richp2  ) 
-    p = "\n《堅六壬用禽法》\n地禽︰{}(主) VS {}(客) | 天禽︰{}".format(home, away, skychin) 
+    #home = dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[4][1])
+    #away = dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[3][1]) 
+    #skychin = dict(zip(range(1,29),new_list(chin_list, dchin))).get( richp1+richp2  ) 
+    p = richp1+richp2
+    #p = "\n《堅六壬用禽法》\n地禽︰{}(主) VS {}(客) | 天禽︰{}".format(home, away, skychin) 
 
     output2 = st.empty()
     with st_capture(output2.code):
