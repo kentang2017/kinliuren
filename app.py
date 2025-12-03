@@ -10,6 +10,8 @@ from kinqimen import kinqimen
 from jieqi import *
 
 @contextmanager
+chin_list = list('角亢氐房心尾箕斗牛女虛危室壁奎婁胃昴畢觜參井鬼柳星張翼軫')
+
 def st_capture(output_func):
     with StringIO() as stdout, redirect_stdout(stdout):
         old_write = stdout.write
@@ -30,6 +32,14 @@ def multi_key_dict_get(d, k):
         if k in keys:
             return v
     return None
+
+def new_list(olist, o):
+    zhihead_code = olist.index(o)
+    res1 = []
+    for i in range(len(olist)):
+        res1.append( olist[zhihead_code % len(olist)])
+        zhihead_code = zhihead_code + 1
+    return res1
 
 def weekday(y, m, d):
     cweekdays = ["星期"+i for i in list("日一二三四五六")]
@@ -179,10 +189,10 @@ with pan:
     n ="　{}　　　　　{}　　　　　{}\n".format("".join([ltext.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天盤").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天盤").get(i) for i in list("寅丑子亥")]))
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     p ="="*108+"\n"
-    q =dchin
+    q = dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12]))
     
     output2 = st.empty()
     with st_capture(output2.code):
-        print(f"a,b,c")
+        print(a+b+c+d+d2+d1+e+f+g+h+i+j+k+l+m+n+o+p+q)
     expander = st.expander("原始碼")
     expander.write(str(ltext))
