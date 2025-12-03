@@ -173,9 +173,9 @@ with pan:
     ltext2 = liuren_hour
     dchin = day_chin(qgz[2][1], weekday(y, m, d))
     zhi = list("子丑寅卯辰巳午未申酉戌亥")
-    zdict = dict(zip(zhi, range(1, 13))
+    zdict = dict(zip(zhi, range(1, 13)))
     chin_list = list('角亢氐房心尾箕斗牛女虛危室壁奎婁胃昴畢觜參井鬼柳星張翼軫')
-    d_n_h = zdict[qgz[2][1]] + zdict[qgz[3][1]] 
+    d_n_h = zdict[qgz[2][1]] + zdict[qgz[3][1]]
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
     b = "格局︰{}\n".format(ltext.get("格局")[0])
     c = "節氣︰{}\n".format(jq)      
