@@ -195,7 +195,7 @@ with pan:
     o ="　{}　　　　　{}　　　　　{}\n\n\n".format("".join([ltext.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext1.get("地轉天將").get(i) for i in list("寅丑子亥")]), "".join([ltext2.get("地轉天將").get(i) for i in list("寅丑子亥")]))
     richp = ltext1.get("地轉天盤").get(bidict(ltext2.get("地轉天將")).inverse["貴"])
     
-    p = "\n《堅六壬用禽法》\n 主︰"+ dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[4][1]) + " 客︰"+ dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[3][1]) +  | 天禽︰" + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(richp) 
+    p = "\n《堅六壬用禽法》\n 主︰"+ dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[4][1]) + " 客︰"+ dict(zip(range(1,29),new_list(chin_list, dchin))).get(zdict[qgz[3][1]) +"  | 天禽︰" + dict(zip(list("子丑寅卯辰巳午未申酉戌亥"),new_list(chin_list, dchin)[0:12])).get(richp) 
 
     output2 = st.empty()
     with st_capture(output2.code):
