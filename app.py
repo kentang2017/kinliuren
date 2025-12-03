@@ -10,7 +10,7 @@ from kinqimen import kinqimen
 from jieqi import *
 
 @contextmanager
-chin_list = list('角亢氐房心尾箕斗牛女虛危室壁奎婁胃昴畢觜參井鬼柳星張翼軫')
+
 
 def st_capture(output_func):
     with StringIO() as stdout, redirect_stdout(stdout):
@@ -171,6 +171,7 @@ with pan:
     ltext1 = liuren_day
     ltext2 = liuren_hour
     dchin = day_chin(qgz[2][1], weekday(y, m, d))
+    chin_list = list('角亢氐房心尾箕斗牛女虛危室壁奎婁胃昴畢觜參井鬼柳星張翼軫')
     a = "日期︰{}年{}月{}日{}時{}分\n".format(y,m,d,h,min)
     b = "格局︰{}\n".format(ltext.get("格局")[0])
     c = "節氣︰{}\n".format(jq)      
