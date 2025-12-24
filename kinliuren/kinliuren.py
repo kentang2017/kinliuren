@@ -755,7 +755,7 @@ class Liuren():
                                     else:
                                         findtrue = ["比用", "四絕", self.find_three_pass(self.all_sike()[0][0])] 
                                 else:
-                                    findtrue = ["比用", "連茹", self.find_three_pass(self.all_sike()[2][0])]  
+                                    findtrue = ["比用", "連茹", self.find_three_pass(self.all_sike()[1][0])]  
                             if len(f)== 2 and self.Ganzhiwuxing(f[0]) == self.Ganzhiwuxing(f[1]):
                                 findtrue = ["比用", "乘軒", self.find_three_pass(self.all_sike()[0][0])]  
                             if len(f) <= 1:
@@ -1958,6 +1958,7 @@ if __name__ == '__main__':
     #print(jz_order)
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
+
 
 
 
