@@ -496,7 +496,7 @@ class Liuren():
             if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
                 findtrue =  ["返吟", "元胎",[sike[2][1], sike[2][0], sike[2][1]]]
             if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[0]):
-                findtrue =  ["返吟", "元胎",[sike[2][0], sike[2][1], sike[2][0]]]
+                findtrue =  ["返吟", "元胎",[sike[1][1], sike[1][0], sike[1][1]]]
             else:
                 try:
                     if [char for char, count in Counter([self.Ganzhiwuxing(char) for item in sike for char in item]).items() if count > 3][0] == self.Ganzhiwuxing(self.daygangzhi[1]):
@@ -1958,5 +1958,6 @@ if __name__ == '__main__':
     #print(jz_order)
     toc = time.perf_counter()
     print(f"{toc - tic:0.4f} seconds")
+
 
 
