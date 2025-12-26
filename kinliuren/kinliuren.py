@@ -754,8 +754,11 @@ class Liuren():
                                         findtrue = ["比用", "蕪淫", self.find_three_pass(self.all_sike()[2][0])]
                                     else:
                                         findtrue = ["比用", "四絕", self.find_three_pass(self.all_sike()[0][0])] 
-                                else:
-                                    findtrue = ["比用", "連茹", self.find_three_pass(self.all_sike()[1][0])]  
+                                if dayganzhi_yy == "陰":
+                                    if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
+                                        findtrue = ["比用", "連茹", self.find_three_pass(self.all_sike()[1][0])]  
+                                    else:
+                                        findtrue = ["比用", "連茹", self.find_three_pass(self.all_sike()[1][1])]  
                             if len(f)== 2 and self.Ganzhiwuxing(f[0]) == self.Ganzhiwuxing(f[1]):
                                 findtrue = ["比用", "乘軒", self.find_three_pass(self.all_sike()[0][0])]  
                             if len(f) <= 1:
@@ -1931,10 +1934,10 @@ class Liuren():
     
 if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
-    j = "立秋"
-    d = "壬戌"
-    h = "庚戌"
-    m = "六"
+    j = "冬至"
+    d = "己巳"
+    h = "壬申"
+    m = "冬"
     tic = time.perf_counter()
     print(d +"     " + h)
     print(Liuren(j, m, d, h).find_sike_relations())
@@ -1953,7 +1956,7 @@ if __name__ == '__main__':
         pass
     print("    ")
     #print(Liuren(j, m, d, h).jinkou("子"))
-    print([Liuren(j, m, d, h).result(0)["三傳"][i][0] for i in ["初傳", "中傳", "末傳"]])
+    print(Liuren(j, m, d, h).result(0))
     #print(Liuren(j, m, d, h).result(0))
     #print(jz_order)
     toc = time.perf_counter()
