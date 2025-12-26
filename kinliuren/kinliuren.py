@@ -506,7 +506,10 @@ class Liuren():
                             findtrue =  ["返吟", "無依", [sike[3][0], sike[2][0], sike[3][0]]]
                     else:
                         if self.Ganzhiwuxing(self.daygangzhi[0]) == self.Ganzhiwuxing(self.hourgangzhi[1]):
-                            findtrue =  ["返吟", "元胎寡宿",[sike[0][1], sike[0][0], sike[0][1]]]
+                            if dayganzhi_yy == "陽":
+                                findtrue =  ["返吟", "元胎寡宿",[sike[0][1], sike[0][0], sike[0][1]]]
+                            if dayganzhi_yy == "陰":
+                                findtrue =  ["返吟", "無依元胎",[sike[0][0], sike[0][1], sike[0][0]]]
                         else:
                             findtrue =  ["返吟", "斫輪",[sike[0][0], sike[0][1], sike[0][0]]]
                 except IndexError:
@@ -1936,7 +1939,7 @@ if __name__ == '__main__':
 	#print(Liuren("雨水","癸卯","己未").find_sike_relations())
     j = "冬至"
     d = "己巳"
-    h = "壬申"
+    h = "辛未"
     m = "冬"
     tic = time.perf_counter()
     print(d +"     " + h)
