@@ -7,3 +7,4 @@ ephem>=4.1.6
 altair>=5.0.0
 bidict>=0.23.1
 cerebras-cloud-sdk
+openai>=1.0.0
