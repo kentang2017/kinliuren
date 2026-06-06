@@ -14,7 +14,7 @@ from kinliuren import kinliuren
 from kinqimen import kinqimen
 from jieqi import *
 import jieqi
-from cerebras_client import CerebrasClient, DEFAULT_MODEL as DEFAULT_CEREBRAS_MODEL
+from cerebras_client import CerebrasClient, CustomAIClient, DEFAULT_MODEL as DEFAULT_CEREBRAS_MODEL
 
 @contextmanager
 
@@ -65,18 +65,12 @@ def day_chin(zhi, weekday):
 
 # Cerebras Model Options
 CEREBRAS_MODEL_OPTIONS = [
-    "qwen-3-235b-a22b-instruct-2507",
-    "llama-4-scout-17b-16e-instruct",
-    "llama3.1-8b",
-    "llama-3.3-70b",
-    "deepseek-r1-distill-llama-70b"
+    "gpt-oss-120b",
+    "zai-glm-4.7",
 ]
 CEREBRAS_MODEL_DESCRIPTIONS = {
-    "qwen-3-235b-a22b-instruct-2507": "Cerebras: Fast inference, great for rapid iteration.",
-    "llama-4-scout-17b-16e-instruct": "Cerebras: Optimized for guided workflows.",
-    "llama3.1-8b": "Cerebras: Light and fast for quick tasks.",
-    "llama-3.3-70b": "Cerebras: Most capable for complex reasoning.",
-    "deepseek-r1-distill-llama-70b": "DeepSeek distilled model.",
+    "gpt-oss-120b": "Cerebras: GPT-OSS 120B，高效能大型語言模型。",
+    "zai-glm-4.7": "Cerebras: ZAI-GLM 4.7，優化中文推理能力。",
 }
 
 SYSTEM_PROMPTS_FILE = "system_prompts.json"
@@ -208,6 +202,30 @@ with st.sidebar:
         key="cerebras_model_selector",
         help="\n".join(f"• {k}: {v}" for k, v in CEREBRAS_MODEL_DESCRIPTIONS.items())
     )
+
+    st.markdown("---")
+    st.subheader("🔌 自定義AI設置")
+    use_custom_ai = st.toggle("使用自定義AI", key="use_custom_ai", help="啟用後可輸入任意OpenAI相容API的Key及Server設定")
+    if use_custom_ai:
+        st.text_input(
+            "自定義 API Key",
+            type="password",
+            key="custom_api_key",
+            placeholder="sk-...",
+            help="輸入您的AI服務API Key"
+        )
+        st.text_input(
+            "Server URL",
+            key="custom_server_url",
+            placeholder="https://api.openai.com/v1",
+            help="輸入OpenAI相容API的Server地址，例如 https://api.openai.com/v1"
+        )
+        st.text_input(
+            "模型名稱",
+            key="custom_model_name",
+            placeholder="gpt-4o, claude-3-5-sonnet, glm-4...",
+            help="輸入您要使用的模型名稱"
+        )
 
     system_prompts_data = load_system_prompts()
     prompts_list = system_prompts_data.get("prompts", [])
@@ -391,29 +409,54 @@ with pan:
 
     if st.button("🔍 使用AI分析排盤結果", key="analyze_with_ai"):
         with st.spinner("AI正在分析六壬排盤結果..."):
-            cerebras_api_key = st.secrets.get("CEREBRAS_API_KEY") or os.getenv("CEREBRAS_API_KEY")
-            if not cerebras_api_key:
-                st.error("CEREBRAS_API_KEY 未設置，請先在 .streamlit/secrets.toml 設置，或設置環境變量 CEREBRAS_API_KEY。")
-            else:
-                try:
-                    client = CerebrasClient(api_key=cerebras_api_key)
-                    liuren_prompt = format_liuren_results_for_prompt(chart_text, ltext, ltext1, ltext2)
-                    messages = [
-                        {"role": "system", "content": st.session_state.system_prompt},
-                        {"role": "user", "content": liuren_prompt}
-                    ]
-                    api_params = {
-                        "messages": messages,
-                        "model": selected_model,
-                        "max_tokens": st.session_state.get("ai_max_tokens", AI_MAX_MAX_TOKENS),
-                        "temperature": st.session_state.get("ai_temperature", 0.7)
-                    }
-                    response = client.get_chat_completion(**api_params)
-                    raw_response = response.choices[0].message.content
-                    with st.expander("AI分析結果", expanded=True):
-                        st.markdown(raw_response)
-                except Exception as e:
-                    st.error(f"調用AI時發生錯誤：{e}")
+            try:
+                if st.session_state.get("use_custom_ai"):
+                    custom_key = st.session_state.get("custom_api_key", "")
+                    custom_url = st.session_state.get("custom_server_url", "")
+                    custom_model = st.session_state.get("custom_model_name", "")
+                    if not custom_key or not custom_url or not custom_model:
+                        st.error("請填寫自定義AI的 API Key、Server URL 及模型名稱。")
+                    else:
+                        client = CustomAIClient(api_key=custom_key, base_url=custom_url)
+                        ai_model = custom_model
+                        liuren_prompt = format_liuren_results_for_prompt(chart_text, ltext, ltext1, ltext2)
+                        messages = [
+                            {"role": "system", "content": st.session_state.system_prompt},
+                            {"role": "user", "content": liuren_prompt}
+                        ]
+                        api_params = {
+                            "messages": messages,
+                            "model": ai_model,
+                            "max_tokens": st.session_state.get("ai_max_tokens", AI_MAX_MAX_TOKENS),
+                            "temperature": st.session_state.get("ai_temperature", 0.7)
+                        }
+                        response = client.get_chat_completion(**api_params)
+                        raw_response = response.choices[0].message.content
+                        with st.expander("AI分析結果", expanded=True):
+                            st.markdown(raw_response)
+                else:
+                    cerebras_api_key = st.secrets.get("CEREBRAS_API_KEY") or os.getenv("CEREBRAS_API_KEY")
+                    if not cerebras_api_key:
+                        st.error("CEREBRAS_API_KEY 未設置，請先在 .streamlit/secrets.toml 設置，或設置環境變量 CEREBRAS_API_KEY。")
+                    else:
+                        client = CerebrasClient(api_key=cerebras_api_key)
+                        liuren_prompt = format_liuren_results_for_prompt(chart_text, ltext, ltext1, ltext2)
+                        messages = [
+                            {"role": "system", "content": st.session_state.system_prompt},
+                            {"role": "user", "content": liuren_prompt}
+                        ]
+                        api_params = {
+                            "messages": messages,
+                            "model": selected_model,
+                            "max_tokens": st.session_state.get("ai_max_tokens", AI_MAX_MAX_TOKENS),
+                            "temperature": st.session_state.get("ai_temperature", 0.7)
+                        }
+                        response = client.get_chat_completion(**api_params)
+                        raw_response = response.choices[0].message.content
+                        with st.expander("AI分析結果", expanded=True):
+                            st.markdown(raw_response)
+            except Exception as e:
+                st.error(f"調用AI時發生錯誤：{e}")
 
 # --- Fixed LLM Chat Section at Bottom ---
 st.markdown("---")
@@ -441,55 +484,61 @@ if user_input := st.chat_input("輸入您的六壬問題...", key="chat_input"):
             st.markdown(user_input)
 
     # Build context-aware messages for the AI
-    cerebras_api_key = st.secrets.get("CEREBRAS_API_KEY") or os.getenv("CEREBRAS_API_KEY")
-    if not cerebras_api_key:
-        err_msg = "CEREBRAS_API_KEY 未設置，請先在 .streamlit/secrets.toml 設置，或設置環境變量 CEREBRAS_API_KEY。"
+    # Build system prompt with chart context
+    chart_context = ""
+    if "chart_text" in st.session_state:
+        liuren_prompt = format_liuren_results_for_prompt(
+            st.session_state.chart_text,
+            st.session_state.chart_ltext,
+            st.session_state.chart_ltext1,
+            st.session_state.chart_ltext2
+        )
+        chart_context = f"\n\n以下是當前的六壬排盤數據供參考：\n{liuren_prompt}"
+
+    system_content = st.session_state.get("system_prompt", "") + chart_context
+
+    # Build conversation messages (system + full chat history)
+    api_messages = [{"role": "system", "content": system_content}]
+    for msg in st.session_state.chat_messages:
+        api_messages.append({"role": msg["role"], "content": msg["content"]})
+
+    try:
+        if st.session_state.get("use_custom_ai"):
+            custom_key = st.session_state.get("custom_api_key", "")
+            custom_url = st.session_state.get("custom_server_url", "")
+            custom_model = st.session_state.get("custom_model_name", "")
+            if not custom_key or not custom_url or not custom_model:
+                raise ValueError("請填寫自定義AI的 API Key、Server URL 及模型名稱。")
+            client = CustomAIClient(api_key=custom_key, base_url=custom_url)
+            ai_model = custom_model
+        else:
+            cerebras_api_key = st.secrets.get("CEREBRAS_API_KEY") or os.getenv("CEREBRAS_API_KEY")
+            if not cerebras_api_key:
+                raise ValueError("CEREBRAS_API_KEY 未設置，請先在 .streamlit/secrets.toml 設置，或設置環境變量 CEREBRAS_API_KEY。")
+            client = CerebrasClient(api_key=cerebras_api_key)
+            ai_model = st.session_state.get("cerebras_model_selector", CEREBRAS_MODEL_OPTIONS[0])
+
+        api_params = {
+            "messages": api_messages,
+            "model": ai_model,
+            "max_tokens": st.session_state.get("ai_max_tokens", AI_MAX_MAX_TOKENS),
+            "temperature": st.session_state.get("ai_temperature", 0.7)
+        }
+        response = client.get_chat_completion(**api_params)
+        assistant_reply = response.choices[0].message.content
+
+        # Append assistant reply to history
+        st.session_state.chat_messages.append({"role": "assistant", "content": assistant_reply})
+
+        with chat_container:
+            with st.chat_message("assistant"):
+                st.markdown(assistant_reply)
+    except Exception as e:
+        err_msg = f"調用AI時發生錯誤：{e}"
         st.session_state.chat_messages.append({"role": "assistant", "content": err_msg})
         with chat_container:
             with st.chat_message("assistant"):
                 st.markdown(err_msg)
-    else:
-        # Build system prompt with chart context
-        chart_context = ""
-        if "chart_text" in st.session_state:
-            liuren_prompt = format_liuren_results_for_prompt(
-                st.session_state.chart_text,
-                st.session_state.chart_ltext,
-                st.session_state.chart_ltext1,
-                st.session_state.chart_ltext2
-            )
-            chart_context = f"\n\n以下是當前的六壬排盤數據供參考：\n{liuren_prompt}"
-
-        system_content = st.session_state.get("system_prompt", "") + chart_context
-
-        # Build conversation messages (system + full chat history)
-        api_messages = [{"role": "system", "content": system_content}]
-        for msg in st.session_state.chat_messages:
-            api_messages.append({"role": msg["role"], "content": msg["content"]})
-
-        try:
-            client = CerebrasClient(api_key=cerebras_api_key)
-            api_params = {
-                "messages": api_messages,
-                "model": st.session_state.get("cerebras_model_selector", CEREBRAS_MODEL_OPTIONS[0]),
-                "max_tokens": st.session_state.get("ai_max_tokens", AI_MAX_MAX_TOKENS),
-                "temperature": st.session_state.get("ai_temperature", 0.7)
-            }
-            response = client.get_chat_completion(**api_params)
-            assistant_reply = response.choices[0].message.content
-
-            # Append assistant reply to history
-            st.session_state.chat_messages.append({"role": "assistant", "content": assistant_reply})
-
-            with chat_container:
-                with st.chat_message("assistant"):
-                    st.markdown(assistant_reply)
-        except Exception as e:
-            err_msg = f"調用AI時發生錯誤：{e}"
-            st.session_state.chat_messages.append({"role": "assistant", "content": err_msg})
-            with chat_container:
-                with st.chat_message("assistant"):
-                    st.markdown(err_msg)
 
 # Clear chat button
 if st.session_state.chat_messages:
