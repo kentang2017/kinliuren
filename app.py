@@ -1,4 +1,4 @@
-import os, sys, urllib, calendar, json, datetime, html
+import os, sys, urllib, calendar, json, datetime, html, base64
 
 # Add src/ to the module search path so that library modules can be imported by name.
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "src"))
@@ -62,6 +62,19 @@ def day_chin(zhi, weekday):
         b = {tuple(list(three_zhi[i])): dict(zip(cweekdays , list(head[i])))}
         ydict.update(b)
     return multi_key_dict_get(ydict, zhi).get(weekday)
+
+
+@st.cache_data(show_spinner=False)
+def _load_liuren_export_qr_data_uri() -> str:
+    """載入探究三式公眾號 QR（用於下載式盤 PNG 右下角），失敗時回傳空字串。"""
+    url = "https://raw.githubusercontent.com/kentang2017/kintaiyi/refs/heads/master/pic/qrcode_for_gh_561840f80b67_258.jpg"
+    try:
+        resp = urllib.request.urlopen(url, timeout=9)
+        data = resp.read()
+        b64 = base64.b64encode(data).decode("ascii")
+        return f"data:image/jpeg;base64,{b64}"
+    except Exception:
+        return ""
 
 PALACE_POSITIONS = {
     "巳": (12.5, 12.5),
@@ -197,8 +210,8 @@ body, html, div, span, p, h1, h2, h3, h4, label {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 68%;   /* 縮小十二宮框，讓外圍28宿方框在手機上有足夠空間可見 */
-    height: 68%;
+    width: 64%;   /* 再調細一點，讓外圍28宿方框與整體更精緻、有呼吸感 */
+    height: 64%;
     transform: translate(-50%, -50%);
     z-index: 2;
     border: 2.5px solid #D4AF37;
@@ -215,8 +228,8 @@ body, html, div, span, p, h1, h2, h3, h4, label {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 50%;
-    height: 48%;
+    width: 46%;
+    height: 44%;   /* 配合整體調細，讓三傳四課區塊更精緻、不搶戲 */
     transform: translate(-50%, -50%);
     border-radius: 6px;
     border: 1.5px solid #D4AF37;
@@ -331,7 +344,7 @@ body, html, div, span, p, h1, h2, h3, h4, label {
 }
 
 @media (max-width: 768px) {
-    .shipan-board { width: 55%; height: 55%; }  /* 手機縮小十二宮框，讓外圍28宿方框有空間不被遮 */
+    .shipan-board { width: 52%; height: 52%; }  /* 手機再調細一點，保留更多外圍28宿方框空間 */
     .shipan-cell { width: 24%; height: 24%; }
     .shipan-cell-sky { font-size: 0.8rem; }
 }
@@ -797,21 +810,60 @@ p, .stMarkdown, .stCaption {
     color: var(--accent-gold) !important;
 }
 
-/* 按鈕 - 古雅風格 */
+/* 按鈕 - 古雅風格 (像 kintaiyi 工具列 pill buttons) */
 .stButton button {
     background-color: var(--bg-elevated) !important;
     color: var(--text-primary) !important;
     border: 1px solid var(--accent-gold) !important;
-    border-radius: 6px !important;
+    border-radius: 999px !important;
     font-family: "Noto Serif SC", serif;
-    transition: all 0.2s ease;
+    font-size: 0.82rem !important;
+    padding: 0.42rem 1.05rem !important;
+    letter-spacing: 0.03em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
+    transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease;
 }
 
 .stButton button:hover {
-    background-color: var(--accent-vermilion) !important;
+    transform: translateY(-1px);
+    background-color: rgba(40, 34, 26, 0.95) !important;
+    color: var(--accent-gold) !important;
+    border-color: var(--accent-gold-bright) !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.32);
+}
+
+/* 主要動作按鈕（下載）更醒目 */
+.stButton button[key*="download"] {
+    background: linear-gradient(180deg, #2C2720, var(--bg-elevated)) !important;
+    border-color: var(--accent-gold-bright) !important;
     color: #F4E9D8 !important;
-    border-color: var(--accent-vermilion);
-    box-shadow: 0 0 0 1px var(--accent-gold);
+}
+
+.stButton button[key*="download"]:hover {
+    background: linear-gradient(180deg, var(--accent-vermilion), #8C2A25) !important;
+    color: #F4E9D8 !important;
+    border-color: #E8C872 !important;
+}
+
+/* 船盤區塊下的動作列更緊湊，像 kintaiyi toolbar */
+.shipan-action-bar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 0.35rem auto 0.6rem;
+    padding-top: 6px;
+    border-top: 1px solid rgba(212, 175, 55, 0.18);
+    max-width: 620px;
+}
+.shipan-action-bar .stButton {
+    flex: 1;
+}
+.shipan-action-bar .stButton button {
+    width: 100%;
+    font-size: 0.78rem !important;
+    padding: 0.38rem 0.95rem !important;
+    border-radius: 999px !important;
 }
 
 /* 輸入框 */
@@ -1156,12 +1208,18 @@ with pan:
     if trigger_download:
         st.session_state["trigger_download"] = False
 
+    # 準備下載 PNG 用的 QR（右下角）與摘要（像 kintaiyi 一樣在匯出圖片底部加上關注文字 + 二維碼）
+    qr_data_uri = _load_liuren_export_qr_data_uri()
+
     # 只顯示式盤的 component（無內部下載按鈕），支援 trigger 自動下載
-    # 準備給 JS 的摘要與加入文字（按用戶指定：左標題 + 式盤摘要單行 | 分隔 + 文字按鈕文字 + 完整式盤圖）
+    # 準備給 JS 的摘要與加入文字（按用戶指定：左標題 + 式盤摘要單行 | 分隔 + 文字按鈕文字 + 完整式盤圖 + 底部關注文 + QR）
     pat = " / ".join(ltext1.get("格局", []))
     gz = f"{qgz[0]}年 {qgz[1]}月 {qgz[2]}日 {qgz[3]}時 {qgz[4]}分"
     ma = f"{dhorse1}(月) {dhorse2}(日) {dhorse3}(時)"
-    summary_line = f"日期: {y}年{m}月{d}日{h:02d}時{mi:02d}分 | 格局: {pat} | 節氣: {jq} | 干支: {gz} | 日馬: {ma}"
+    # 盤式摘要分成多行：摘要第一行、干支新一行、日馬新一行
+    summary_line1 = f"日期: {y}年{m}月{d}日{h:02d}時{mi:02d}分 | 格局: {pat} | 節氣: {jq}"
+    ganzhi_line = f"干支: {gz}"
+    dayma_line = f"日馬: {ma}"
     component_html = f"""
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 {SHIPAN_STYLE}
@@ -1169,9 +1227,12 @@ with pan:
 {board_html}
 <script>
 const AUTO_DOWNLOAD = {str(trigger_download).lower()};
-const EXPORT_TITLE = "堅六壬排盤";
-const SUMMARY_LINE = {json.dumps(summary_line)};
+const EXPORT_TITLE = "堅六壬式盤";
+const SUMMARY_LINE1 = {json.dumps(summary_line1)};
+const GANZHI_LINE = {json.dumps(ganzhi_line)};
+const DAYMA_LINE = {json.dumps(dayma_line)};
 const ADDED_TEXTS = {json.dumps(added_texts)};
+const QR_DATA_URL = {json.dumps(qr_data_uri)};
 
 function doDownload() {{
   const board = document.querySelector('.shipan-board-shell');
@@ -1179,10 +1240,70 @@ function doDownload() {{
     alert('無法找到式盤區域');
     return;
   }}
+
+  // 匯出時先隱藏「加入文字」的 overlay（它們會以純文字列表形式放在式盤圖「之上」）
+  // 這樣下載的 PNG 裡，式盤圖案本身是乾淨的（只有28宿外框 + 十二宮 + 中間三傳四課），不顯示中間的加入文字
+  const overlays = [];
+  board.querySelectorAll(':scope > div').forEach(el => {{
+    if (!el.classList.contains('shipan-outer-ring') && !el.classList.contains('shipan-board')) {{
+      overlays.push(el);
+    }}
+  }});
+  overlays.forEach(el => {{
+    el.dataset._origDisplay = el.style.display || '';
+    el.style.display = 'none';
+  }});
+
+  // 為匯出特別調整中心區域：放大 .shipan-center-large 容器 + 把三傳四課文字調小但仍清晰
+  // 目標是讓下載 PNG 的式盤中間能完整顯示全部三傳（3行）+ 空白 + 四課（2行），而不是只看到四個字或被裁切
+  let centerLarge = board.querySelector('.shipan-center-large');
+  let centerPre = null;
+  let origCenter = {{}};
+  if (centerLarge) {{
+    origCenter.width = centerLarge.style.width || '';
+    origCenter.height = centerLarge.style.height || '';
+    origCenter.overflow = centerLarge.style.overflow || '';
+    // 匯出時讓中心框更大一些（相對比例），給多行文字足夠空間
+    centerLarge.style.width = '58%';
+    centerLarge.style.height = '54%';
+    centerLarge.style.overflow = 'visible';   // 避免 hidden 裁切文字
+  }}
+  const centerLargePre = board.querySelector('.shipan-center-large pre');
+  if (centerLargePre) {{
+    centerPre = centerLargePre;
+    centerPre.dataset._origFontSize = centerPre.style.fontSize || '';
+    centerPre.dataset._origLineHeight = centerPre.style.lineHeight || '';
+    centerPre.dataset._origLetterSpacing = centerPre.style.letterSpacing || '';
+    // 10px 在 2x capture 下會有好解析度，縮放到最終畫布後仍清晰且能塞下全部 6 行
+    centerPre.style.fontSize = '10px';
+    centerPre.style.lineHeight = '1.06';
+    centerPre.style.letterSpacing = '0.02em';
+    centerPre.style.textAlign = 'center';
+  }}
+
   html2canvas(board, {{
     scale: 2,
     backgroundColor: '#0C0A08'
   }}).then(function(boardCanvas) {{
+    // 立即還原 live 畫面上的 overlay、中心框大小與文字大小（不影響互動式盤）
+    overlays.forEach(el => {{
+      el.style.display = el.dataset._origDisplay || '';
+      delete el.dataset._origDisplay;
+    }});
+    if (centerLarge) {{
+      centerLarge.style.width = origCenter.width || '';
+      centerLarge.style.height = origCenter.height || '';
+      centerLarge.style.overflow = origCenter.overflow || '';
+    }}
+    if (centerPre) {{
+      centerPre.style.fontSize = centerPre.dataset._origFontSize || '';
+      centerPre.style.lineHeight = centerPre.dataset._origLineHeight || '';
+      centerPre.style.letterSpacing = centerPre.dataset._origLetterSpacing || '';
+      delete centerPre.dataset._origFontSize;
+      delete centerPre.dataset._origLineHeight;
+      delete centerPre.dataset._origLetterSpacing;
+    }}
+
     const size = 900;
     const canvas = document.createElement('canvas');
     canvas.width = size;
@@ -1192,19 +1313,25 @@ function doDownload() {{
     ctx.fillStyle = '#0C0A08';
     ctx.fillRect(0, 0, size, size);
 
-    // 靠左標題
-    ctx.fillStyle = '#B8332E';
-    ctx.font = 'bold 24px "Noto Serif SC", "Songti SC", sans-serif';
+    // 標題：粗體 + 正黑體 + 金色
+    ctx.fillStyle = '#E8C872';
+    ctx.font = 'bold 24px "Microsoft JhengHei", "PingFang TC", "Noto Sans CJK TC", "Noto Sans TC", sans-serif';
     ctx.textAlign = 'left';
     ctx.fillText(EXPORT_TITLE, 28, 36);
 
-    // 式盤摘要單行（使用 | 分隔，依用戶指定格式）
+    // 盤式摘要：白色文字
     ctx.fillStyle = '#F4E9D8';
-    ctx.font = '13px monospace';
-    ctx.fillText("式盤摘要 " + SUMMARY_LINE, 28, 58);
+    ctx.font = '13px "Noto Serif SC", "Songti SC", monospace';
+    ctx.fillText("式盤摘要 " + SUMMARY_LINE1, 28, 58);
 
-    // 顯示「文字按鈕」所產生的文字（列表）
-    let y = 78;
+    // 干支 單獨開新一行（白色）
+    ctx.fillText(GANZHI_LINE, 28, 74);
+
+    // 日馬 單獨開新一行（白色）
+    ctx.fillText(DAYMA_LINE, 28, 90);
+
+    // 顯示「文字按鈕」所產生的文字（列表，放在式盤圖之上）
+    let y = 108;
     if (ADDED_TEXTS && ADDED_TEXTS.length > 0) {{
       ctx.font = '12px monospace';
       for (let t of ADDED_TEXTS) {{
@@ -1213,22 +1340,87 @@ function doDownload() {{
       }}
     }}
 
-    // 繪製完整式盤圖案（包含外圍28宿方框 + 十二宮 + 中間三傳四課 + 任何overlay加入文字）
+    // 保留底部空間給 footer（關注文字 + 二維碼），像 kintaiyi 一樣
+    // 式盤調小一點（讓標題、摘要、干支、日馬有更多空間，整體更精緻）
+    const FOOTER_HEIGHT = 64;
+    const contentBottom = y + 10;
+    const plateMaxH = size - FOOTER_HEIGHT - contentBottom - 24;
+
+    // 繪製完整式盤圖案（外圍28宿方框 + 十二宮 + 中間三傳四課）—— 此時已是乾淨版本
     const bw = boardCanvas.width;
     const bh = boardCanvas.height;
-    const maxBoard = size - y - 20;
-    const sc = Math.min(maxBoard / bw, maxBoard / bh);
+    const maxW = size * 0.82;   // 調小一點
+    let sc = Math.min(maxW / bw, plateMaxH / bh);
+    sc = sc * 0.92;             // 再保守，讓式盤更小
     const dw = bw * sc;
     const dh = bh * sc;
     const dx = (size - dw) / 2;
-    const dy = y + 10;
+    const dy = contentBottom + 6;
     ctx.drawImage(boardCanvas, dx, dy, dw, dh);
 
-    const a = document.createElement('a');
-    a.download = '堅六壬式盤.png';
-    a.href = canvas.toDataURL('image/png');
-    a.click();
+    // 底部 footer 帶（深底 + 金線）
+    const footerTop = size - FOOTER_HEIGHT;
+    ctx.fillStyle = 'rgba(15, 13, 10, 0.94)';
+    ctx.fillRect(0, footerTop, size, FOOTER_HEIGHT);
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 1.0;
+    ctx.beginPath();
+    ctx.moveTo(22, footerTop + 1);
+    ctx.lineTo(size - 22, footerTop + 1);
+    ctx.stroke();
+
+    // 關注文字（置中）
+    ctx.fillStyle = '#F4E9D8';
+    ctx.font = '12px "Noto Serif SC", "Songti SC", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('關注探究三式微信公眾號/微信 gnatnek', size / 2, footerTop + 38);
+
+    // 右下角二維碼（優先用 data URI 避免跨域）
+    function finishDownload() {{
+      const a = document.createElement('a');
+      a.download = '堅六壬式盤.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }}
+
+    if (QR_DATA_URL) {{
+      const qrImg = new Image();
+      qrImg.crossOrigin = 'anonymous';
+      qrImg.onload = function() {{
+        const qrs = 52;
+        const qrx = size - qrs - 14;
+        const qry = size - qrs - 10;
+        ctx.drawImage(qrImg, qrx, qry, qrs, qrs);
+        finishDownload();
+      }};
+      qrImg.onerror = finishDownload;
+      qrImg.src = QR_DATA_URL;
+    }} else {{
+      finishDownload();
+    }}
   }}).catch(function(err) {{
+    // 發生錯誤時也要還原 overlay、中心框大小與文字大小
+    overlays.forEach(el => {{
+      if (el.dataset._origDisplay !== undefined) {{
+        el.style.display = el.dataset._origDisplay;
+        delete el.dataset._origDisplay;
+      }}
+    }});
+    if (centerLarge) {{
+      centerLarge.style.width = (typeof origCenter !== 'undefined' && origCenter.width) || '';
+      centerLarge.style.height = (typeof origCenter !== 'undefined' && origCenter.height) || '';
+      centerLarge.style.overflow = (typeof origCenter !== 'undefined' && origCenter.overflow) || '';
+    }}
+    if (centerPre) {{
+      if (centerPre.dataset._origFontSize !== undefined) {{
+        centerPre.style.fontSize = centerPre.dataset._origFontSize;
+        centerPre.style.lineHeight = centerPre.dataset._origLineHeight || '';
+        centerPre.style.letterSpacing = centerPre.dataset._origLetterSpacing || '';
+        delete centerPre.dataset._origFontSize;
+        delete centerPre.dataset._origLineHeight;
+        delete centerPre.dataset._origLetterSpacing;
+      }}
+    }}
     console.error(err);
     alert('下載失敗');
   }});
@@ -1241,12 +1433,20 @@ if (AUTO_DOWNLOAD) {{
 """
     components.html(component_html, height=1020, scrolling=True)
 
-    # 加入文字 UI 和 下載按鈕 放在式盤之後
-    # 點擊「加入文字」才顯示輸入框，確認後才加入
-    if st.button("加入文字", key="add_text_trigger"):
-        st.session_state.show_add_text_form = True
-        st.rerun()
+    # 排盤式盤圖下方的按鈕區 - 美化成類似 kintaiyi 的 toolbar 風格（pill 按鈕 + 水平排列）
+    st.markdown('<div class="shipan-action-bar">', unsafe_allow_html=True)
+    btn_col1, btn_col2 = st.columns([1, 1])
+    with btn_col1:
+        if st.button("加入文字", key="add_text_trigger"):
+            st.session_state.show_add_text_form = True
+            st.rerun()
+    with btn_col2:
+        if st.button("📥 下載盤式", key="download_btn_after"):
+            st.session_state["trigger_download"] = True
+            st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
 
+    # 加入文字的臨時表單（點擊後出現）
     if st.session_state.get("show_add_text_form", False):
         ann_text = st.text_input("", key="ann_text_input", placeholder="輸入要加入的文字", label_visibility="collapsed")
         col_confirm, col_cancel = st.columns(2)
@@ -1270,10 +1470,6 @@ if (AUTO_DOWNLOAD) {{
             st.rerun()
         for i, a in enumerate(st.session_state.board_annotations):
             st.caption(f"[{i+1}] {a['pos']}: {a['text']}")
-
-    if st.button("📥 下載盤式", key="download_btn_after"):
-        st.session_state["trigger_download"] = True
-        st.rerun()
 
     render_ai_analysis(chart_text, ltext, ltext1, ltext2, selected_model, "analyze_with_ai")
 
