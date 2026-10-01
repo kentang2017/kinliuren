@@ -166,7 +166,7 @@ This library is part of the **Kin Three Styles** (堅三式) series, covering al
 - 📱 **微信公眾號**: 探究三式
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/kentang2017/kinliuren/refs/heads/master/pic/%E5%9C%96%E7%89%87_20260316084147.jpg" alt="微信公眾號二維碼" width="200">
+  <img src="https://raw.githubusercontent.com/kentang2017/kinliuren/refs/heads/master/pic/%E5%9C%96%E7%89%87_20260316084148.jpg" alt="微信公眾號二維碼" width="200">
 </p>
 
 > 如有任何建議或合作事宜，可加微信 **gnatnek**（請註明是在 GitHub 加的）  
