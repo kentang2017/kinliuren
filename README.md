@@ -163,7 +163,7 @@ This library is part of the **Kin Three Styles** (堅三式) series, covering al
 - 💬 **Telegram 群組**: [@haizhonggum](https://t.me/haizhonggum)
 - 📢 **Telegram 頻道**: [@numerology_coding](https://t.me/numerology_coding)
 - 💰 **贊助支持**: [PayPal](https://www.paypal.me/kinyeah)
-- 📱 **微信公眾號**: 探究三式
+- 📱 **微信公眾號**: 堅系賽博玄學
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/kentang2017/kinliuren/refs/heads/master/pic/%E5%9C%96%E7%89%87_20260316084148.jpg" alt="微信公眾號二維碼" width="200">
